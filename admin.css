@@ -1,0 +1,192 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #f5f3f1 0%, #f2e7e3 25%, #7891a8 50%, #9bb0c4 75%, #bcc8d6 100%);
+  min-height: 100vh;
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ✅ Dreamy Cloud Effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(242, 231, 227, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(188, 200, 214, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(245, 243, 241, 0.2) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+header {
+  background: linear-gradient(135deg, #ffffff, #f9f7f5);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #e8e0dc;
+  box-shadow: 0 2px 12px rgba(120, 145, 168, 0.08);
+}
+
+nav button {
+  background: linear-gradient(135deg, #e8e0dc, #ddd3ce);
+  border: 1px solid #c7b8b0;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #7891a8;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(120, 145, 168, 0.12);
+}
+
+nav button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(120, 145, 168, 0.18);
+  background: linear-gradient(135deg, #ddd3ce, #d1c4be);
+}
+
+nav button.active {
+  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  color: #ffffff;
+  font-weight: 600;
+  border: 1px solid #6b85a1;
+  box-shadow: 0 3px 10px rgba(120, 145, 168, 0.25);
+}
+
+.main-layout {
+  display: flex;
+  height: calc(100vh - 80px);
+}
+
+.sidebar {
+  width: 220px;
+  background: linear-gradient(180deg, #f9f7f5, #f4f0ec);
+  padding: 20px;
+  border-right: 2px solid #e8e0dc;
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 2px 0 8px rgba(120, 145, 168, 0.06);
+}
+
+.sidebar button {
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+  text-align: center;
+  border: 1px solid #e8e0dc;
+  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  cursor: pointer;
+  border-radius: 12px;
+  font-weight: 500;
+  color: #7891a8;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(120, 145, 168, 0.08);
+  font-size: 15px;
+}
+
+.sidebar button:hover {
+  background: linear-gradient(135deg, #f2e7e3, #ede2dd);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(120, 145, 168, 0.15);
+  border-color: #d1c4be;
+}
+
+.sidebar button.active {
+  background: linear-gradient(135deg, #bcc8d6, #9bb0c4);
+  color: #ffffff;
+  font-weight: 600;
+  border-color: #7891a8;
+  box-shadow: 0 3px 8px rgba(120, 145, 168, 0.2);
+}
+
+.content {
+  flex: 1;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.content h2 {
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #6b7c8e;
+  text-shadow: 1px 1px 3px rgba(107, 124, 142, 0.1);
+  border-bottom: 2px solid #e8e0dc;
+  padding-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 25px;
+  padding: 20px;
+  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  border-radius: 16px;
+  border: 1px solid #e8e0dc;
+  box-shadow: 0 4px 15px rgba(120, 145, 168, 0.08);
+  transition: all 0.3s ease;
+}
+
+.form-group:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(120, 145, 168, 0.12);
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #6b7c8e;
+  font-size: 16px;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 15px 18px;
+  border: 1px solid #e8e0dc;
+  border-radius: 12px;
+  background: #fafbff;
+  color: #7891a8;
+  font-size: 16px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: #d4b8c7;
+  box-shadow: 0 0 0 3px rgba(212, 184, 199, 0.2);
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+input[type="text"]:hover,
+textarea:hover {
+  border-color: #d1c4be;
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder {
+  color: #bcc8d6;
+  font-style: italic;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.5;
+}

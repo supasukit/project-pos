@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ข้อมูลร้านค้า</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <header>
+    <h1 onclick="location.href='index.html'"  style="cursor: pointer;">POS</h1>
+    <nav>
+      <button onclick="location.href='dashboard.html'">DASHBOARD</button>
+      <button onclick="location.href='customers.html'">ข้อมูลลูกค้า</button>
+      <button onclick="location.href='products.html'">ข้อมูลสินค้า</button>
+      <button id="profile-btn" class="active">...</button>
+    </nav>
+  </header>
+
+  <div class="main-layout">
+    <aside class="sidebar">
+      <button>✏️ แก้ไขโปรไฟล์</button>
+      <button id="logout-btn">Logout</button>
+    </aside>
+
+    <section class="content">
+      <h2>ข้อมูลร้านค้า</h2>
+
+      <div class="form-group">
+        <label>ชื่อเจ้าของร้าน</label>
+        <input type="text" id="owner-name" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>ชื่อร้าน</label>
+        <input type="text" id="store-name" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>ที่อยู่ร้าน</label>
+        <textarea id="store-address" readonly></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>เบอร์โทรศัพท์</label>
+        <input type="text" id="store-phone" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>ชื่อผู้ใช้ระบบ</label>
+        <input type="text" id="user-name" readonly>
+      </div>
+
+    </section>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>เพิ่มข้อมูลลูกค้า</title>
+  <link rel="stylesheet" href="add-customer.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>เพิ่มข้อมูลลูกค้า</h1>
+    <form id="customer-form">
+      <input type="text" id="name" placeholder="ชื่อลูกค้า" required />
+      <input type="text" id="phone" placeholder="เบอร์โทรศัพท์" required />
+      <input type="text" id="address" placeholder="ที่อยู่" required />
+      <input type="number" id="balance" placeholder="ยอดค้างชำระ" value="0" required />
+      <button type="submit">เพิ่มลูกค้า</button>
+    </form>
+    <p id="status"></p>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="add-customer.js"></script>
+</body>
+</html>

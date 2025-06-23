@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>POS System</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <h1>POS</h1>
+      <nav>
+        <button onclick="location.href='dashboard.html'">DASHBOARD</button>
+        <button onclick="location.href='customers.html'">ข้อมูลลูกค้า</button>
+        <button onclick="location.href='products.html'">ข้อมูลสินค้า</button>
+        <button id="profile-btn">...</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <section class="products-area">
+      <!-- ✅ ปุ่มเลือกโหมด -->
+      <div class="payment-mode-toggle">
+        <span>เลือกการชำระเงิน:</span>
+        <button class="select-payment active" data-type="เงินสด">💵 เงินสด</button>
+        <button class="select-payment" data-type="ค้างชำระ">📄 ค้างชำระ</button>
+      </div>
+
+      <!-- ✅ หัวข้อ -->
+      <h3>📦 สินค้าทั้งหมด</h3>
+
+      <!-- ✅ แสดงสินค้าแต่ละหมวดหมู่ -->
+      <div class="product-scroll-area" id="product-scroll-area">
+        <!-- หมวดหมู่สินค้าแทรกผ่าน JS -->
+      </div>
+    </section>
+
+    <section class="order-container">
+      <h3>🧾 Order List</h3>
+      <input type="hidden" id="current-customer-id" value="1" />
+      <div class="order-box">
+        <table>
+          <thead>
+            <tr>
+              <th>ชื่อสินค้า</th>
+              <th>จำนวน</th>
+              <th>ราคา</th>
+              <th>รวม</th>
+              <th>ลบ</th>
+            </tr>
+          </thead>
+          <tbody id="cart-items">
+            <!-- รายการสั่งซื้อ -->
+          </tbody>
+        </table>
+      </div>
+      <p><strong>ยอดรวม: ฿<span id="total-price">0.00</span></strong></p>
+      <div class="payment-buttons">
+        <button class="pay">🧾 จ่ายเงิน</button>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- ✅ ใบเสร็จ (Popup) -->
+  <div id="receipt" class="receipt-popup" style="display: none;">
+    <div class="receipt-box" id="receipt-box">
+      <h3>🧾 ใบเสร็จรับเงิน</h3>
+      <div id="receipt-content">
+        <!-- ข้อมูลใบเสร็จจะแสดงที่นี่ -->
+      </div>
+      <div class="receipt-buttons">
+        <button onclick="printReceipt()">🖨 พิมพ์ใบเสร็จ</button>
+        <button onclick="closeReceipt()">ปิด</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Popup กรอกชื่อลูกค้าเงินสด -->
+  <!-- ✅ Popup กรอกชื่อลูกค้าเงินสด - แก้ไขใหม่ -->
+<div id="cash-popup" class="receipt-popup" style="display:none;">
+  <div class="receipt-box" style="width: 350px;">
+    <h3>ข้อมูลลูกค้า</h3>
+    
+    <label for="cash-customer-name" style="display: block; margin-bottom: 5px; font-weight: bold;">ชื่อลูกค้า:</label>
+    <input type="text" id="cash-customer-name" placeholder="ชื่อลูกค้า" 
+           style="width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;" />
+    
+    <label for="cash-customer-phone" style="display: block; margin-bottom: 5px; font-weight: bold;">เบอร์โทรศัพท์:</label>
+    <input type="tel" id="cash-customer-phone" placeholder="เบอร์โทรศัพท์" 
+           style="width: 100%; padding: 8px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;" />
+    
+    <div class="receipt-buttons">
+      <button onclick="submitCashCustomer()" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; margin-right: 10px; cursor: pointer;">ยืนยัน</button>
+      <button onclick="closeCashPopup()" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">ยกเลิก</button>
+    </div>
+  </div>
+</div>
+<!-- Popup กรอกชื่อลูกค้าค้างชำระ -->
+<div id="credit-popup" class="receipt-popup" style="display:none;">
+  <div class="receipt-box" style="width: 350px;">
+    <h3>📋 ข้อมูลลูกค้าค้างชำระ</h3>
+    
+    <label for="credit-customer-name" style="display: block; margin-bottom: 5px; font-weight: bold;">ชื่อลูกค้า:</label>
+    <input type="text" id="credit-customer-name" placeholder="ชื่อลูกค้า" 
+           style="width: 100%; padding: 8px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;" />
+    
+    <div class="receipt-buttons">
+      <button onclick="submitCreditCustomer()" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; margin-right: 10px; cursor: pointer;">ตรวจสอบลูกค้า</button>
+      <button onclick="closeCreditPopup()" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">ยกเลิก</button>
+    </div>
+  </div>
+</div>
+
+<!-- Popup เพิ่มลูกค้าใหม่สำหรับค้างชำระ -->
+<div id="credit-new-customer-popup" class="receipt-popup" style="display:none;">
+  <div class="receipt-box" style="width: 400px;">
+    <h3>➕ เพิ่มข้อมูลลูกค้าใหม่</h3>
+    
+    <label for="credit-new-customer-name" style="display: block; margin-bottom: 5px; font-weight: bold;">ชื่อลูกค้า:</label>
+    <input type="text" id="credit-new-customer-name" placeholder="ชื่อลูกค้า" 
+           style="width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;" />
+    
+    <label for="credit-new-customer-phone" style="display: block; margin-bottom: 5px; font-weight: bold;">เบอร์โทรศัพท์:</label>
+    <input type="tel" id="credit-new-customer-phone" placeholder="เบอร์โทรศัพท์" 
+           style="width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;" />
+    
+    <label for="credit-new-customer-address" style="display: block; margin-bottom: 5px; font-weight: bold;">ที่อยู่:</label>
+    <textarea id="credit-new-customer-address" placeholder="ที่อยู่" rows="3"
+              style="width: 100%; padding: 8px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"></textarea>
+    
+    <div class="receipt-buttons">
+      <button onclick="submitCreditNewCustomer()" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; margin-right: 10px; cursor: pointer;">บันทึกข้อมูล</button>
+      <button onclick="closeCreditNewCustomerPopup()" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">ยกเลิก</button>
+    </div>
+  </div>
+</div>
+
+  <iframe id="print-frame" style="display:none;"></iframe>
+
+  <input 
+    type="text" 
+    id="barcode-scanner" 
+    autofocus 
+    style="position: absolute; opacity: 0; pointer-events: none;"
+  >
+
+  <script src="script.js"></script>
+</body>
+</html>

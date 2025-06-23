@@ -1,0 +1,450 @@
+/* ✅ โทนสีเมฆฟ้าอ่อนนุ่ม - Form Page */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f3f1 0%, #f2e7e3 25%, #7891a8 50%, #9bb0c4 75%, #bcc8d6 100%);
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ✅ Dreamy Cloud Effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(242, 231, 227, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(188, 200, 214, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(245, 243, 241, 0.2) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+h2 {
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 600;
+  text-shadow: 0 2px 8px rgba(120, 145, 168, 0.3);
+  background: linear-gradient(135deg, rgba(155, 176, 196, 0.1), rgba(120, 145, 168, 0.1));
+  padding: 15px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+}
+
+form {
+  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(120, 145, 168, 0.15);
+  max-width: 600px;
+  margin: 0 auto;
+  backdrop-filter: blur(15px);
+  border: 1px solid #e8e0dc;
+}
+
+.price-group, .quantity-group, .info-group {
+  margin-bottom: 25px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f9f7f5, #f5f3f1);
+  border-radius: 15px;
+  border-left: 4px solid #9bb0c4;
+  box-shadow: 0 3px 10px rgba(120, 145, 168, 0.08);
+  transition: all 0.3s ease;
+}
+
+.price-group {
+  border-left-color: #c4dcc4;
+}
+
+.quantity-group {
+  border-left-color: #edd6c4;
+}
+
+.info-group {
+  border-left-color: #bcc8d6;
+}
+
+.price-group:hover,
+.quantity-group:hover,
+.info-group:hover,
+.basic-group:hover {
+  box-shadow: 0 5px 15px rgba(120, 145, 168, 0.12);
+  transform: translateY(-2px);
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  color: #6b7c8e;
+  margin-bottom: 8px;
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+/* ✅ Label แรกในแต่ละกลุ่ม */
+.basic-group > label:first-child,
+.price-group > label:first-child,
+.quantity-group > label:first-child,
+.info-group > label:first-child {
+  margin-top: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #7891a8;
+  border-bottom: 2px solid #e8e0dc;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+}
+
+.basic-group {
+  margin-bottom: 25px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f9f7f5, #f5f3f1);
+  border-radius: 15px;
+  border-left: 4px solid #9bb0c4;
+  box-shadow: 0 3px 10px rgba(120, 145, 168, 0.08);
+  transition: all 0.3s ease;
+}
+
+input[type="text"], 
+input[type="number"], 
+input[type="file"],
+select {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 5px;
+  border: 1px solid #e8e0dc;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  background: #fafbff;
+  color: #7891a8;
+}
+
+input[type="text"]:focus, 
+input[type="number"]:focus,
+select:focus {
+  outline: none;
+  border-color: #d4b8c7;
+  box-shadow: 0 0 0 3px rgba(212, 184, 199, 0.2);
+  transform: translateY(-1px);
+  background: #ffffff;
+}
+
+/* ✅ สไตล์สำหรับ Select */
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23bcc8d6' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  padding-right: 40px;
+}
+
+select:hover {
+  border-color: #d1c4be;
+}
+
+select option {
+  padding: 10px;
+  font-size: 16px;
+  color: #7891a8;
+  background: #ffffff;
+}
+
+/* ✅ เน้นช่องราคาขายเงินค้างชำระ */
+#credit_price {
+  background: linear-gradient(135deg, #f0d6e0, #e8c4d4);
+  border-color: #d4b8c7;
+  font-weight: 600;
+  color: #b8658a;
+}
+
+#credit_price:focus {
+  border-color: #c7a8b8;
+  box-shadow: 0 0 0 3px rgba(199, 168, 184, 0.3);
+}
+
+#credit_price::placeholder {
+  color: #c78a9b;
+  font-weight: normal;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(120, 145, 168, 0.3);
+  margin-top: 20px;
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(120, 145, 168, 0.4);
+  background: linear-gradient(135deg, #7891a8, #6b85a1);
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* ✅ แสดงตัวอย่างราคา */
+.price-preview {
+  background: linear-gradient(135deg, #f4f0ec, #ede2dd);
+  padding: 15px;
+  border-radius: 12px;
+  margin-top: 10px;
+  border: 1px solid #e8e0dc;
+  box-shadow: 0 2px 8px rgba(120, 145, 168, 0.06);
+}
+
+.price-preview h4 {
+  margin: 0 0 10px 0;
+  color: #6b7c8e;
+  font-weight: 600;
+}
+
+.price-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd3ce;
+}
+
+.price-item:last-child {
+  border-bottom: none;
+}
+
+.price-label {
+  font-weight: 500;
+  color: #6b7c8e;
+}
+
+.price-value {
+  color: #7891a8;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* ✅ File Input Styling */
+input[type="file"] {
+  padding: 10px;
+  border: 2px dashed #e8e0dc;
+  background: #f9f7f5;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  color: #7891a8;
+}
+
+input[type="file"]:hover {
+  border-color: #d4b8c7;
+  background: #f5f3f1;
+}
+
+input[type="file"]:focus {
+  outline: none;
+  border-color: #d4b8c7;
+  box-shadow: 0 0 0 3px rgba(212, 184, 199, 0.2);
+}
+
+/* ✅ Placeholder Text Styling */
+input[type="text"]::placeholder,
+input[type="number"]::placeholder {
+  color: #bcc8d6;
+  font-style: italic;
+}
+
+/* ✅ Enhanced Visual Effects */
+.price-group:hover .price-label,
+.quantity-group:hover .price-label,
+.info-group:hover .price-label,
+.basic-group:hover label:first-child {
+  color: #6b85a1;
+}
+
+/* ✅ Smooth Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+form {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* ✅ Focus Ring Enhancement */
+input:focus,
+select:focus,
+button:focus {
+  position: relative;
+  z-index: 1;
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 15px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    padding: 20px;
+    margin: 0 10px;
+  }
+  
+  .price-group,
+  .quantity-group,
+  .info-group,
+  .basic-group {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  input[type="text"], 
+  input[type="number"], 
+  input[type="file"],
+  select {
+    padding: 10px 12px;
+    font-size: 16px;
+  }
+  
+  button[type="submit"] {
+    padding: 12px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    padding: 10px;
+  }
+  
+  form {
+    padding: 15px;
+    margin: 0 5px;
+  }
+  
+  .price-group,
+  .quantity-group,
+  .info-group,
+  .basic-group {
+    padding: 12px;
+    margin-bottom: 15px;
+  }
+  
+  label {
+    font-size: 14px;
+  }
+  
+  .basic-group > label:first-child,
+  .price-group > label:first-child,
+  .quantity-group > label:first-child,
+  .info-group > label:first-child {
+    font-size: 16px;
+  }
+  
+  input[type="text"], 
+  input[type="number"], 
+  input[type="file"],
+  select {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+  
+  .price-preview {
+    padding: 10px;
+  }
+  
+  .price-item {
+    font-size: 14px;
+  }
+}
+
+/* ✅ Smooth Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f3f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #bcc8d6, #9bb0c4);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+}
+
+/* ✅ Additional Enhancements */
+form::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, rgba(155, 176, 196, 0.1), rgba(212, 184, 199, 0.1));
+  border-radius: 22px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+form:hover::before {
+  opacity: 1;
+}
+
+/* ✅ Enhanced Group Styling */
+.basic-group {
+  border-left-color: #9bb0c4;
+}
+
+.price-group .price-label {
+  color: #6b8e6b;
+}
+
+.quantity-group .price-label {
+  color: #a8785a;
+}
+
+.info-group .price-label {
+  color: #7891a8;
+}

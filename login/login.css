@@ -1,0 +1,65 @@
+/* พื้นหลังทั้งหน้าจอ */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  /* กล่อง login */
+  .login-container {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 320px;
+  }
+  
+  /* หัวข้อ POS Login */
+  .login-container h1 {
+    margin-bottom: 25px;
+    font-size: 26px;
+    color: #333333;
+  }
+  
+  /* ช่องกรอก username/password */
+  .login-container input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #fafafa;
+  }
+  
+  /* ปุ่มเข้าสู่ระบบ */
+  .login-container button {
+    width: 100%;
+    padding: 12px 0;
+    background: #e7d6ea;
+    border: none;
+    color: white;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  /* ปุ่มเปลี่ยนสีตอนเอาเมาส์ไปชี้ */
+  .login-container button:hover {
+    background: #ae93b5;
+  }
+  
+  /* ข้อความ error */
+  #error-message {
+    color: red;
+    margin-top: 15px;
+    font-size: 14px;
+    display: none; /* เริ่มต้นซ่อนไว้ */
+  }
+  

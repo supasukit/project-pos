@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ข้อมูลสินค้า</title>
+  <link rel="stylesheet" href="products.css" />
+</head>
+<body>
+
+  <!-- ✅ Header ด้านบน -->
+  <header>
+    <h1 onclick="location.href='index.html'" style="cursor: pointer;">POS</h1>
+    <nav>
+      <button onclick="location.href='dashboard.html'">DASHBOARD</button>
+      <button onclick="location.href='customers.html'">ข้อมูลลูกค้า</button>
+      <button class="active" onclick="location.href='products.html'">ข้อมูลสินค้า</button>
+      <button id="profile-btn">...</button>
+    </nav>
+  </header>
+
+  <!-- ✅ Main Layout -->
+  <main>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <button class="user" id="add-product-btn">➕ เพิ่มสินค้า</button>
+      <input 
+        type="text" 
+        id="search-bar" 
+        placeholder="🔍 ค้นหาสินค้า..." 
+        class="user"
+      />
+
+      <!-- Dropdown หมวดหมู่ -->
+      <div id="category-buttons" class="category-list">
+        <button data-category="ยาฆ่าหญ้า24d" class="category-btn">ยาฆ่าหญ้า24d</button>
+        <button data-category="ยาคุมเลน" class="category-btn">ยาคุมเลน</button>
+        <button data-category="ยาคุมฆ่า" class="category-btn">ยาคุมฆ่า</button>
+        <button data-category="ยาเก็บ" class="category-btn">ยาเก็บ</button>
+        <button data-category="ยาฆ่าแมลง" class="category-btn">ยาฆ่าแมลง</button>
+        <button data-category="ยาเชื้อรา" class="category-btn">ยาเชื้อรา</button>
+        <button data-category="ฮอร์โมน" class="category-btn">ฮอร์โมน</button>
+        <button data-category="ปุ๋ยเกล็ด" class="category-btn">ปุ๋ยเกล็ด</button>
+        <button data-category="จับใบ" class="category-btn">จับใบ</button>
+        <button data-category="ปุ๋ย" class="category-btn">ปุ๋ย</button>
+        <button data-category="ยาย่อยฟาง" class="category-btn">ยาย่อยฟาง</button>
+        <button data-category="ยาคุมข้าวโพด" class="category-btn">ยาคุมข้าวโพด</button>
+        <button data-category="ยาหว่านแมลง" class="category-btn">ยาหว่านแมลง</button>
+        <button data-category="ยาหว่านหญ้า" class="category-btn">ยาหว่านหญ้า</button>
+</div>
+    </aside>
+    
+    <!-- Product List -->
+    <section id="product-list" class="product-list"></section>
+  </main>
+
+  <!-- ✅ Popup -->
+  <div id="popup" class="popup hidden">
+    <div class="popup-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+      <div id="popup-info"></div>
+      <button id="delete-btn">ลบข้อมูล</button>
+    </div>
+  </div>
+
+  <!-- ✅ Input สำหรับรับการยิงบาร์โค้ด -->
+  <input 
+    type="text" 
+    id="barcode-scanner" 
+    placeholder="ยิงบาร์โค้ด..." 
+    autofocus 
+    style="position:absolute; opacity:0; pointer-events:none;" 
+  />
+
+  <script src="products.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "pos-system",
+  "version": "1.0.0",
+  "description": "POS system with Electron and SQLite",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^35.1.4"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.7"
+  }
+}

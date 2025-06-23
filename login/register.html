@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สมัครสมาชิก</title>
+  <link rel="stylesheet" href="login.css"> <!-- ใช้ธีมเดียวกับ login -->
+</head>
+<body>
+  <div class="login-container">
+    <h1>สมัครสมาชิก</h1>
+
+    <form id="register-form">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="text" id="owner_name" placeholder="ชื่อเจ้าของร้าน" required> <!-- ✅ เพิ่มช่องนี้ -->
+      <input type="text" id="store_name" placeholder="ชื่อร้าน" required>
+      <input type="text" id="store_phone" placeholder="เบอร์โทรร้าน" required>
+      <input type="text" id="store_address" placeholder="ที่อยู่ร้าน" required>
+      <button type="submit">สมัครสมาชิก</button>
+    </form>
+
+    <p id="error-message" style="color: red; display: none;">Username นี้ถูกใช้งานแล้ว</p>
+
+    <div style="margin-top: 20px;">
+      <p>มีบัญชีอยู่แล้ว? <a href="login.html">เข้าสู่ระบบ</a></p>
+    </div>
+  </div>
+
+  <script src="register.js"></script>
+</body>
+</html>
