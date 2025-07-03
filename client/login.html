@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เข้าสู่ระบบ</title>
+  <link rel="stylesheet" href="../../styles/reset.css" />
+  <link rel="stylesheet" href="../../styles/variables.css" />
+  <link rel="stylesheet" href="../../styles/pages/login.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h1>POS Login</h1>
+
+    <form id="login-form" onsubmit="handleLogin(event)">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <div style="margin: 12px 0;">
+        <label style="font-size: 15px;">
+          <input type="checkbox" id="remember-me"> จดจำฉัน (Remember me)
+        </label>
+      </div>
+      <button type="submit" id="login-submit-btn">เข้าสู่ระบบ</button>
+    </form>
+    <button id="forgot-password-btn" type="button" onclick="goToForgotPassword()">ลืมรหัสผ่าน?</button>
+
+    <p id="error-message" style="color: red; display: none;">ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</p>
+
+    <div style="margin-top: 20px;">
+      <button id="register-btn" type="button" onclick="goToRegister()">สมัครสมาชิก</button>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+</body>
+</html>

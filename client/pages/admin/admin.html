@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ข้อมูลร้านค้า</title>
+  <link rel="stylesheet" href="../../styles/pages/admin.css">
+</head>
+<body>
+
+  <header>
+    <h1 id="home-btn" style="cursor: pointer;" onclick="goHome()">POS</h1>
+    <nav>
+      <button id="dashboard-btn">DASHBOARD</button>
+         <button id="customers-btn">ข้อมูลลูกค้า</button>
+         <button id="products-btn">ข้อมูลสินค้า</button>
+         <button id="profile-btn">...</button>
+    </nav>
+  </header>
+
+  <div class="main-layout">
+    <aside class="sidebar">
+  <button id="edit-profile-btn"> แก้ไขโปรไฟล์</button>
+  <button id="add-employee-btn"> เพิ่มพนักงาน</button>
+  <button id="manage-employees-btn"> จัดการพนักงาน</button>
+  <button id="logout-btn">Logout</button>
+</aside>
+
+    <section class="content">
+      <h2>ข้อมูลร้านค้า</h2>
+
+      <div class="form-group">
+        <label>ชื่อเจ้าของร้าน</label>
+        <input type="text" id="owner-name" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>ชื่อร้าน</label>
+        <input type="text" id="store-name" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>ที่อยู่ร้าน</label>
+        <textarea id="store-address" readonly></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>เบอร์โทรศัพท์</label>
+        <input type="text" id="store-phone" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>ชื่อผู้ใช้ระบบ</label>
+        <input type="text" id="user-name" readonly>
+      </div>
+      
+      <div id="edit-buttons" style="display: none; margin-top: 20px;">
+  <button id="save-btn" style="background: #28a745; color: white; padding: 10px 20px; margin-right: 10px; border: none; border-radius: 4px; cursor: pointer;">💾 บันทึก</button>
+  <button id="cancel-btn" style="background: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">❌ ยกเลิก</button>
+  </div>
+    </section>
+  </div>
+
+  <script src="../../js/admin.js"></script>
+</body>
+</html>

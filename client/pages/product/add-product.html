@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>เพิ่มสินค้า</title>
+  <link rel="stylesheet" href="../../styles/reset.css" />
+  <link rel="stylesheet" href="../../styles/variables.css" />
+  <link rel="stylesheet" href="../../styles/pages/add-products.css" />
+</head>
+<body>
+  <h2>เพิ่มสินค้าใหม่</h2>
+
+  <!-- ✅ ลบ enctype และ method ออก (ใช้ JSON แทน) -->
+  <form id="product-form">
+    <!-- ข้อมูลพื้นฐาน -->
+    <div class="basic-group">
+      <label for="name">📝 ชื่อสินค้า</label>
+      <input type="text" id="name" name="name" placeholder="กรอกชื่อสินค้า" required />
+
+      <label for="barcode">🏷️ บาร์โค้ด</label>
+      <input type="text" id="barcode" name="barcode" placeholder="กรอกหมายเลขบาร์โค้ด" required />
+    </div>
+    
+    <!-- กลุ่มราคาขาย -->
+    <div class="price-group">
+      <label>💰 ราคาขาย</label>
+      
+      <label for="retail_price">💵 ราคาขายปลีก (บาท)</label>
+      <input type="number" id="retail_price" name="price" placeholder="0" min="0" step="0.01" required />
+      
+      <label for="wholesale_price">📦 ราคาขายส่ง (บาท)</label>
+      <input type="number" id="wholesale_price" name="wholesale_price" placeholder="0" min="0" step="0.01" />
+      <small style="color:#666;">*ควรน้อยกว่าราคาปลีก</small>
+      
+      <label for="credit_price">⏰ ราคาขายเงินค้างชำระ (บาท)</label>
+      <input type="number" id="credit_price" name="credit_price" placeholder="0" min="0" step="0.01" />
+      <small style="color:#666;">*ควรมากกว่าหรือเท่ากับราคาปลีก</small>
+    </div>
+    
+    <!-- กลุ่มจำนวน -->
+    <div class="quantity-group">
+      <label>📦 จำนวนและเงื่อนไข</label>
+      
+      <label for="wholesale_minimum">🔢 จำนวนขั้นต่ำขายส่ง (ชิ้น)</label>
+      <input type="number" id="wholesale_minimum" name="wholesale_minimum" placeholder="0" min="1" />
+      
+      <label for="stock">📋 จำนวนคงเหลือ (ชิ้น)</label>
+      <input type="number" id="stock" name="stock" placeholder="0" min="0" required />
+    </div>
+    
+    <!-- กลุ่มข้อมูลเพิ่มเติม -->
+    <div class="info-group">
+      <label>📋 ข้อมูลเพิ่มเติม</label>
+      
+      <label for="category">🗂️ หมวดหมู่สินค้า</label>
+      <input 
+        type="text" 
+        id="category" 
+        name="category" 
+        placeholder="กรอกหมวดหมู่ เช่น ของใช้, ยา, ปุ๋ย ฯลฯ"
+        required
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+      />
+      
+      <label for="image">🖼️ รูปภาพสินค้า (ไม่จำเป็น)</label>
+      <input type="file" id="image" name="image" accept="image/*" />
+      
+      <!-- ✅ Hidden input สำหรับเก็บ Base64 -->
+      <input type="hidden" id="image-base64" name="image_base64" />
+      
+      <!-- พื้นที่แสดงตัวอย่างรูป -->
+      <div id="image-preview-container" style="margin-top: 10px;"></div>
+      
+      <label for="description">📄 รายละเอียดสินค้า</label>
+      <textarea 
+        id="description" 
+        name="description" 
+        placeholder="รายละเอียดเพิ่มเติมเกี่ยวกับสินค้า"
+        rows="3"
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"
+      ></textarea>
+    </div>
+
+    <button type="submit" id="submit-btn">✅ เพิ่มสินค้า</button>
+    
+    <!-- แสดงสถานะการส่งข้อมูล -->
+    <div id="form-status" style="margin-top: 10px; text-align: center; display: none;"></div>
+  </form>
+
+  <!-- Navigation buttons -->
+  <div style="margin-top: 20px; text-align: center;">
+    <button type="button" onclick="window.history.back()" style="margin-right: 10px;">
+      ⬅️ กลับหน้าก่อน
+    </button>
+    <button type="button" onclick="window.location.href='products.html'">
+      📦 ดูรายการสินค้า
+    </button>
+  </div>
+
+  <script src="../../product.js"></script>
+  <script src="../../script.js"></script>
+</body>
+</html>

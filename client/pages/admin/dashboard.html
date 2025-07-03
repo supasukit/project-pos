@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="../../styles/reset.css" />
+<link rel="stylesheet" href="../../styles/variables.css" />
+<link rel="stylesheet" href="../../styles/pages/dashboard.css" />
+</head>
+<body>
+  <header>
+    <h1 id="home-btn" style="cursor: pointer;">POS</h1>
+
+    <nav>
+      <button id="dashboard-btn">DASHBOARD</button>
+         <button id="customers-btn">ข้อมูลลูกค้า</button>
+         <button id="products-btn">ข้อมูลสินค้า</button>
+         <button id="profile-btn">...</button>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <div class="summary-cards">
+      <div class="card">
+        <h2>ยอดขายทั้งหมด</h2>
+        <p id="total-sales">฿0.00</p>
+      </div>
+      <div class="card">
+        <h2>ลูกค้าค้างชำระ</h2>
+        <p id="pending-customers">0 คน</p>
+      </div>
+      <div class="card">
+        <h2>ยอดค้างชำระรวม</h2>
+        <p id="total-debt">฿0.00</p>
+      </div>
+      <div class="card">
+        <h2>ยอดขายวันนี้</h2>
+        <p id="today-sales">฿0.00</p>
+      </div>
+    </div>
+
+    <div class="graph-section">
+      <div class="graph-card">
+        <h2>สรุปยอดขาย</h2>
+        <select id="sales-filter">
+          <option value="7days">7 วันล่าสุด</option>
+          <option value="30days">30 วันล่าสุด</option>
+          <option value="year">ปีนี้</option>
+        </select>
+        <canvas id="sales-chart"></canvas>
+      </div>
+      <div class="graph-card">
+        <h2>เปรียบเทียบเงินสดกับเครดิตวันนี้</h2>
+        <canvas id="payment-comparison-chart"></canvas>
+      </div>
+      <div class="graph-card">
+        <h2>สัดส่วนประเภทการจ่าย</h2>
+        <canvas id="payment-type-chart"></canvas>
+      </div>
+    </div>
+
+    <div class="sales-section">
+      <div class="recent-sales card">
+        <h2>รายการขายล่าสุด</h2>
+        <div class="table-container">
+          <table id="recent-sales-table">
+            <thead>
+              <tr>
+                <th>วันที่</th>
+                <th>สินค้า</th>
+                <th>จำนวน</th>
+                <th>ยอดขาย (บาท)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- JavaScript จะเติมข้อมูลตรงนี้ -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    
+      <div class="order-history card">
+        <h2>ประวัติการขาย (บิลย้อนหลัง)</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>วันที่</th>
+                <th>ลูกค้า</th>
+                <th>ยอดรวม</th>
+                <th>ประเภทการชำระ</th>
+                <th>ดูรายละเอียด</th>
+              </tr>
+            </thead>
+            <tbody id="order-history-body">
+              <!-- JavaScript เติมข้อมูลตรงนี้ -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="order-history card">
+        <h2>ประวัติการจ่ายหนี้</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>วันที่</th>
+                <th>ชื่อลูกค้า</th>
+                <th>จำนวนที่จ่าย</th>
+                <th>หมายเหตุ</th>
+              </tr>
+            </thead>
+            <tbody id="debt-payment-history-body">
+              <!-- JavaScript เติมข้อมูลตรงนี้ -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <div id="receipt" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background-color:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:9999;">
+  <div style="background:#fff; padding:20px; max-width:600px; width:90%; border-radius:8px;">
+    <div id="receipt-content"></div>
+    <button onclick="window.print()">🖨️ พิมพ์ใบเสร็จ</button>
+    <button onclick="document.getElementById('receipt').style.display='none'">ปิด</button>
+  </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../../js/dashboard.js"></script>
+</body>
+</html>

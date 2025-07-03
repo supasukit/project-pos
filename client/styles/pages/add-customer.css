@@ -1,0 +1,410 @@
+/* ✅ โทนสีเมฆฟ้าอ่อนนุ่ม - Add Customer Page */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f3f1 0%, #f2e7e3 25%, #7891a8 50%, #9bb0c4 75%, #bcc8d6 100%);
+  position: relative;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ✅ Dreamy Cloud Effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(242, 231, 227, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(188, 200, 214, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(245, 243, 241, 0.2) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.form-container {
+  max-width: 400px;
+  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  padding: 30px;
+  margin: 50px auto;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(120, 145, 168, 0.15);
+  border: 1px solid #e8e0dc;
+  backdrop-filter: blur(10px);
+  animation: fadeInUp 0.6s ease forwards;
+  position: relative;
+}
+
+/* ✅ Glass Effect สำหรับ Form Container */
+.form-container::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, rgba(155, 176, 196, 0.1), rgba(212, 184, 199, 0.1));
+  border-radius: 22px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.form-container:hover::before {
+  opacity: 1;
+}
+
+h2 {
+  text-align: center;
+  color: #6b7c8e;
+  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: 600;
+  text-shadow: 1px 1px 3px rgba(107, 124, 142, 0.1);
+  border-bottom: 2px solid #e8e0dc;
+  padding-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  color: #7891a8;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px 15px;
+  margin-top: 5px;
+  border: 1px solid #e8e0dc;
+  border-radius: 12px;
+  font-size: 16px;
+  font-family: inherit;
+  background: #fafbff;
+  color: #7891a8;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #d4b8c7;
+  box-shadow: 0 0 0 3px rgba(212, 184, 199, 0.2);
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+input::placeholder, textarea::placeholder {
+  color: #bcc8d6;
+  font-style: italic;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(120, 145, 168, 0.3);
+}
+
+button:hover {
+  background: linear-gradient(135deg, #7891a8, #6b85a1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(120, 145, 168, 0.4);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+#status {
+  margin-top: 15px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+#status.success {
+  background: linear-gradient(135deg, #c4dcc4, #b8d4b8);
+  color: #6b8e6b;
+  border: 1px solid #b8d4b8;
+}
+
+#status.error {
+  background: linear-gradient(135deg, #f0d6e0, #e8c4d4);
+  color: #b8658a;
+  border: 1px solid #e8c4d4;
+}
+
+.toast {
+  visibility: hidden;
+  min-width: 280px;
+  background: linear-gradient(135deg, #c4dcc4, #b8d4b8);
+  color: #6b8e6b;
+  text-align: center;
+  border-radius: 15px;
+  padding: 16px 20px;
+  position: fixed;
+  z-index: 999999;
+  right: 30px;
+  bottom: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 0;
+  transition: all 0.5s ease;
+  box-shadow: 0 8px 25px rgba(107, 142, 107, 0.2);
+  border: 1px solid #b8d4b8;
+  backdrop-filter: blur(10px);
+}
+
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+  bottom: 50px;
+  transform: translateX(0);
+}
+
+.toast.error {
+  background: linear-gradient(135deg, #f0d6e0, #e8c4d4);
+  color: #b8658a;
+  border: 1px solid #e8c4d4;
+  box-shadow: 0 8px 25px rgba(184, 101, 138, 0.2);
+}
+
+/* ✅ Enhanced Form Styling */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* ✅ Add some visual enhancement to inputs */
+input:hover, textarea:hover {
+  border-color: #d1c4be;
+}
+
+/* ✅ Smooth Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ✅ Loading State for Button */
+button.loading {
+  position: relative;
+  color: transparent;
+}
+
+button.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 15px;
+  }
+  
+  .form-container {
+    max-width: 90%;
+    padding: 25px;
+    margin: 30px auto;
+  }
+  
+  h2 {
+    font-size: 22px;
+  }
+  
+  input, textarea {
+    padding: 10px 12px;
+    font-size: 16px;
+  }
+  
+  button {
+    padding: 12px;
+    font-size: 16px;
+  }
+  
+  .toast {
+    min-width: 250px;
+    right: 20px;
+    bottom: 20px;
+    padding: 14px 18px;
+    font-size: 15px;
+  }
+  
+  .toast.show {
+    bottom: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  .form-container {
+    max-width: 95%;
+    padding: 20px;
+    margin: 20px auto;
+  }
+  
+  h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  
+  label {
+    font-size: 15px;
+    margin-top: 12px;
+  }
+  
+  input, textarea {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+  
+  button {
+    padding: 10px;
+    font-size: 15px;
+  }
+  
+  .toast {
+    min-width: 200px;
+    right: 15px;
+    bottom: 15px;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+  
+  .toast.show {
+    bottom: 30px;
+  }
+}
+
+/* ✅ Smooth Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f3f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #bcc8d6, #9bb0c4);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+}
+
+/* ✅ Focus Ring Enhancement */
+input:focus,
+textarea:focus,
+button:focus {
+  position: relative;
+  z-index: 1;
+}
+
+/* ✅ Form Validation States */
+input.valid {
+  border-color: #b8d4b8;
+  background: linear-gradient(135deg, #f8fff8, #f0fff0);
+}
+
+input.invalid {
+  border-color: #e8c4d4;
+  background: linear-gradient(135deg, #fff8fa, #fff0f3);
+}
+
+/* ✅ Enhanced Typography */
+body {
+  line-height: 1.6;
+}
+
+h2 {
+  line-height: 1.4;
+}
+
+/* ✅ Subtle Pulse Animation for Important Elements */
+.form-container:hover {
+  box-shadow: 0 20px 50px rgba(120, 145, 168, 0.2);
+}
+
+/* ✅ Additional Visual Enhancements */
+label::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 16px;
+  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  margin-right: 8px;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+/* ✅ Toast Close Button (optional enhancement) */
+.toast {
+  position: relative;
+  padding-right: 40px;
+}
+
+.toast::after {
+  content: '✕';
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.toast:hover::after {
+  opacity: 1;
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ข้อมูลสินค้า</title>
+  <link rel="stylesheet" href="../../styles/reset.css" />
+  <link rel="stylesheet" href="../../styles/variables.css" />
+  <link rel="stylesheet" href="../../styles/pages/products.css" />
+</head>
+<body>
+
+  <!-- Header ด้านบน -->
+  <header>
+    <h1 id="home-btn" style="cursor: pointer;">POS</h1>
+    <nav>
+      <button id="dashboard-btn">DASHBOARD</button>
+      <button id="customers-btn">ข้อมูลลูกค้า</button>
+      <button id="products-btn">ข้อมูลสินค้า</button>
+      <button id="profile-btn">...</button>
+    </nav>
+  </header>
+
+  <!-- Main Layout -->
+  <main>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <button class="user" id="add-product-btn">เพิ่มสินค้า</button>
+      
+      <!-- ✅ Popup เพิ่มสินค้า -->
+      <div id="add-product-popup" class="popup hidden">
+        <div class="popup-content" id="add-product-popup-content">
+          <!-- เนื้อหาจะถูกโหลดโดย JavaScript -->
+        </div>
+        <span class="close-btn" onclick="closeAddProductPopup()">&times;</span>
+      </div>
+      
+      <input 
+        type="text" 
+        id="search-bar" 
+        placeholder="🔍 ค้นหาสินค้า..." 
+        class="user"
+      />
+
+      <!-- Dynamic Categories จากฐานข้อมูล -->
+      <div id="category-buttons" class="category-list">
+        <!-- Categories จะถูกโหลดโดย JavaScript -->
+      </div>
+    </aside>
+    
+    <!-- Product List -->
+    <section id="products-container" class="product-list">
+      <!-- สินค้าจะถูกโหลดโดย JavaScript -->
+    </section>
+  </main>
+
+  <!-- ✅ Popup แสดงรายละเอียดสินค้า -->
+  <div id="popup" class="popup hidden">
+    <div class="popup-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+      <div id="popup-info">
+        <!-- รายละเอียดสินค้าจะแสดงที่นี่ -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Input ยิงบาร์โค้ด -->
+  <input 
+    type="text" 
+    id="barcode-scanner" 
+    placeholder="ยิงบาร์โค้ด..." 
+    autofocus 
+    style="position: absolute; top: -9999px; opacity: 0; pointer-events: none;" 
+  />
+
+  <!-- ✅ แสดงสถานะโหลด -->
+  <div id="loading" style="display: none; text-align: center; padding: 50px;">
+    <p>🔄 กำลังโหลดข้อมูลสินค้า...</p>
+  </div>
+
+  <!-- ✅ แสดงเมื่อไม่มีข้อมูล -->
+  <div id="no-data" class="no-data" style="display: none; text-align: center; padding: 50px; color: #999;">
+    <p>📦 ไม่มีสินค้าในระบบ</p>
+    <button onclick="document.getElementById('add-product-btn').click()" style="margin-top: 10px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      ➕ เพิ่มสินค้าแรก
+    </button>
+  </div>
+
+  <script src="/js/products.js"></script>
+</body>
+</html>

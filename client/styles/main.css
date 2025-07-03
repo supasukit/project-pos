@@ -1,0 +1,788 @@
+/* ✅ โทนสีเมฆฟ้าอ่อนนุ่ม - Sales Page */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #f5f3f1 0%, #f2e7e3 25%, #7891a8 50%, #9bb0c4 75%, #bcc8d6 100%);
+  min-height: 100vh;
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ✅ Dreamy Cloud Effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(242, 231, 227, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(188, 200, 214, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(245, 243, 241, 0.2) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ------------------ HEADER ------------------ */
+header {
+  background: linear-gradient(135deg, #ffffff, #f9f7f5);
+  color: #6b7c8e;
+  padding: 15px 40px;
+  border-bottom: 2px solid #e8e0dc;
+  box-shadow: 0 2px 12px rgba(120, 145, 168, 0.08);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.header-container h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #6b7c8e;
+  text-shadow: 1px 1px 3px rgba(107, 124, 142, 0.1);
+}
+
+nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+nav button {
+  background: linear-gradient(135deg, #e8e0dc, #ddd3ce);
+  border: 1px solid #c7b8b0;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #7891a8;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(120, 145, 168, 0.12);
+}
+
+nav button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(120, 145, 168, 0.18);
+  background: linear-gradient(135deg, #ddd3ce, #d1c4be);
+}
+
+nav button.active {
+  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  color: #ffffff;
+  font-weight: 600;
+  border: 1px solid #6b85a1;
+  box-shadow: 0 3px 10px rgba(120, 145, 168, 0.25);
+}
+
+/* ------------------ LAYOUT ------------------ */
+.main-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 25px 40px;
+  height: calc(100vh - 100px);
+  box-sizing: border-box;
+}
+
+/* สินค้า */
+.products-area {
+  flex: 1 1 60%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.product-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.product-scroll-area::-webkit-scrollbar {
+  display: none;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+/* แก้ CSS สำหรับ product-card */
+.product-card {
+  width: auto;
+  min-width: 160px;
+  max-width: 200px;
+  height: 200px; /* กำหนดความสูงคงที่ */
+  padding: 12px;
+  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  border-radius: 16px;
+  border: 1px solid #e8e0dc;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(120, 145, 168, 0.1);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #7891a8;
+  /* จัดเป็น flex column */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(120, 145, 168, 0.15);
+  border-color: #d4b8c7;
+}
+
+.product-card img {
+  width: 100%;
+  height: 100px; /* กำหนดความสูงรูป */
+  object-fit: cover; /* ให้รูปครอบตามขนาด */
+  margin-bottom: 8px;
+  border-radius: 12px;
+  border: 1px solid #e8e0dc;
+  flex-shrink: 0; /* ไม่ให้รูปหด */
+}
+
+/* เพิ่ม CSS สำหรับข้อมูลสินค้า */
+.product-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.product-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  color: #6b7c8e;
+  /* จำกัดจำนวนบรรทัด */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.2;
+}
+
+.product-barcode {
+  font-size: 11px;
+  color: #999;
+  margin: 0;
+}
+
+.product-price {
+  font-size: 14px;
+  font-weight: 600;
+  color: #b8658a;
+  margin: 0;
+}
+
+.product-stock {
+  font-size: 11px;
+  margin: 0;
+}
+
+.product-stock.low-stock {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.product-stock.out-of-stock {
+  color: #6c757d;
+  font-weight: 600;
+}
+/* Order List */
+.order-container {
+  flex: 1 1 40%;
+  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  padding: 25px;
+  border-radius: 20px;
+  border: 2px solid #e8e0dc;
+  box-shadow: 0 8px 25px rgba(120, 145, 168, 0.15);
+  min-width: 360px;
+  height: 550px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.order-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #9bb0c4, #7891a8, #bcc8d6);
+  border-radius: 20px 20px 0 0;
+}
+
+.order-container h3 {
+  margin-bottom: 20px;
+  color: #6b7c8e;
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 2px solid #e8e0dc;
+  padding-bottom: 10px;
+}
+
+.order-box {
+  flex: 1;
+  overflow-y: auto;
+  border-radius: 12px;
+  border: 1px solid #e8e0dc;
+}
+
+.order-box table {
+  width: 100%;
+  min-width: 400px;
+  border-collapse: collapse;
+}
+
+.order-box th,
+.order-box td {
+  padding: 12px 10px;
+  border: 1px solid #f0f4ff;
+  text-align: center;
+  color: #7891a8;
+}
+
+.order-box th {
+  background: linear-gradient(135deg, #f9f7f5, #f4f0ec);
+  font-weight: 600;
+  color: #6b7c8e;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.order-box tbody tr {
+  transition: all 0.2s ease;
+}
+
+.order-box tbody tr:hover {
+  background: linear-gradient(135deg, #f2e7e3, #ede2dd);
+}
+
+.order-box tbody tr:nth-child(even) {
+  background: linear-gradient(135deg, #fafbff, #f9f7f5);
+}
+
+.remove-btn {
+  background: linear-gradient(135deg, #f0d6e0, #e8c4d4);
+  color: #b8658a;
+  border: 1px solid #e8c4d4;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.remove-btn:hover {
+  background: linear-gradient(135deg, #e8c4d4, #e0b8cc);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(184, 101, 138, 0.2);
+}
+
+/* ปุ่มชำระเงิน */
+.payment-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.payment-buttons button {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cash {
+  background: linear-gradient(135deg, #c4dcc4, #b8d4b8);
+  color: #6b8e6b;
+  box-shadow: 0 3px 10px rgba(107, 142, 107, 0.2);
+}
+
+.cash:hover {
+  background: linear-gradient(135deg, #b8d4b8, #acd0ac);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(107, 142, 107, 0.3);
+}
+
+.cash:active {
+  transform: scale(0.97);
+}
+
+.credit {
+  background: linear-gradient(135deg, #edd6c4, #e8cbb8);
+  color: #a8785a;
+  box-shadow: 0 3px 10px rgba(168, 120, 90, 0.2);
+}
+
+.credit:hover {
+  background: linear-gradient(135deg, #e8cbb8, #e3c0ac);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(168, 120, 90, 0.3);
+}
+
+.credit:active {
+  transform: scale(0.97);
+}
+
+.pay {
+  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  color: #ffffff;
+  width: 100%;
+  box-shadow: 0 3px 10px rgba(120, 145, 168, 0.2);
+}
+
+.pay:hover {
+  background: linear-gradient(135deg, #7891a8, #6b85a1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(120, 145, 168, 0.3);
+}
+
+.pay:active {
+  transform: scale(0.97);
+}
+
+.pay-debt {
+  background: linear-gradient(135deg, #f0d6e0, #e8c4d4);
+  color: #b8658a;
+  width: 100%;
+  box-shadow: 0 3px 10px rgba(184, 101, 138, 0.2);
+}
+
+.pay-debt:hover {
+  background: linear-gradient(135deg, #e8c4d4, #e0b8cc);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(184, 101, 138, 0.3);
+}
+
+.pay-debt:active {
+  transform: scale(0.97);
+}
+
+/* ------------------ Receipt Popup ------------------ */
+.receipt-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(120, 145, 168, 0.4);
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.receipt-box {
+  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  padding: 30px;
+  border-radius: 20px;
+  width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(120, 145, 168, 0.2);
+  border: 1px solid #e8e0dc;
+}
+
+.receipt-box h3 {
+  margin-top: 0;
+  text-align: center;
+  color: #6b7c8e;
+  font-size: 22px;
+  font-weight: 600;
+  border-bottom: 2px solid #e8e0dc;
+  padding-bottom: 15px;
+}
+
+.receipt-buttons {
+  margin-top: 25px;
+  text-align: right;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.receipt-buttons button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.receipt-buttons button:first-child {
+  background: linear-gradient(135deg, #ddd3ce, #d1c4be);
+  color: #8a7b73;
+}
+
+.receipt-buttons button:last-child {
+  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  color: #ffffff;
+}
+
+.receipt-buttons button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(120, 145, 168, 0.2);
+}
+
+.receipt-box table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.receipt-box th, .receipt-box td {
+  border: 1px solid #e8e0dc;
+  padding: 8px;
+  text-align: left;
+  color: #7891a8;
+}
+
+.receipt-box th {
+  background: linear-gradient(135deg, #f9f7f5, #f4f0ec);
+  font-weight: 600;
+  color: #6b7c8e;
+}
+
+/* หมวดหมู่สินค้า */
+.category-section {
+  margin-bottom: 30px;
+  padding: 15px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(250, 248, 246, 0.7));
+  backdrop-filter: blur(10px);
+  border: 1px solid #e8e0dc;
+  box-shadow: 0 4px 15px rgba(120, 145, 168, 0.08);
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e8e0dc;
+}
+
+.category-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #6b7c8e;
+}
+
+.show-more-btn {
+  background: linear-gradient(135deg, #e8e0dc, #ddd3ce);
+  border: 1px solid #c7b8b0;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #7891a8;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(120, 145, 168, 0.1);
+}
+
+.show-more-btn:hover {
+  background: linear-gradient(135deg, #ddd3ce, #d1c4be);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(120, 145, 168, 0.15);
+}
+
+.show-more-btn:active {
+  transform: scale(0.97);
+}
+
+/* หมวดสินค้าที่ขายล่าสุด */
+.latest-sales-section {
+  background: linear-gradient(135deg, #f0fff0, #e8f8e8);
+  border: 2px dashed #7a9b7a;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 15px rgba(122, 155, 122, 0.1);
+}
+
+.latest-sales-section .category-title {
+  color: #5a8a5a;
+  font-size: 22px;
+  text-shadow: 1px 1px 2px rgba(90, 138, 90, 0.1);
+}
+
+/* การ์ดสินค้าที่ขายล่าสุด */
+.latest-product-card {
+  border: 2px solid #7a9b7a !important;
+  background: linear-gradient(135deg, #f0fff0, #e8f8e8) !important;
+  position: relative;
+  transform: translateY(0);
+  transition: all 0.3s ease;
+}
+
+.latest-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(122, 155, 122, 0.2);
+}
+
+.latest-product-card::before {
+  content: "🔥";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 16px;
+}
+
+/* Grid layouts */
+.category-product-grid-main {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.category-product-grid-hidden {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+  margin-top: 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+.category-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+  max-height: 540px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.category-product-grid.expanded {
+  max-height: none;
+}
+
+.category-product-grid.collapsed {
+  max-height: 540px;
+  overflow: hidden;
+}
+
+/* ปุ่มเลือกโหมดการชำระเงิน */
+.payment-mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: linear-gradient(135deg, #f9f7f5, #f4f0ec);
+  border-radius: 12px;
+  border: 1px solid #e8e0dc;
+}
+
+.payment-mode-toggle span {
+  font-weight: 600;
+  font-size: 16px;
+  color: #6b7c8e;
+}
+
+.select-payment {
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  border: 1px solid #e8e0dc;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #7891a8;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(120, 145, 168, 0.08);
+}
+
+.select-payment:hover {
+  background: linear-gradient(135deg, #f2e7e3, #ede2dd);
+  transform: translateY(-1px);
+}
+
+.select-payment.active {
+  background: linear-gradient(135deg, #f0d6e0, #e8c4d4);
+  border: 2px solid #b8658a;
+  color: #b8658a;
+  font-weight: 600;
+  box-shadow: 0 3px 10px rgba(184, 101, 138, 0.2);
+}
+
+
+/* ------------------ Responsive ------------------ */
+@media (max-width: 1200px) {
+  .category-product-grid-main,
+  .category-product-grid-hidden {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .category-product-grid-main,
+  .category-product-grid-hidden {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+  }
+  
+  .order-container {
+    max-width: 100%;
+    margin-top: 20px;
+    height: auto;
+    min-height: 400px;
+  }
+  
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  header {
+    padding: 12px 20px;
+  }
+  
+  nav button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .category-product-grid-main,
+  .category-product-grid-hidden {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+  }
+  
+  .main-container {
+    padding: 15px;
+  }
+  
+  header {
+    padding: 10px 15px;
+  }
+  
+  .header-container h1 {
+    font-size: 24px;
+  }
+  
+  nav button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .payment-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .payment-mode-toggle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+/* ✅ Smooth Scrollbar */
+.order-box::-webkit-scrollbar,
+.product-scroll-area::-webkit-scrollbar,
+.receipt-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.order-box::-webkit-scrollbar-track,
+.product-scroll-area::-webkit-scrollbar-track,
+.receipt-box::-webkit-scrollbar-track {
+  background: #f5f3f1;
+  border-radius: 10px;
+}
+
+.order-box::-webkit-scrollbar-thumb,
+.product-scroll-area::-webkit-scrollbar-thumb,
+.receipt-box::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #bcc8d6, #9bb0c4);
+  border-radius: 10px;
+}
+
+.order-box::-webkit-scrollbar-thumb:hover,
+.product-scroll-area::-webkit-scrollbar-thumb:hover,
+.receipt-box::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+}
+
+/* ✅ Loading Animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #e8e0dc;
+  border-radius: 50%;
+  border-top-color: #9bb0c4;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ✅ Enhanced Focus States */
+.product-card:focus,
+.payment-buttons button:focus,
+.select-payment:focus {
+  outline: 2px solid rgba(212, 184, 199, 0.5);
+  outline-offset: 2px;
+}
+
+/* ✅ Glass Effect Enhancement */
+.order-container:hover {
+  box-shadow: 0 12px 35px rgba(120, 145, 168, 0.2);
+}
+
+.category-section:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(120, 145, 168, 0.12);
+}

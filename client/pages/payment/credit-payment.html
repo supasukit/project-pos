@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ค้างชำระ</title>
+  <link rel="stylesheet" href="credit-payment.css">
+</head>
+<body>
+  <div class="popup-container">
+    <h2>📌 ค้างชำระ</h2>
+    <p>ยอดค้าง: ฿<span id="amount"></span></p>
+
+    <label for="customer-name">ชื่อลูกค้า:</label>
+    <input type="text" id="customer-name" placeholder="กรอกชื่อ" required>
+
+    <div class="buttons">
+      <button id="confirm-btn">ยืนยัน</button>
+      <button id="cancel-btn">ยกเลิก</button>
+    </div>
+  </div>
+
+  <div id="new-customer-form" style="display: none; margin-top: 30px;">
+    <h3>เพิ่มข้อมูลลูกค้าใหม่</h3>
+    <label for="new-customer-name">ชื่อ:</label>
+    <input type="text" id="new-customer-name" required><br><br>
+
+    <label for="new-customer-phone">เบอร์โทรศัพท์:</label>
+    <input type="text" id="new-customer-phone" required><br><br>
+
+    <label for="new-customer-address">ที่อยู่:</label>
+    <textarea id="new-customer-address" rows="3" required></textarea><br><br>
+
+    <button id="submit-new-customer">บันทึกข้อมูลลูกค้าใหม่</button>
+    <button id="cancel-new-customer">ยกเลิก</button>
+  </div>
+
+  <script src="credit-payment.js"></script>
+</body>
+</html>

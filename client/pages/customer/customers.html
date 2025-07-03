@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ข้อมูลลูกค้า</title>
+   <link rel="stylesheet" href="../../styles/reset.css" />
+<link rel="stylesheet" href="../../styles/variables.css" />
+<link rel="stylesheet" href="../../styles/pages/customers.css" />
+</head>
+<body>
+  <header>
+    <h1 id="home-btn" style="cursor: pointer;">POS</h1>
+    <nav>
+      <button id="dashboard-btn">DASHBOARD</button>
+         <button id="customers-btn">ข้อมูลลูกค้า</button>
+         <button id="products-btn">ข้อมูลสินค้า</button>
+         <button id="profile-btn">...</button>
+    </nav>
+  </header>
+
+  <main>
+    <aside class="sidebar">
+      <button class="user" id="cash-customers-btn"> ลูกค้าจ่ายเงินสด</button>
+      <button class="user" id="pending-customers-btn"> ลูกค้าค้างชำระ</button>
+      <button class="user" id="payment-btn"> จ่ายเงินค้างชำระ</button>
+    </aside>
+
+    <section class="customer-list" id="customer-list">
+      <!-- การ์ดลูกค้าจะถูกเพิ่มที่นี่ -->
+    </section>
+  </main>
+
+  <!-- ✅ Popup แสดงข้อมูลลูกค้า -->
+  <div id="popup" class="popup hidden">
+    <div class="popup-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+      <div id="popup-info"></div>
+    </div>
+  </div>
+
+  <!-- Popup สำหรับจ่ายเงินค้างชำระ -->
+  <div id="payment-popup" class="popup hidden">
+    <div class="popup-content">
+      <span class="close" onclick="closePaymentPopup()">&times;</span>
+      <h2>จ่ายเงินค้างชำระ</h2>
+      <div id="payment-info">
+        <!-- รายการลูกค้าที่ค้างชำระจะแสดงที่นี่ -->
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/customer.js"></script>
+</body>
+</html>

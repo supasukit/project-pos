@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>จ่ายเงินค้างชำระ</title>
+  <link rel="stylesheet" href="../../styles/pages/debt.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>💳 จ่ายเงินค้างชำระ</h2>
+
+    <label for="customer-name">ชื่อลูกค้า:</label>
+    <input type="text" id="customer-name" placeholder="กรอกชื่อลูกค้า..." />
+
+    <p id="balance-info">ใส่ชื่อลูกค้าเพื่อดูยอดค้าง</p>
+
+    <label for="pay-amount">จำนวนเงินที่ต้องการชำระ:</label>
+    <input type="number" id="pay-amount" placeholder="กรอกจำนวนเงิน" />
+
+    <div class="buttons">
+      <button id="confirm-btn">✅ ยืนยัน</button>
+      <button onclick="window.close()">❌ ปิด</button>
+    </div>
+  </div>
+
+  <script src="../../js/dept.js"></script>
+</body>
+</html>
