@@ -1,56 +1,56 @@
 const mongoose = require('mongoose')
 
 const productSchema = new mongoose.Schema({
-  name: { 
-    type: String, 
+  name: {
+    type: String,
     required: true,
-    trim: true 
+    trim: true
   },
-  barcode: { 
-    type: String, 
-    required: true, 
+  barcode: {
+    type: String,
+    required: true,
     unique: true,
-    trim: true 
+    trim: true
   },
-  price: { 
-    type: Number, 
+  price: {
+    type: Number,
     required: true,
-    min: 0 
+    min: 0
   },
-  wholesale_price: { 
-    type: Number, 
+  wholesale_price: {
+    type: Number,
     default: 0,
-    min: 0 
+    min: 0
   },
-  credit_price: { 
-    type: Number, 
+  credit_price: {
+    type: Number,
     default: 0,
-    min: 0 
+    min: 0
   },
-  wholesale_minimum: { 
-    type: Number, 
+  wholesale_minimum: {
+    type: Number,
     default: 1,
-    min: 1 
+    min: 1
   },
-  stock: { 
-    type: Number, 
+  stock: {
+    type: Number,
     required: true,
     min: 0,
-    default: 0 
+    default: 0
   },
-  category: { 
-    type: String, 
+  category: {
+    type: String,
     required: true,
-    trim: true 
+    trim: true
   },
-  description: { 
+  description: {
     type: String,
     trim: true,
-    default: '' 
+    default: ''
   },
-  image_base64: { 
+  image_base64: {
     type: String,
-    default: '' 
+    default: ''
   },
   // เก็บข้อมูลผู้สร้าง
   created_by: {
@@ -59,9 +59,9 @@ const productSchema = new mongoose.Schema({
     required: true
   },
   // สถานะสินค้า
-  is_active: { 
-    type: Boolean, 
-    default: true 
+  is_active: {
+    type: Boolean,
+    default: true
   },
   // ประวัติการเปลี่ยนแปลงสต็อก
   stock_history: [{
@@ -73,8 +73,8 @@ const productSchema = new mongoose.Schema({
     created_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     created_at: { type: Date, default: Date.now }
   }]
-}, { 
-  timestamps: true 
+}, {
+  timestamps: true
 })
 
 // Index สำหรับการค้นหา

@@ -765,11 +765,108 @@ function closePopup() {
 
 
 
-// ดูประวัติการชำระเงิน
-function showPaymentHistory(customerId) {
-    console.log(`💳 Loading payment history for customer: ${customerId}`)
-    alert('🚧 ฟีเจอร์ประวัติการชำระเงิน (กำลังพัฒนา)')
-    // TODO: เรียก API ดูประวัติการชำระเงิน
+// แทนที่ฟังก์ชัน showPaymentHistory เดิม
+async function showPaymentHistory(customerId) {
+    try {
+        console.log(`Loading payment history for customer: ${customerId}`)
+        
+        const customer = allCustomers.find(c => c._id === customerId)
+        if (!customer) {
+            alert('ไม่พบข้อมูลลูกค้า')
+            return
+        }
+        
+        const token = localStorage.getItem('token')
+        const response = await fetch(`/api/customers/${customerId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        
+        const result = await response.json()
+        console.log('Payment history loaded:', result)
+        
+        if (result.success && result.data) {
+            displayPaymentHistory(result.data.payment_history || [], customerId, customer.name)
+        } else {
+            alert('ไม่พบประวัติการชำระเงิน')
+        }
+        
+    } catch (error) {
+        console.error('Error loading payment history:', error)
+        alert('เกิดข้อผิดพลาดในการดึงประวัติการชำระเงิน')
+    }
+}
+
+function displayPaymentHistory(paymentHistory, customerId, customerName) {
+    const popupInfo = document.getElementById('popup-info')
+    
+    document.querySelectorAll('.customer-card').forEach(card => {
+        card.classList.remove('active')
+    })
+    document.querySelector(`[data-id="${customerId}"]`)?.classList.add('active')
+    
+    if (!paymentHistory || paymentHistory.length === 0) {
+        popupInfo.innerHTML = `
+            <div class="payment-history">
+                <h2>ประวัติการชำระเงิน</h2>
+                <h3>${customerName}</h3>
+                <p style="text-align: center; padding: 30px; color: #666; font-style: italic;">
+                    ยังไม่มีประวัติการชำระเงิน
+                </p>
+                <div class="history-actions" style="margin-top: 20px;">
+                    <button onclick="goBack()" class="btn-back" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">กลับ</button>
+                </div>
+            </div>
+        `
+        return
+    }
+    
+    const totalPaid = paymentHistory.reduce((sum, payment) => sum + payment.amount, 0)
+    
+    const paymentsHTML = paymentHistory.map(payment => {
+        const paymentDate = new Date(payment.payment_date).toLocaleDateString('th-TH')
+        const paymentTime = new Date(payment.payment_date).toLocaleTimeString('th-TH')
+        
+        return `
+            <div class="payment-item" style="border: 1px solid #ddd; margin: 10px 0; padding: 15px; border-radius: 8px; background: #f8f9fa;">
+                <div class="payment-header" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span class="payment-amount" style="font-weight: bold; color: #28a745; font-size: 18px;">฿${payment.amount.toLocaleString()}</span>
+                    <span class="payment-date" style="color: #666;">${paymentDate} ${paymentTime}</span>
+                </div>
+                <div class="payment-details">
+                    <p><strong>วิธีชำระ:</strong> ${payment.payment_method === 'cash' ? 'เงินสด' : payment.payment_method}</p>
+                    ${payment.notes ? `<p><strong>หมายเหตุ:</strong> ${payment.notes}</p>` : ''}
+                </div>
+            </div>
+        `
+    }).join('')
+    
+    popupInfo.innerHTML = `
+        <div class="payment-history">
+            <h2>ประวัติการชำระเงิน</h2>
+            <h3>${customerName}</h3>
+            
+            <div class="payment-summary" style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <p style="margin: 0;"><strong>จำนวนครั้งที่ชำระ:</strong> ${paymentHistory.length} ครั้ง</p>
+                <p style="margin: 5px 0 0 0;"><strong>ยอดรวมที่ชำระ:</strong> <span style="color: #28a745; font-weight: bold; font-size: 18px;">฿${totalPaid.toLocaleString()}</span></p>
+            </div>
+            
+            <div class="payments-list" style="max-height: 400px; overflow-y: auto;">
+                ${paymentsHTML}
+            </div>
+            
+            <div class="history-actions" style="margin-top: 20px;">
+                <button onclick="goBack()" class="btn-back" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">กลับ</button>
+            </div>
+        </div>
+    `
 }
 
 

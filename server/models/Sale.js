@@ -134,50 +134,50 @@ saleSchema.index({ status: 1 })
 saleSchema.index({ sold_by: 1 })
 
 // Pre-save middleware สำหรับสร้างเลขที่ใบเสร็จ
-saleSchema.pre('save', async function(next) {
+saleSchema.pre('save', async function (next) {
   if (this.isNew && !this.receipt_number) {
     const today = new Date()
     const dateString = today.toISOString().slice(0, 10).replace(/-/g, '')
-    
+
     // หาเลขที่ล่าสุดของวันนี้
     const lastSale = await this.constructor.findOne({
       receipt_number: { $regex: `^${dateString}` }
     }).sort({ receipt_number: -1 })
-    
+
     let sequence = 1
     if (lastSale) {
       const lastSequence = parseInt(lastSale.receipt_number.slice(-4))
       sequence = lastSequence + 1
     }
-    
+
     this.receipt_number = `${dateString}${sequence.toString().padStart(4, '0')}`
   }
-  
+
   // คำนวณยอดรวม
   this.subtotal = this.items.reduce((sum, item) => sum + item.total_price, 0)
   this.total_amount = this.subtotal - this.discount + this.tax
-  
+
   // ตั้งค่าสำหรับการขายเครดิต
   if (this.payment_type === 'credit') {
     this.is_credit = true
     this.remaining_amount = this.total_amount - this.paid_amount
-    
+
     // ตั้งกำหนดชำระ 30 วัน
     if (!this.credit_due_date) {
       this.credit_due_date = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
     }
   }
-  
+
   next()
 })
 
 // Static method สำหรับสถิติ
-saleSchema.statics.getTodaySales = function(userId) {
+saleSchema.statics.getTodaySales = function (userId) {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   const tomorrow = new Date(today)
   tomorrow.setDate(tomorrow.getDate() + 1)
-  
+
   return this.find({
     sold_by: userId,
     sale_date: { $gte: today, $lt: tomorrow },
@@ -185,7 +185,7 @@ saleSchema.statics.getTodaySales = function(userId) {
   })
 }
 
-saleSchema.statics.getCreditSales = function(customerId) {
+saleSchema.statics.getCreditSales = function (customerId) {
   return this.find({
     customer: customerId,
     is_credit: true,

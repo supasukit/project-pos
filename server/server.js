@@ -3,7 +3,7 @@ require('dotenv').config() // เพิ่มบรรทัดนี้ด้�
 console.log('🔧 Environment variables loaded:')
 console.log('SMTP_USER:', process.env.SMTP_USER)
 console.log('SMTP_PASS:', process.env.SMTP_PASS ? 'Loaded' : 'Missing')
-console.log('EMAIL_USER:', process.env.EMAIL_USER) 
+console.log('EMAIL_USER:', process.env.EMAIL_USER)
 console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? 'Loaded' : 'Missing')
 
 const express = require('express')
@@ -19,7 +19,7 @@ app.use(cors({
     'http://192.168.1.*:3000',
     'http://localhost:3000',
     'http://127.0.0.1:3000',
-    true  // อนุญาตทุก origin ใน development
+    true // อนุญาตทุก origin ใน development
   ],
   credentials: true
 }))
@@ -40,19 +40,21 @@ const productRoutes = require('./routes/products')
 const salesRoutes = require('./routes/sales')
 const customersRoutes = require('./routes/customers')
 const ordersRoutes = require('./routes/orders')
+const employeesRoutes = require('./routes/employees')
+app.use('/api/employees', employeesRoutes)
 app.use('/api/orders', ordersRoutes)
 app.use('/api/customers', customersRoutes)
 app.use('/api/sales', salesRoutes)
 app.use('/api/auth', authRoutes)
-app.use('/api/products', productRoutes) 
+app.use('/api/products', productRoutes)
 
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Server is working!', timestamp: new Date() })
 })
 
 // เชื่อมต่อ MongoDB - เปลี่ยนเป็น IP ของ VM MongoDB
-mongoose.connect('mongodb://192.168.1.49:27017/pos_db')
-  .then(() => console.log('✅ MongoDB connected to 192.168.1.49'))
+mongoose.connect('mongodb://172.27.56.64:27017/pos_db')
+  .then(() => console.log('✅ MongoDB connected to 172.27.56.64:27017/pos_db'))
   .catch(err => console.error('❌ MongoDB connection error:', err))
 
 // Start server - Listen บน all interfaces เพื่อให้เครื่องอื่นเข้าถึงได้

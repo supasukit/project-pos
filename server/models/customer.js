@@ -28,14 +28,14 @@ const customerSchema = new mongoose.Schema({
     default: 0,
     min: 0
   },
-  
+
   // ⭐ เพิ่มส่วนนี้ - ประเภทลูกค้าตามการซื้อ
   customer_type: {
     type: String,
     enum: ['cash', 'credit'],
     default: 'cash'
   },
-  
+
   // ⭐ เพิ่มส่วนนี้ - สถิติการซื้อแยกประเภท
   total_cash_purchases: {
     type: Number,
@@ -54,7 +54,7 @@ const customerSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  
+
   // จำนวนการซื้อทั้งหมด
   total_purchases: {
     type: Number,
@@ -115,12 +115,12 @@ customerSchema.index({ status: 1 })
 customerSchema.index({ customer_type: 1 }) // ⭐ เพิ่ม index ใหม่
 
 // Virtual สำหรับตรวจสอบว่ามียอดค้างชำระหรือไม่
-customerSchema.virtual('has_credit').get(function() {
+customerSchema.virtual('has_credit').get(function () {
   return this.credit_balance > 0
 })
 
 // ⭐ เพิ่มฟังก์ชันอัพเดทประเภทลูกค้า
-customerSchema.methods.updateCustomerType = function() {
+customerSchema.methods.updateCustomerType = function () {
   // ถ้ามียอดค้างชำระ = เป็นลูกค้าเครดิต
   if (this.credit_balance > 0) {
     this.customer_type = 'credit'
@@ -132,38 +132,38 @@ customerSchema.methods.updateCustomerType = function() {
 }
 
 // Method สำหรับเพิ่มยอดค้างชำระ
-customerSchema.methods.addCredit = function(amount, notes = '') {
+customerSchema.methods.addCredit = function (amount, notes = '') {
   this.credit_balance += amount
   this.total_amount += amount
   this.total_purchases += 1
-  
+
   // ⭐ เพิ่มส่วนนี้
   this.total_credit_purchases += amount
   this.last_purchase_type = 'credit'
   this.last_purchase_date = new Date()
   this.updateCustomerType()
-  
+
   return this.save()
 }
 
 // ⭐ เพิ่ม Method สำหรับการซื้อเงินสด
-customerSchema.methods.addCashPurchase = function(amount) {
+customerSchema.methods.addCashPurchase = function (amount) {
   this.total_amount += amount
   this.total_purchases += 1
   this.total_cash_purchases += amount
   this.last_purchase_type = 'cash'
   this.last_purchase_date = new Date()
   this.updateCustomerType()
-  
+
   return this.save()
 }
 
 // Method สำหรับชำระเงิน
-customerSchema.methods.makePayment = function(amount, paymentMethod = 'cash', notes = '', recordedBy) {
+customerSchema.methods.makePayment = function (amount, paymentMethod = 'cash', notes = '', recordedBy) {
   if (amount > this.credit_balance) {
     throw new Error('จำนวนเงินที่ชำระมากกว่ายอดค้างชำระ')
   }
-  
+
   this.credit_balance -= amount
   this.payment_history.push({
     amount,
@@ -171,27 +171,27 @@ customerSchema.methods.makePayment = function(amount, paymentMethod = 'cash', no
     notes,
     recorded_by: recordedBy
   })
-  
+
   // ⭐ อัพเดทประเภทลูกค้าหลังชำระเงิน
   this.updateCustomerType()
-  
+
   return this.save()
 }
 
 // Static method สำหรับค้นหาลูกค้า
-customerSchema.statics.findByPhone = function(phone) {
+customerSchema.statics.findByPhone = function (phone) {
   return this.findOne({ phone: phone.trim() })
 }
 
-customerSchema.statics.findByName = function(name) {
-  return this.find({ 
+customerSchema.statics.findByName = function (name) {
+  return this.find({
     name: { $regex: name.trim(), $options: 'i' }
   })
 }
 
 // ⭐ เพิ่ม Static method สำหรับกรองตามประเภท
-customerSchema.statics.findByType = function(customerType, createdBy) {
-  return this.find({ 
+customerSchema.statics.findByType = function (customerType, createdBy) {
+  return this.find({
     customer_type: customerType,
     created_by: createdBy,
     status: 'active'

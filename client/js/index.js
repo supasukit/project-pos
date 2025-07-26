@@ -79,7 +79,32 @@ function checkAuth() {
 function displayUserInfo() {
     const user = JSON.parse(localStorage.getItem('user') || '{}')
     
-    
+    if (user.role === 'employee') {
+        const userInfoDiv = document.getElementById('user-info')
+        if (userInfoDiv) {
+            userInfoDiv.innerHTML = `
+                <div style="padding: 10px; background: #e3f2fd; border-radius: 4px; margin: 10px 0;">
+                    <small>
+                        <strong>พนักงาน:</strong> ${user.owner_name}<br>
+                        <strong>ร้าน:</strong> ${user.store_name}<br>
+                        <strong>Username:</strong> ${user.username}
+                    </small>
+                </div>
+            `
+        }
+    } else {
+        const userInfoDiv = document.getElementById('user-info')
+        if (userInfoDiv) {
+            userInfoDiv.innerHTML = `
+                <div style="padding: 10px; background: #e8f5e8; border-radius: 4px; margin: 10px 0;">
+                    <small>
+                        <strong>เจ้าของร้าน:</strong> ${user.owner_name}<br>
+                        <strong>ร้าน:</strong> ${user.store_name}
+                    </small>
+                </div>
+            `
+        }
+    }
 }
 
 // ออกจากระบบ
@@ -111,12 +136,7 @@ async function loadPOSProducts() {
         console.log('🔄 Loading products for POS...')
         
         // เพิ่มส่วนนี้ - ดึง user ID
-        const user = JSON.parse(localStorage.getItem('user') || '{}')
-        const userId = user._id || user.id
-        
-        if (!userId) {
-            throw new Error('ไม่พบข้อมูล user ID')
-        }
+        const userId = getStoreUserId()
         
         const token = localStorage.getItem('token')
         const response = await fetch(`/api/products?userId=${userId}`, {  // ← เพิ่ม userId parameter
@@ -229,9 +249,7 @@ function addToCart(productId) {
 // โหลดหมวดหมู่สำหรับ POS
 async function loadPOSCategories() {
     try {
-        // เพิ่มส่วนนี้ - ดึง user ID
-        const user = JSON.parse(localStorage.getItem('user') || '{}')
-        const userId = user._id || user.id
+        const userId = getStoreUserId()
         
         const token = localStorage.getItem('token')
         const response = await fetch(`/api/products/categories?userId=${userId}`, {  // ← เพิ่ม userId parameter
@@ -1121,30 +1139,52 @@ async function processCheckout(customerData, paymentType) {
     }
 }
 
+function getStoreUserId() {
+    const user = JSON.parse(localStorage.getItem('user') || '{}')
+    
+    if (user.role === 'employee') {
+        if (!user.parent_user_id) {
+            throw new Error('Employee account ไม่มี parent_user_id กรุณาติดต่อผู้ดูแลระบบ')
+        }
+        return user.parent_user_id
+    } else {
+        return user._id || user.id
+    }
+}
 
 
 
-
-// เรียกใช้เมื่อหน้าโหลด
 document.addEventListener('DOMContentLoaded', function() {
-    checkAuth()
-    displayUserInfo()
-    updateAllProfileButtons() // ← เพิ่มบรรทัดนี้
-    // เพิ่มบรรทัดนี้
-    loadPOSProducts()
+    checkAuth();
+    displayUserInfo();
+    updateAllProfileButtons();
+    loadPOSProducts();
 
+    // ===== เพิ่มโค้ดนี้ เพื่อซ่อนปุ่ม/เมนูสำหรับพนักงาน =====
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (user.role === 'employee') {
+        // สมมติว่า id ปุ่มแต่ละปุ่มใน nav เหมือนหน้า admin
+        const hideBtn = id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        };
+        hideBtn('dashboard-btn');
+        hideBtn('customers-btn');
+        // หากมีปุ่มเพิ่มพนักงาน/จัดการพนักงาน/ฯลฯ ก็ซ่อนเหมือนกัน
+        hideBtn('add-employee-btn');
+        hideBtn('manage-employees-btn');
+    }
+    // ===== จบส่วนที่เพิ่ม =====
 
-    // เพิ่มส่วนนี้ - Payment Mode Buttons
     document.querySelectorAll('.select-payment').forEach(btn => {
         btn.addEventListener('click', function() {
             const mode = this.getAttribute('data-type')
             switchPaymentMode(mode)
         })
-    })
+    });
 
-     // เพิ่มส่วนนี้ - Pay Button
-    const payButton = document.querySelector('.pay')
+    const payButton = document.querySelector('.pay');
     if (payButton) {
         payButton.addEventListener('click', processPayment)
     }
-}) 
+});

@@ -1,4 +1,4 @@
-/* ✅ โทนสีเมฆฟ้าอ่อนนุ่ม - ตามภาพท้องฟ้า */
+/* Modern Orange Customer Management - Clean White Background */
 html, body {
   margin: 0;
   padding: 0;
@@ -8,55 +8,75 @@ html, body {
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #f5f3f1 0%, #f2e7e3 25%, #7891a8 50%, #9bb0c4 75%, #bcc8d6 100%);
+  background: #ffffff;
   min-height: 100vh;
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Simple subtle pattern */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(255, 138, 80, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 138, 80, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(255, 138, 80, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 header {
-  background: linear-gradient(135deg, #ffffff, #f9f7f5);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
   padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #e8e0dc;
-  box-shadow: 0 2px 12px rgba(120, 145, 168, 0.08);
+  border-bottom: 2px solid #ff8a50;
+  box-shadow: 0 2px 12px rgba(255, 138, 80, 0.15);
 }
 
 header h1 {
-  color: #6b7c8e;
+  color: white;
   margin: 0;
   font-size: 28px;
   font-weight: 600;
-  text-shadow: 1px 1px 3px rgba(107, 124, 142, 0.1);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 
 nav button {
-  background: linear-gradient(135deg, #e8e0dc, #ddd3ce);
-  border: 1px solid #c7b8b0;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 12px 24px;
   border-radius: 25px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  color: #7891a8;
+  color: white;
   margin-left: 10px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(120, 145, 168, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 nav button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(120, 145, 168, 0.18);
-  background: linear-gradient(135deg, #ddd3ce, #d1c4be);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 nav button.active {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.9);
+  color: #ff8a50;
   font-weight: 600;
-  border: 1px solid #6b85a1;
-  box-shadow: 0 3px 10px rgba(120, 145, 168, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 main {
@@ -71,15 +91,15 @@ main {
   min-width: 220px;
   max-width: 220px;
   flex-shrink: 0;
-  background: linear-gradient(180deg, #f9f7f5, #f4f0ec);
+  background: white;
   padding: 20px;
-  border-right: 2px solid #e8e0dc;
+  border-right: 2px solid #f0f0f0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 12px;
   height: 100%;
-  box-shadow: 2px 0 8px rgba(120, 145, 168, 0.06);
+  box-shadow: 2px 0 8px rgba(255, 138, 80, 0.06);
 }
 
 .sidebar .user {
@@ -87,32 +107,32 @@ main {
   padding: 12px 16px;
   box-sizing: border-box;
   text-align: center;
-  border: 1px solid #e8e0dc;
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  border: 1px solid #f0f0f0;
+  background: white;
   cursor: pointer;
   border-radius: 12px;
   font-weight: 500;
-  color: #7891a8;
+  color: #666;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(120, 145, 168, 0.08);
+  box-shadow: 0 2px 6px rgba(255, 138, 80, 0.08);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .sidebar .user:hover {
-  background: linear-gradient(135deg, #f2e7e3, #ede2dd);
+  background: #fff8f5;
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(120, 145, 168, 0.15);
-  border-color: #d1c4be;
+  box-shadow: 0 4px 10px rgba(255, 138, 80, 0.15);
+  border-color: #ff8a50;
 }
 
 .sidebar .user.active {
-  background: linear-gradient(135deg, #bcc8d6, #9bb0c4);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
   color: #ffffff;
   font-weight: 600;
-  border-color: #7891a8;
-  box-shadow: 0 3px 8px rgba(120, 145, 168, 0.2);
+  border-color: #ff7043;
+  box-shadow: 0 3px 8px rgba(255, 138, 80, 0.2);
 }
 
 #customer-list {
@@ -130,25 +150,25 @@ main {
 }
 
 .customer-card {
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  background: white;
   padding: 20px;
   border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(120, 145, 168, 0.1);
-  border: 1px solid #e8e0dc;
+  box-shadow: 0 4px 15px rgba(255, 138, 80, 0.1);
+  border: 1px solid #f0f0f0;
   min-height: 240px;
   display: flex;
   flex-direction: column;
   justify-content: start;
   cursor: pointer;
   transition: all 0.4s ease;
-  color: #7891a8;
+  color: #666;
 }
 
 .customer-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 8px 25px rgba(120, 145, 168, 0.15);
-  border-color: #d4b8c7;
-  background: linear-gradient(135deg, #faf8f6, #f5f3f1);
+  box-shadow: 0 8px 25px rgba(255, 138, 80, 0.15);
+  border-color: #ff8a50;
+  background: #fff8f5;
 }
 
 .customer-card p {
@@ -157,7 +177,7 @@ main {
 }
 
 .customer-card strong {
-  color: #6b7c8e;
+  color: #333;
 }
 
 .popup {
@@ -166,13 +186,13 @@ main {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(120, 145, 168, 0.2);
+  background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
   z-index: 1000;
 }
 
 .popup-content {
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  background: white;
   margin: 80px auto;
   padding: 30px;
   width: 90%;
@@ -181,24 +201,24 @@ main {
   overflow-y: auto;
   border-radius: 20px;
   position: relative;
-  border: 1px solid #e8e0dc;
-  box-shadow: 0 15px 40px rgba(120, 145, 168, 0.12);
-  color: #7891a8;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 15px 40px rgba(255, 138, 80, 0.12);
+  color: #666;
 }
 
 .popup-content h2 {
-  color: #6b7c8e;
+  color: #333;
   margin-top: 0;
   font-size: 24px;
   font-weight: 600;
-  border-bottom: 1px solid #e8e0dc;
+  border-bottom: 1px solid #f0f0f0;
   padding-bottom: 10px;
 }
 
 .popup-content button {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
   color: #ffffff;
-  border: 1px solid #6b85a1;
+  border: 1px solid #ff7043;
   padding: 12px 24px;
   border-radius: 12px;
   cursor: pointer;
@@ -209,9 +229,9 @@ main {
 }
 
 .popup-content button:hover {
-  background: linear-gradient(135deg, #7891a8, #6b85a1);
+  background: linear-gradient(135deg, #ff7043, #ff5722);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(120, 145, 168, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 138, 80, 0.2);
 }
 
 .popup-content input[type="text"],
@@ -219,19 +239,19 @@ main {
   width: 100%;
   padding: 12px 15px;
   margin: 8px 0;
-  border: 1px solid #e8e0dc;
+  border: 1px solid #f0f0f0;
   border-radius: 12px;
   font-size: 16px;
   transition: all 0.3s ease;
   box-sizing: border-box;
-  background: #f9f7f5;
-  color: #7891a8;
+  background: #fafafa;
+  color: #666;
 }
 
 .popup-content input:focus {
   outline: none;
-  border-color: #d4b8c7;
-  box-shadow: 0 0 0 3px rgba(212, 184, 199, 0.2);
+  border-color: #ff8a50;
+  box-shadow: 0 0 0 3px rgba(255, 138, 80, 0.2);
   background: #ffffff;
 }
 
@@ -245,42 +265,42 @@ main {
   right: 20px;
   font-size: 28px;
   cursor: pointer;
-  color: #bcc8d6;
+  color: #ccc;
   font-weight: normal;
   transition: all 0.3s ease;
 }
 
 .close:hover {
-  color: #e6a3b5;
+  color: #ff8a50;
   transform: scale(1.1);
 }
 
 .bill-entry {
-  border: 1px solid #e8e0dc;
+  border: 1px solid #f0f0f0;
   padding: 15px;
   margin: 15px 0;
   border-radius: 12px;
-  background: linear-gradient(135deg, #faf8f6, #ffffff);
+  background: white;
   transition: all 0.3s ease;
 }
 
 .bill-entry:hover {
-  border-color: #ddd3ce;
-  box-shadow: 0 3px 10px rgba(120, 145, 168, 0.08);
+  border-color: #ff8a50;
+  box-shadow: 0 3px 10px rgba(255, 138, 80, 0.08);
 }
 
-/* ✅ สไตล์พิเศษสำหรับข้อมูลลูกค้า */
+/* สไตล์พิเศษสำหรับข้อมูลลูกค้า */
 .customer-type-cash {
-  background: linear-gradient(135deg, #f0f5f0, #e8f3e8);
-  border-left: 3px solid #b8d4b8;
+  background: linear-gradient(135deg, #f0f8f0, #e8f3e8);
+  border-left: 3px solid #28a745;
 }
 
 .customer-type-credit {
-  background: linear-gradient(135deg, #f5f0f0, #f3e8e8);
-  border-left: 3px solid #e6a3b5;
+  background: linear-gradient(135deg, #fff8f0, #ffedd5);
+  border-left: 3px solid #ff8a50;
 }
 
-/* ✅ เอฟเฟกต์พิเศษสำหรับ Badge */
+/* เอฟเฟกต์พิเศษสำหรับ Badge */
 .customer-badge {
   display: inline-block;
   padding: 6px 12px;
@@ -291,18 +311,18 @@ main {
 }
 
 .badge-cash {
-  background: linear-gradient(135deg, #d6e8d6, #c4dcc4);
-  color: #6b8e6b;
-  box-shadow: 0 1px 4px rgba(107, 142, 107, 0.15);
+  background: linear-gradient(135deg, #d4edda, #c3e6cb);
+  color: #155724;
+  box-shadow: 0 1px 4px rgba(21, 87, 36, 0.15);
 }
 
 .badge-credit {
-  background: linear-gradient(135deg, #f0d6e0, #e8c4d4);
-  color: #b8658a;
-  box-shadow: 0 1px 4px rgba(184, 101, 138, 0.15);
+  background: linear-gradient(135deg, #ffe0b3, #ffd699);
+  color: #b8662a;
+  box-shadow: 0 1px 4px rgba(184, 102, 42, 0.15);
 }
 
-/* ✅ เอฟเฟกต์ Pulse สำหรับปุ่มสำคัญ */
+/* เอฟเฟกต์ Pulse สำหรับปุ่มสำคัญ */
 .pulse-effect {
   animation: pulse 3s infinite;
 }
@@ -310,28 +330,28 @@ main {
 @keyframes pulse {
   0% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(188, 200, 214, 0.4);
+    box-shadow: 0 0 0 0 rgba(255, 138, 80, 0.4);
   }
   
   70% {
     transform: scale(1.02);
-    box-shadow: 0 0 0 10px rgba(188, 200, 214, 0);
+    box-shadow: 0 0 0 10px rgba(255, 138, 80, 0);
   }
   
   100% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(188, 200, 214, 0);
+    box-shadow: 0 0 0 0 rgba(255, 138, 80, 0);
   }
 }
 
-/* ✅ CSS สำหรับ Payment Search Popup */
+/* CSS สำหรับ Payment Search Popup */
 .payment-search-popup {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(120, 145, 168, 0.2);
+  background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
@@ -340,18 +360,18 @@ main {
 }
 
 .payment-popup-content {
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  background: white;
   border-radius: 20px;
   width: 90%;
   max-width: 800px;
   max-height: 80vh;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(120, 145, 168, 0.15);
-  border: 1px solid #e8e0dc;
+  box-shadow: 0 20px 50px rgba(255, 138, 80, 0.15);
+  border: 1px solid #f0f0f0;
 }
 
 .payment-popup-header {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
   color: #ffffff;
   padding: 20px;
   display: flex;
@@ -376,7 +396,7 @@ main {
 }
 
 .payment-popup-close:hover {
-  color: #f2e7e3;
+  color: #fff8f5;
   transform: scale(1.1);
 }
 
@@ -386,15 +406,15 @@ main {
 
 .payment-popup-footer {
   padding: 15px 20px;
-  background: #f9f7f5;
-  border-top: 1px solid #e8e0dc;
+  background: #fafafa;
+  border-top: 1px solid #f0f0f0;
   text-align: center;
 }
 
 .payment-popup-footer .close-button {
-  background: linear-gradient(135deg, #ddd3ce, #d1c4be);
-  color: #8a7b73;
-  border: 1px solid #c7b8b0;
+  background: #f8f8f8;
+  color: #666;
+  border: 1px solid #ddd;
   padding: 10px 20px;
   border-radius: 12px;
   cursor: pointer;
@@ -403,9 +423,10 @@ main {
 }
 
 .payment-popup-footer .close-button:hover {
-  background: linear-gradient(135deg, #d1c4be, #c7b8b0);
+  background: #ff8a50;
+  color: white;
   transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(138, 123, 115, 0.15);
+  box-shadow: 0 3px 8px rgba(255, 138, 80, 0.15);
 }
 
 .search-section {
@@ -416,7 +437,7 @@ main {
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
-  color: #7891a8;
+  color: #666;
   font-size: 16px;
 }
 
@@ -428,26 +449,26 @@ main {
 .search-input {
   flex: 1;
   padding: 12px 15px;
-  border: 1px solid #e8e0dc;
+  border: 1px solid #f0f0f0;
   border-radius: 12px;
   font-size: 16px;
-  background: #f9f7f5;
-  color: #7891a8;
+  background: #fafafa;
+  color: #666;
   transition: all 0.3s ease;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #d4b8c7;
-  box-shadow: 0 0 0 3px rgba(212, 184, 199, 0.2);
+  border-color: #ff8a50;
+  box-shadow: 0 0 0 3px rgba(255, 138, 80, 0.2);
   background: #ffffff;
 }
 
 .search-button {
   padding: 12px 24px;
-  background: linear-gradient(135deg, #d6e8d6, #c4dcc4);
-  color: #6b8e6b;
-  border: 1px solid #b8d4b8;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  border: 1px solid #28a745;
   border-radius: 12px;
   cursor: pointer;
   font-weight: 500;
@@ -455,45 +476,45 @@ main {
 }
 
 .search-button:hover {
-  background: linear-gradient(135deg, #c4dcc4, #b8d4b8);
+  background: linear-gradient(135deg, #20c997, #17a2b8);
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(107, 142, 107, 0.15);
+  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.15);
 }
 
 .bills-container {
   min-height: 200px;
   max-height: 400px;
   overflow-y: auto;
-  border: 1px solid #e8e0dc;
+  border: 1px solid #f0f0f0;
   border-radius: 15px;
   padding: 15px;
-  background: linear-gradient(135deg, #faf8f6, #ffffff);
+  background: white;
 }
 
 .placeholder-text,
 .loading-text {
   text-align: center;
-  color: #bcc8d6;
+  color: #ccc;
   margin: 80px 0;
   font-style: italic;
 }
 
 .no-results {
   text-align: center;
-  color: #bcc8d6;
+  color: #ccc;
   margin: 80px 0;
 }
 
 .customer-detail-card {
-  border: 1px solid #e8e0dc;
+  border: 1px solid #f0f0f0;
   border-radius: 20px;
   margin-bottom: 25px;
   background: #ffffff;
-  box-shadow: 0 6px 20px rgba(120, 145, 168, 0.08);
+  box-shadow: 0 6px 20px rgba(255, 138, 80, 0.08);
 }
 
 .customer-header {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
   color: #ffffff;
   padding: 20px;
   border-radius: 20px 20px 0 0;
@@ -517,22 +538,22 @@ main {
 }
 
 .bills-title {
-  color: #7891a8;
+  color: #666;
   margin: 0 0 15px 0;
   padding-bottom: 10px;
-  border-bottom: 1px solid #e8e0dc;
+  border-bottom: 1px solid #f0f0f0;
   font-weight: 500;
 }
 
 .no-bills {
   text-align: center;
-  color: #bcc8d6;
+  color: #ccc;
   font-style: italic;
   padding: 40px;
 }
 
 .bill-card {
-  border: 1px solid #e8e0dc;
+  border: 1px solid #f0f0f0;
   border-radius: 15px;
   margin-bottom: 20px;
   overflow: hidden;
@@ -540,16 +561,16 @@ main {
 }
 
 .bill-card:hover {
-  box-shadow: 0 4px 15px rgba(120, 145, 168, 0.1);
-  border-color: #d4b8c7;
+  box-shadow: 0 4px 15px rgba(255, 138, 80, 0.1);
+  border-color: #ff8a50;
 }
 
 .bill-card.even {
-  background: linear-gradient(135deg, #faf8f6, #ffffff);
+  background: white;
 }
 
 .bill-card.odd {
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  background: #fafafa;
 }
 
 .bill-content {
@@ -575,20 +596,20 @@ main {
 }
 
 .bill-badge.normal {
-  background: linear-gradient(135deg, #d6e8d6, #c4dcc4);
-  color: #6b8e6b;
-  box-shadow: 0 2px 6px rgba(107, 142, 107, 0.15);
+  background: linear-gradient(135deg, #d4edda, #c3e6cb);
+  color: #155724;
+  box-shadow: 0 2px 6px rgba(21, 87, 36, 0.15);
 }
 
 .bill-badge.overdue {
-  background: linear-gradient(135deg, #f0d6e0, #e8c4d4);
-  color: #b8658a;
+  background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+  color: #721c24;
   animation: pulse 3s infinite;
-  box-shadow: 0 2px 6px rgba(184, 101, 138, 0.15);
+  box-shadow: 0 2px 6px rgba(114, 28, 36, 0.15);
 }
 
 .bill-date {
-  color: #bcc8d6;
+  color: #ccc;
   font-size: 14px;
 }
 
@@ -607,7 +628,7 @@ main {
 
 .amount-label {
   font-size: 12px;
-  color: #bcc8d6;
+  color: #ccc;
   font-weight: 500;
 }
 
@@ -621,33 +642,33 @@ main {
 }
 
 .amount-value {
-  color: #7891a8;
+  color: #666;
 }
 
 .amount-paid {
-  color: #6b8e6b;
+  color: #28a745;
 }
 
 .amount-remaining {
-  color: #c78a9b;
+  color: #dc3545;
 }
 
 .interest-amount {
-  color: #d6a885;
+  color: #fd7e14;
 }
 
 .total-payment {
-  color: #b8658a;
+  color: #ff8a50;
   font-size: 18px;
 }
 
 .no-interest {
-  color: #6b8e6b;
+  color: #28a745;
   font-size: 14px;
 }
 
 .grace-period {
-  color: #7891a8;
+  color: #666;
   font-size: 14px;
 }
 
@@ -669,39 +690,39 @@ main {
 }
 
 .pay-full-btn {
-  background: linear-gradient(135deg, #d6e8d6, #c4dcc4);
-  color: #6b8e6b;
-  box-shadow: 0 2px 6px rgba(107, 142, 107, 0.15);
+  background: linear-gradient(135deg, #d4edda, #c3e6cb);
+  color: #155724;
+  box-shadow: 0 2px 6px rgba(21, 87, 36, 0.15);
 }
 
 .pay-full-btn:hover {
-  background: linear-gradient(135deg, #c4dcc4, #b8d4b8);
+  background: linear-gradient(135deg, #c3e6cb, #b7dfc7);
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(107, 142, 107, 0.2);
+  box-shadow: 0 4px 10px rgba(21, 87, 36, 0.2);
 }
 
 .pay-partial-btn {
-  background: linear-gradient(135deg, #edd6c4, #e8cbb8);
-  color: #a8785a;
-  box-shadow: 0 2px 6px rgba(168, 120, 90, 0.15);
+  background: linear-gradient(135deg, #ffe0b3, #ffd699);
+  color: #b8662a;
+  box-shadow: 0 2px 6px rgba(184, 102, 42, 0.15);
 }
 
 .pay-partial-btn:hover {
-  background: linear-gradient(135deg, #e8cbb8, #e3c0ac);
+  background: linear-gradient(135deg, #ffd699, #ffcc80);
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(168, 120, 90, 0.2);
+  box-shadow: 0 4px 10px rgba(184, 102, 42, 0.2);
 }
 
 .pay-all-section {
   margin-top: 30px;
   padding: 20px;
-  background: linear-gradient(135deg, #f0d6e0, #e8c4d4);
+  background: linear-gradient(135deg, #fff8f0, #ffedd5);
   border-radius: 15px;
   text-align: center;
 }
 
 .pay-all-title {
-  color: #b8658a;
+  color: #ff8a50;
   margin: 0 0 15px 0;
   font-size: 18px;
   font-weight: 500;
@@ -709,31 +730,31 @@ main {
 
 .pay-all-btn {
   padding: 15px 30px;
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
-  color: #b8658a;
-  border: 2px solid #ffffff;
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
+  color: white;
+  border: 2px solid #ff7043;
   border-radius: 12px;
   cursor: pointer;
   font-weight: 500;
   font-size: 16px;
   transition: all 0.3s ease;
-  box-shadow: 0 3px 10px rgba(184, 101, 138, 0.15);
+  box-shadow: 0 3px 10px rgba(255, 138, 80, 0.15);
 }
 
 .pay-all-btn:hover {
-  background: linear-gradient(135deg, #faf8f6, #f5f3f1);
+  background: linear-gradient(135deg, #ff7043, #ff5722);
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(184, 101, 138, 0.2);
+  box-shadow: 0 6px 15px rgba(255, 138, 80, 0.2);
 }
 
-/* ✅ Beautiful Popup System CSS */
+/* Beautiful Popup System CSS */
 .beautiful-popup {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(120, 145, 168, 0.25);
+  background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(12px);
   display: flex;
   justify-content: center;
@@ -748,14 +769,14 @@ main {
 }
 
 .beautiful-popup-content {
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  background: white;
   border-radius: 20px;
   min-width: 400px;
   max-width: 600px;
   max-height: 80vh;
   overflow: hidden;
-  box-shadow: 0 25px 60px rgba(120, 145, 168, 0.2);
-  border: 1px solid #e8e0dc;
+  box-shadow: 0 25px 60px rgba(255, 138, 80, 0.2);
+  border: 1px solid #f0f0f0;
   animation: slideIn 0.4s ease;
 }
 
@@ -778,19 +799,19 @@ main {
 }
 
 .beautiful-popup-header.confirm-header {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
 }
 
 .beautiful-popup-header.prompt-header {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
 }
 
 .beautiful-popup-header.success-header {
-  background: linear-gradient(135deg, #c4dcc4, #b8d4b8);
+  background: linear-gradient(135deg, #28a745, #20c997);
 }
 
 .beautiful-popup-header.error-header {
-  background: linear-gradient(135deg, #f0d6e0, #e8c4d4);
+  background: linear-gradient(135deg, #dc3545, #c82333);
 }
 
 .beautiful-popup-icon {
@@ -821,7 +842,7 @@ main {
 
 .beautiful-popup-body {
   padding: 30px;
-  color: #7891a8;
+  color: #666;
   line-height: 1.6;
   white-space: pre-line;
   max-height: 50vh;
@@ -831,9 +852,9 @@ main {
 .prompt-content {
   margin-bottom: 20px;
   padding: 18px;
-  background: #f5f3f1;
+  background: #f8f8f8;
   border-radius: 12px;
-  border-left: 4px solid #9bb0c4;
+  border-left: 4px solid #ff8a50;
 }
 
 .prompt-input-group {
@@ -844,32 +865,32 @@ main {
   display: block;
   margin-bottom: 10px;
   font-weight: 500;
-  color: #7891a8;
+  color: #666;
 }
 
 .prompt-input {
   width: 100%;
   padding: 15px 18px;
-  border: 1px solid #e8e0dc;
+  border: 1px solid #f0f0f0;
   border-radius: 12px;
   font-size: 16px;
-  background: #f9f7f5;
-  color: #7891a8;
+  background: #fafafa;
+  color: #666;
   transition: all 0.3s ease;
   box-sizing: border-box;
 }
 
 .prompt-input:focus {
   outline: none;
-  border-color: #d4b8c7;
-  box-shadow: 0 0 0 4px rgba(212, 184, 199, 0.2);
+  border-color: #ff8a50;
+  box-shadow: 0 0 0 4px rgba(255, 138, 80, 0.2);
   background: #ffffff;
 }
 
 .beautiful-popup-actions {
   padding: 25px;
-  background: #f5f3f1;
-  border-top: 1px solid #e8e0dc;
+  background: #f8f8f8;
+  border-top: 1px solid #f0f0f0;
   display: flex;
   justify-content: center;
   gap: 18px;
@@ -890,54 +911,54 @@ main {
 }
 
 .btn-cancel {
-  background: linear-gradient(135deg, #ddd3ce, #d1c4be);
-  color: #8a7b73;
-  box-shadow: 0 3px 10px rgba(138, 123, 115, 0.15);
+  background: #f8f8f8;
+  color: #666;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 .btn-cancel:hover {
-  background: linear-gradient(135deg, #d1c4be, #c7b8b0);
+  background: #e8e8e8;
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(138, 123, 115, 0.2);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .btn-confirm {
-  background: linear-gradient(135deg, #c4dcc4, #b8d4b8);
-  color: #6b8e6b;
-  box-shadow: 0 3px 10px rgba(107, 142, 107, 0.15);
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  box-shadow: 0 3px 10px rgba(40, 167, 69, 0.15);
 }
 
 .btn-confirm:hover {
-  background: linear-gradient(135deg, #b8d4b8, #acd0ac);
+  background: linear-gradient(135deg, #20c997, #17a2b8);
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(107, 142, 107, 0.2);
+  box-shadow: 0 6px 15px rgba(40, 167, 69, 0.2);
 }
 
 .btn-success {
-  background: linear-gradient(135deg, #c4dcc4, #b8d4b8);
-  color: #6b8e6b;
-  box-shadow: 0 3px 10px rgba(107, 142, 107, 0.15);
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  box-shadow: 0 3px 10px rgba(40, 167, 69, 0.15);
 }
 
 .btn-success:hover {
-  background: linear-gradient(135deg, #b8d4b8, #acd0ac);
+  background: linear-gradient(135deg, #20c997, #17a2b8);
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(107, 142, 107, 0.2);
+  box-shadow: 0 6px 15px rgba(40, 167, 69, 0.2);
 }
 
 .btn-error {
-  background: linear-gradient(135deg, #f0d6e0, #e8c4d4);
-  color: #b8658a;
-  box-shadow: 0 3px 10px rgba(184, 101, 138, 0.15);
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  box-shadow: 0 3px 10px rgba(220, 53, 69, 0.15);
 }
 
 .btn-error:hover {
-  background: linear-gradient(135deg, #e8c4d4, #e0b8cc);
+  background: linear-gradient(135deg, #c82333, #bd2130);
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(184, 101, 138, 0.2);
+  box-shadow: 0 6px 15px rgba(220, 53, 69, 0.2);
 }
 
-/* ✅ Custom Modal CSS */
+/* Custom Modal CSS */
 .custom-modal {
   position: fixed;
   top: 0;
@@ -950,7 +971,7 @@ main {
 .custom-modal-backdrop {
   width: 100%;
   height: 100%;
-  background-color: rgba(120, 145, 168, 0.25);
+  background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
@@ -959,15 +980,15 @@ main {
 }
 
 .custom-modal-content {
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  background: white;
   border-radius: 20px;
   padding: 0;
   width: 90%;
   max-width: 700px;
   max-height: 85vh;
   overflow: hidden;
-  box-shadow: 0 25px 60px rgba(120, 145, 168, 0.2);
-  border: 1px solid #e8e0dc;
+  box-shadow: 0 25px 60px rgba(255, 138, 80, 0.2);
+  border: 1px solid #f0f0f0;
   cursor: default;
   position: relative;
 }
@@ -979,19 +1000,19 @@ main {
   background: none;
   border: none;
   font-size: 28px;
-  color: #bcc8d6;
+  color: #ccc;
   cursor: pointer;
   z-index: 10;
   transition: all 0.3s ease;
 }
 
 .custom-modal-close:hover {
-  color: #e6a3b5;
+  color: #ff8a50;
   transform: scale(1.2);
 }
 
 .custom-modal-title {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
   color: #ffffff;
   margin: 0;
   padding: 20px 50px 20px 20px;
@@ -1003,35 +1024,35 @@ main {
   padding: 20px;
   max-height: 70vh;
   overflow-y: auto;
-  color: #7891a8;
+  color: #666;
   line-height: 1.6;
 }
 
-/* ✅ Amount Highlight */
+/* Amount Highlight */
 .amount-highlight {
   font-size: 18px;
-  color: #b8658a;
+  color: #ff8a50;
   font-weight: 600;
 }
 
-/* ✅ Error Message */
+/* Error Message */
 .error-message {
   text-align: center;
-  color: #b8658a;
+  color: #dc3545;
   padding: 40px;
-  background: linear-gradient(135deg, #f8f0f3, #f0d6e0);
+  background: linear-gradient(135deg, #f8d7da, #f5c6cb);
   border-radius: 12px;
-  border: 2px solid #e8c4d4;
+  border: 2px solid #f1b0b7;
 }
 
-/* ✅ เพิ่ม Animation สำหรับการโหลด */
+/* เพิ่ม Animation สำหรับการโหลด */
 .loading {
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 3px solid #e8e0dc;
+  border: 3px solid #f0f0f0;
   border-radius: 50%;
-  border-top-color: #9bb0c4;
+  border-top-color: #ff8a50;
   animation: spin 1s ease-in-out infinite;
 }
 
@@ -1039,7 +1060,7 @@ main {
   to { transform: rotate(360deg); }
 }
 
-/* ✅ Responsive สำหรับหน้าจอเล็ก */
+/* Responsive สำหรับหน้าจอเล็ก */
 @media (max-width: 768px) {
   .sidebar {
     width: 180px;
@@ -1168,7 +1189,7 @@ main {
   }
 }
 
-/* ✅ เอฟเฟกต์พิเศษสำหรับ Hover */
+/* เอฟเฟกต์พิเศษสำหรับ Hover */
 .customer-card,
 .bill-card,
 .sidebar .user,
@@ -1185,7 +1206,7 @@ nav button,
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ✅ Glass Effect สำหรับ Card */
+/* Glass Effect สำหรับ Card */
 .customer-card::before {
   content: '';
   position: absolute;
@@ -1204,7 +1225,7 @@ nav button,
   opacity: 1;
 }
 
-/* ✅ Subtle Shadow Effects */
+/* Subtle Shadow Effects */
 .sidebar,
 .customer-card,
 .popup-content,
@@ -1212,48 +1233,48 @@ nav button,
 .beautiful-popup-content,
 .custom-modal-content {
   box-shadow: 
-    0 1px 3px rgba(120, 145, 168, 0.12),
-    0 1px 2px rgba(120, 145, 168, 0.24);
+    0 1px 3px rgba(255, 138, 80, 0.12),
+    0 1px 2px rgba(255, 138, 80, 0.24);
 }
 
 .sidebar:hover,
 .customer-card:hover,
 .popup-content:hover {
   box-shadow: 
-    0 14px 28px rgba(120, 145, 168, 0.25),
-    0 10px 10px rgba(120, 145, 168, 0.22);
+    0 14px 28px rgba(255, 138, 80, 0.25),
+    0 10px 10px rgba(255, 138, 80, 0.22);
 }
 
-/* ✅ Smooth Scrollbar */
+/* Smooth Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f5f3f1;
+  background: #f5f5f5;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #bcc8d6, #9bb0c4);
+  background: #ff8a50;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  background: #ff7043;
 }
 
-/* ✅ Focus States */
+/* Focus States */
 .search-input:focus,
 .prompt-input:focus,
 .popup-content input:focus {
   transform: translateY(-1px);
   box-shadow: 
-    0 0 0 4px rgba(212, 184, 199, 0.2),
-    0 4px 12px rgba(120, 145, 168, 0.15);
+    0 0 0 4px rgba(255, 138, 80, 0.2),
+    0 4px 12px rgba(255, 138, 80, 0.15);
 }
 
-/* ✅ Button Active States */
+/* Button Active States */
 nav button:active,
 .search-button:active,
 .pay-full-btn:active,
@@ -1261,28 +1282,4 @@ nav button:active,
 .btn-confirm:active,
 .btn-cancel:active {
   transform: translateY(1px);
-}
-
-/* ✅ การปรับปรุง Typography */
-body {
-  font-smooth: always;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-/* ✅ Dreamy Cloud Effect */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(242, 231, 227, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(188, 200, 214, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(245, 243, 241, 0.2) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: -1;
 }

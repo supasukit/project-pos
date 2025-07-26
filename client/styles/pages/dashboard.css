@@ -1,9 +1,9 @@
-/* ✅ โทนสีเมฆฟ้าอ่อนนุ่ม - Dashboard Page */
+/* Modern Orange Dashboard - Clean White Background */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #f5f3f1 0%, #f2e7e3 25%, #7891a8 50%, #9bb0c4 75%, #bcc8d6 100%);
+  background: #ffffff;
   min-height: 100vh;
   font-smooth: always;
   -webkit-font-smoothing: antialiased;
@@ -11,7 +11,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* ✅ Dreamy Cloud Effect */
+/* Simple subtle pattern */
 body::before {
   content: '';
   position: fixed;
@@ -20,49 +20,49 @@ body::before {
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(242, 231, 227, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(188, 200, 214, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(245, 243, 241, 0.2) 0%, transparent 50%);
+    radial-gradient(circle at 20% 80%, rgba(255, 138, 80, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 138, 80, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(255, 138, 80, 0.02) 0%, transparent 50%);
   pointer-events: none;
   z-index: -1;
 }
 
 header {
-  background: linear-gradient(135deg, #ffffff, #f9f7f5);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
   padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #e8e0dc;
-  box-shadow: 0 2px 12px rgba(120, 145, 168, 0.08);
+  border-bottom: 2px solid #ff8a50;
+  box-shadow: 0 2px 12px rgba(255, 138, 80, 0.15);
 }
 
 nav button {
-  background: linear-gradient(135deg, #e8e0dc, #ddd3ce);
-  border: 1px solid #c7b8b0;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 12px 24px;
   border-radius: 25px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  color: #7891a8;
+  color: white;
   margin-left: 10px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(120, 145, 168, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 nav button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(120, 145, 168, 0.18);
-  background: linear-gradient(135deg, #ddd3ce, #d1c4be);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 nav button.active {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.9);
+  color: #ff8a50;
   font-weight: 600;
-  border: 1px solid #6b85a1;
-  box-shadow: 0 3px 10px rgba(120, 145, 168, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 .container {
@@ -88,11 +88,11 @@ nav button.active {
 .card {
   flex: 1 1 0;
   min-width: 250px;
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  background: white;
   padding: 25px;
-  border: 1px solid #e8e0dc;
+  border: 1px solid #f0f0f0;
   border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(120, 145, 168, 0.1);
+  box-shadow: 0 8px 25px rgba(255, 138, 80, 0.1);
   text-align: center;
   transition: all 0.3s ease;
   position: relative;
@@ -106,21 +106,21 @@ nav button.active {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #9bb0c4, #7891a8, #bcc8d6);
+  background: linear-gradient(90deg, #ff8a50, #ff7043);
   border-radius: 16px 16px 0 0;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 35px rgba(120, 145, 168, 0.15);
-  border-color: #d4b8c7;
+  box-shadow: 0 12px 35px rgba(255, 138, 80, 0.15);
+  border-color: #ff8a50;
 }
 
 .card h2 {
   margin-top: 0;
   font-size: 18px;
   font-weight: 600;
-  color: #6b7c8e;
+  color: #666;
   margin-bottom: 15px;
 }
 
@@ -128,8 +128,8 @@ nav button.active {
   font-size: 28px;
   margin: 10px 0 0 0;
   font-weight: 700;
-  color: #7891a8;
-  background: linear-gradient(135deg, #7891a8, #9bb0c4);
+  color: #ff8a50;
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -153,11 +153,11 @@ nav button.active {
 
 .graph-card {
   flex: 1;
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  background: white;
   padding: 25px;
-  border: 1px solid #e8e0dc;
+  border: 1px solid #f0f0f0;
   border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(120, 145, 168, 0.1);
+  box-shadow: 0 8px 25px rgba(255, 138, 80, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -174,21 +174,21 @@ nav button.active {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #c4dcc4, #b8d4b8, #d6e8d6);
+  background: linear-gradient(90deg, #ffb380, #ff9a66, #ff8a50);
   border-radius: 16px 16px 0 0;
 }
 
 .graph-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 35px rgba(120, 145, 168, 0.15);
-  border-color: #d4b8c7;
+  box-shadow: 0 12px 35px rgba(255, 138, 80, 0.15);
+  border-color: #ff8a50;
 }
 
 .graph-card h2 {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 15px;
-  color: #6b7c8e;
+  color: #666;
 }
 
 .graph-card canvas {
@@ -218,11 +218,11 @@ nav button.active {
 .recent-sales, .order-history {
   flex: 1;
   min-width: 500px;
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  background: white;
   padding: 25px;
-  border: 1px solid #e8e0dc;
+  border: 1px solid #f0f0f0;
   border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(120, 145, 168, 0.1);
+  box-shadow: 0 8px 25px rgba(255, 138, 80, 0.1);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -235,7 +235,7 @@ nav button.active {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #f0d6e0, #e8c4d4, #f0d6e0);
+  background: linear-gradient(90deg, #ff8a50, #ff7043, #ff8a50);
   border-radius: 16px 16px 0 0;
 }
 
@@ -246,14 +246,14 @@ nav button.active {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #edd6c4, #e8cbb8, #edd6c4);
+  background: linear-gradient(90deg, #ffb380, #ff9a66, #ffb380);
   border-radius: 16px 16px 0 0;
 }
 
 .recent-sales:hover, .order-history:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 35px rgba(120, 145, 168, 0.15);
-  border-color: #d4b8c7;
+  box-shadow: 0 12px 35px rgba(255, 138, 80, 0.15);
+  border-color: #ff8a50;
 }
 
 .recent-sales h2, .order-history h2 {
@@ -261,8 +261,8 @@ nav button.active {
   margin-bottom: 25px;
   font-size: 20px;
   font-weight: 600;
-  color: #6b7c8e;
-  border-bottom: 2px solid #e8e0dc;
+  color: #666;
+  border-bottom: 2px solid #f0f0f0;
   padding-bottom: 10px;
 }
 
@@ -270,7 +270,7 @@ nav button.active {
   max-height: 300px;
   overflow-y: auto;
   border-radius: 12px;
-  border: 1px solid #e8e0dc;
+  border: 1px solid #f0f0f0;
 }
 
 .table-container table {
@@ -281,18 +281,18 @@ nav button.active {
 .table-container th, .table-container td {
   padding: 15px 12px;
   text-align: center;
-  border-bottom: 1px solid #f0f4ff;
-  color: #7891a8;
+  border-bottom: 1px solid #f8f8f8;
+  color: #666;
 }
 
 .table-container th {
-  background: linear-gradient(135deg, #f9f7f5, #f4f0ec);
+  background: #f8f8f8;
   font-weight: 600;
-  color: #6b7c8e;
+  color: #333;
   position: sticky;
   top: 0;
   z-index: 1;
-  border-bottom: 2px solid #e8e0dc;
+  border-bottom: 2px solid #f0f0f0;
 }
 
 .table-container tbody tr {
@@ -300,15 +300,15 @@ nav button.active {
 }
 
 .table-container tbody tr:hover {
-  background: linear-gradient(135deg, #f2e7e3, #ede2dd);
+  background: #fff8f5;
   transform: scale(1.01);
 }
 
 .table-container tbody tr:nth-child(even) {
-  background: linear-gradient(135deg, #fafbff, #f9f7f5);
+  background: #fafafa;
 }
 
-/* ✅ Responsive Design */
+/* Responsive Design */
 @media (max-width: 768px) {
   .container {
     padding: 20px;
@@ -411,26 +411,26 @@ nav button.active {
   }
 }
 
-/* ✅ Smooth Scrollbar */
+/* Smooth Scrollbar */
 .table-container::-webkit-scrollbar {
   width: 8px;
 }
 
 .table-container::-webkit-scrollbar-track {
-  background: #f5f3f1;
+  background: #f5f5f5;
   border-radius: 10px;
 }
 
 .table-container::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #bcc8d6, #9bb0c4);
+  background: #ff8a50;
   border-radius: 10px;
 }
 
 .table-container::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  background: #ff7043;
 }
 
-/* ✅ Loading Animation for Cards */
+/* Loading Animation for Cards */
 .card.loading,
 .graph-card.loading {
   position: relative;
@@ -445,7 +445,7 @@ nav button.active {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(188, 200, 214, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 138, 80, 0.2), transparent);
   animation: shimmer 1.5s infinite;
 }
 
@@ -458,14 +458,14 @@ nav button.active {
   }
 }
 
-/* ✅ Enhanced Visual Effects */
+/* Enhanced Visual Effects */
 .card:hover::before,
 .graph-card:hover::before {
   height: 6px;
   transition: height 0.3s ease;
 }
 
-/* ✅ Subtle Pulse Animation */
+/* Subtle Pulse Animation */
 .card p {
   animation: subtlePulse 3s ease-in-out infinite;
 }
@@ -479,14 +479,14 @@ nav button.active {
   }
 }
 
-/* ✅ Focus States */
+/* Focus States */
 nav button:focus,
 .table-container:focus {
-  outline: 2px solid rgba(212, 184, 199, 0.5);
+  outline: 2px solid rgba(255, 138, 80, 0.5);
   outline-offset: 2px;
 }
 
-/* ✅ Glass Effect Enhancement */
+/* Glass Effect Enhancement */
 .card::after,
 .graph-card::after,
 .recent-sales::after,

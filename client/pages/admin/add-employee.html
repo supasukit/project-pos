@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เพิ่มพนักงาน</title>
+  <link rel="stylesheet" href="../../styles/reset.css">
+  <link rel="stylesheet" href="../../styles/variables.css">
+  <link rel="stylesheet" href="../../styles/pages/admin.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>เพิ่มพนักงาน</h1>
+      <button class="btn-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <form id="employee-form">
+      <div class="form-group">
+        <label for="username">ชื่อผู้ใช้ (Username) <span class="required">*</span></label>
+        <input type="text" id="username" name="username" required placeholder="ตัวอย่าง: emp001">
+        <small class="hint">ใช้สำหรับเข้าสู่ระบบ ควรเป็นภาษาอังกฤษและตัวเลข</small>
+      </div>
+
+      <div class="form-group">
+        <label for="password">รหัสผ่าน <span class="required">*</span></label>
+        <input type="password" id="password" name="password" required placeholder="อย่างน้อย 6 ตัวอักษร">
+        <small class="hint">รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร</small>
+      </div>
+
+      <div class="form-group">
+        <label for="confirm_password">ยืนยันรหัสผ่าน <span class="required">*</span></label>
+        <input type="password" id="confirm_password" name="confirm_password" required placeholder="พิมพ์รหัสผ่านอีกครั้ง">
+      </div>
+
+      <div class="form-group">
+        <label for="employee_name">ชื่อ-นามสกุล <span class="required">*</span></label>
+        <input type="text" id="employee_name" name="employee_name" required placeholder="ตัวอย่าง: สมชาย ใจดี">
+      </div>
+
+      <div class="form-group">
+        <label for="phone">เบอร์โทรศัพท์ <span class="required">*</span></label>
+        <input type="tel" id="phone" name="phone" required placeholder="ตัวอย่าง: 0812345678">
+      </div>
+
+      <div class="form-group">
+        <label for="address">ที่อยู่</label>
+        <textarea id="address" name="address" placeholder="ที่อยู่ปัจจุบัน"></textarea>
+      </div>
+
+      <div class="permissions-section">
+        <h3>สิทธิ์การใช้งาน</h3>
+        <div class="permission-info">
+          <p><strong>พนักงานจะมีสิทธิ์ดังนี้:</strong></p>
+          <ul>
+            <li>✅ เข้าใช้งานหน้าขายสินค้า (POS)</li>
+            <li>✅ ดูรายการสินค้า</li>
+            <li>✅ เพิ่มจำนวนสต็อกสินค้า</li>
+            <li>❌ ไม่สามารถแก้ไขข้อมูลสินค้า</li>
+            <li>❌ ไม่สามารถเข้าหน้า Dashboard</li>
+            <li>❌ ไม่สามารถเข้าหน้าข้อมูลลูกค้า</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="btn-submit">
+          <span class="btn-icon">➕</span>
+          เพิ่มพนักงาน
+        </button>
+        <button type="button" class="btn-cancel" onclick="closeModal()">
+          <span class="btn-icon">❌</span>
+          ยกเลิก
+        </button>
+      </div>
+    </form>
+
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <p>กำลังเพิ่มพนักงาน...</p>
+    </div>
+  </div>
+
+  <script src="../../js/admin.js"></script>
+</body>
+</html>

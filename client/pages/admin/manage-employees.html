@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>จัดการพนักงาน</title>
+  <link rel="stylesheet" href="../../styles/reset.css">
+  <link rel="stylesheet" href="../../styles/variables.css">
+  <link rel="stylesheet" href="../../styles/pages/manage-employees.css">
+</head>
+<body>
+  <header>
+    <h1 id="home-btn" style="cursor: pointer;" onclick="goHome()">POS</h1>
+    <nav>
+      <button id="dashboard-btn">DASHBOARD</button>
+      <button id="customers-btn">ข้อมูลลูกค้า</button>
+      <button id="products-btn">ข้อมูลสินค้า</button>
+      <button id="profile-btn">...</button>
+    </nav>
+  </header>
+
+  <div class="main-layout">
+    <aside class="sidebar">
+      <button id="back-btn" onclick="goToAdmin()">กลับหน้า Admin</button>
+      <button id="add-employee-btn" onclick="addNewEmployee()">เพิ่มพนักงานใหม่</button>
+      
+      <div class="stats-card">
+        <h3>สถิติพนักงาน</h3>
+        <div class="stat-item">
+          <span class="stat-label">พนักงานทั้งหมด:</span>
+          <span class="stat-value" id="total-employees">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">พนักงานที่ใช้งาน:</span>
+          <span class="stat-value active" id="active-employees">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">พนักงานที่ระงับ:</span>
+          <span class="stat-value inactive" id="inactive-employees">0</span>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content">
+      <h2>จัดการพนักงาน</h2>
+      
+      <div class="search-bar">
+        <input type="text" id="search-employee" placeholder="ค้นหาชื่อพนักงาน..." onkeyup="searchEmployees()">
+      </div>
+
+      <div id="employees-grid" class="employees-grid">
+        <!-- Employee cards จะถูกเพิ่มที่นี่โดย JavaScript -->
+      </div>
+
+      <!-- Loading State -->
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>กำลังโหลดข้อมูล...</p>
+      </div>
+
+      <!-- No Data State -->
+      <div id="no-data" class="no-data hidden">
+        <h3>ยังไม่มีพนักงาน</h3>
+        <p>เริ่มต้นเพิ่มพนักงานคนแรกของคุณ</p>
+        <button onclick="addNewEmployee()">เพิ่มพนักงาน</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Employee Detail Popup -->
+  <div id="employee-popup" class="popup hidden">
+    <div class="popup-content">
+      <span class="close" onclick="closeEmployeePopup()">&times;</span>
+      <div id="employee-detail">
+        <!-- รายละเอียดพนักงานจะแสดงที่นี่ -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Employee Popup -->
+  <div id="edit-popup" class="popup hidden">
+    <div class="popup-content">
+      <span class="close" onclick="closeEditPopup()">&times;</span>
+      <h3>แก้ไขข้อมูลพนักงาน</h3>
+      <form id="edit-employee-form">
+        <input type="hidden" id="edit-employee-id">
+        
+        <div class="form-group">
+          <label>ชื่อ-นามสกุล:</label>
+          <input type="text" id="edit-employee-name" required>
+        </div>
+        
+        <div class="form-group">
+          <label>เบอร์โทรศัพท์:</label>
+          <input type="tel" id="edit-employee-phone" required>
+        </div>
+        
+        <div class="form-group">
+          <label>ที่อยู่:</label>
+          <textarea id="edit-employee-address"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label>สถานะ:</label>
+          <select id="edit-employee-status">
+            <option value="active">ใช้งาน</option>
+            <option value="inactive">ระงับการใช้งาน</option>
+          </select>
+        </div>
+        
+        <div class="button-group">
+          <button type="submit" class="btn-save">บันทึก</button>
+          <button type="button" class="btn-cancel" onclick="closeEditPopup()">ยกเลิก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../../js/manage-employees.js"></script>
+</body>
+</html>

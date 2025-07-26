@@ -137,23 +137,22 @@ function manageStock(productId) {
 }
 
 // เติมสต็อกสินค้า (ทุก role ได้)
-function addStock(productId) {
-    if (!canManageStock()) {
-        showNoPermissionMessage('เติมสต็อกสินค้า')
-        return
-    }
-    
-    const quantity = prompt('📦 กรอกจำนวนที่ต้องการเติม:')
-    
-    if (quantity && !isNaN(quantity) && parseInt(quantity) > 0) {
-        console.log(`📦 Adding ${quantity} items to product ID: ${productId}`)
-        alert(`✅ เติมสต็อก ${quantity} ชิ้น สำเร็จ! (จำลอง)`)
-        
-        // TODO: เรียก API เติมสต็อก
-    } else {
-        alert('❌ กรุณากรอกจำนวนที่ถูกต้อง')
-    }
-}
+// function addStock(productId) {
+//     if (!canManageStock()) {
+//         showNoPermissionMessage('เติมสต็อกสินค้า')
+//         return
+//     }
+//     
+//     const quantity = prompt('📦 กรอกจำนวนที่ต้องการเติม:')
+//     
+//     if (quantity && !isNaN(quantity) && parseInt(quantity) > 0) {
+//         console.log(`📦 Adding ${quantity} items to product ID: ${productId}`)
+//         alert(`✅ เติมสต็อก ${quantity} ชิ้น สำเร็จ! (จำลอง)`)
+//         // TODO: เรียก API เติมสต็อก
+//     } else {
+//         alert('❌ กรุณากรอกจำนวนที่ถูกต้อง')
+//     }
+// }
 
 
 
@@ -415,24 +414,64 @@ function updateProfileButton() {
 // Products Loading Function (แก้ปัญหา error)
 // =========================================
 
-// โหลดรายการสินค้าจาก API
+// แก้ไขฟังก์ชัน getStoreUserId() เพื่อ debug และ handle กรณี user data ไม่ครบ
 
-// โหลดรายการสินค้าจาก API
+function getStoreUserId() {
+    const user = JSON.parse(localStorage.getItem('user') || '{}')
+    
+    console.log('🔍 getStoreUserId - User data:', user)
+    console.log('🔍 User role:', user.role)
+    console.log('🔍 User _id:', user._id)
+    console.log('🔍 User parent_user_id:', user.parent_user_id)
+    
+    let userId = null
+    
+    if (user.role === 'employee') {
+        userId = user.parent_user_id
+        console.log('👥 Employee detected, using parent_user_id:', userId)
+        
+        // ถ้าไม่มี parent_user_id
+        if (!userId) {
+            console.warn('⚠️ Employee missing parent_user_id!')
+            console.warn('⚠️ This employee account may have data corruption')
+            console.warn('⚠️ Please contact admin to fix employee data')
+            
+            // แสดง error message ที่ชัดเจน
+            throw new Error(`Employee account ไม่มี parent_user_id กรุณาติดต่อผู้ดูแลระบบ\nEmployee: ${user.username} (ID: ${user._id})`)
+        }
+    } else {
+        userId = user._id || user.id
+        console.log('👤 Owner detected, using user id:', userId)
+    }
+    
+    if (!userId) {
+        console.error('❌ No user ID found. Full user object:', user)
+        throw new Error('ไม่พบข้อมูล user ID - กรุณาเข้าสู่ระบบใหม่')
+    }
+    
+    console.log('✅ Final userId to use:', userId)
+    return userId
+}
+
+// ปรับปรุงฟังก์ชัน loadProducts
 async function loadProducts() {
     try {
         console.log('🔄 Loading products from API...')
         
-        // ดึง user ID จาก localStorage
-        const user = JSON.parse(localStorage.getItem('user') || '{}')
-        const userId = user._id || user.id  // ใช้ user ID แทน username
+        // ⭐ เรียก debug และ fix ก่อน
+        await debugAndFixEmployeeData()
         
-        if (!userId) {
-            throw new Error('ไม่พบข้อมูล user ID')
-        }
+        // ตรวจสอบ user ID
+        const userId = getStoreUserId()
         
-        // เรียก API พร้อม user ID
         const token = localStorage.getItem('token')
-        const response = await fetch(`/api/products?userId=${userId}`, {  // ← เปลี่ยนเป็น userId
+        if (!token) {
+            throw new Error('ไม่พบ token - กรุณาเข้าสู่ระบบใหม่')
+        }
+
+        console.log('📤 Calling API with userId:', userId)
+        
+        const response = await fetch(`/api/products?userId=${userId}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -440,7 +479,16 @@ async function loadProducts() {
             }
         })
         
+        console.log('📥 API Response status:', response.status)
+        
         if (!response.ok) {
+            if (response.status === 401) {
+                localStorage.removeItem('token')
+                localStorage.removeItem('user')
+                alert('Session หมดอายุ กรุณาเข้าสู่ระบบใหม่')
+                window.location.href = '/login.html'
+                return
+            }
             throw new Error(`HTTP error! status: ${response.status}`)
         }
         
@@ -450,7 +498,9 @@ async function loadProducts() {
         if (result.success && result.data) {
             allProducts = result.data
             displayProducts(result.data)
+            console.log(`✅ Successfully loaded ${result.data.length} products`)
         } else {
+            console.warn('⚠️ No products found or API returned error')
             displayProducts([])
         }
         
@@ -459,14 +509,41 @@ async function loadProducts() {
         
         const productsContainer = document.getElementById('products-container')
         if (productsContainer) {
+            let errorMessage = error.message
+            let actionButton = ''
+            
+            // ถ้าเป็นปัญหา employee data corruption
+            if (error.message.includes('parent_user_id')) {
+                actionButton = `
+                    <div style="margin-top: 15px;">
+                        <button onclick="showEmployeeFixInstructions()" style="margin: 5px; padding: 10px 20px; background: #ffc107; color: #212529; border: none; border-radius: 4px; cursor: pointer;">
+                            🔧 คำแนะนำการแก้ไข
+                        </button>
+                        <button onclick="window.location.href='/login.html'" style="margin: 5px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                            🔑 เข้าสู่ระบบใหม่
+                        </button>
+                    </div>
+                `
+            } else if (error.message.includes('user ID') || error.message.includes('token')) {
+                actionButton = `
+                    <button onclick="window.location.href='/login.html'" style="margin-top: 10px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        🔑 เข้าสู่ระบบใหม่
+                    </button>
+                `
+            }
+            
             productsContainer.innerHTML = `
-                <div style="padding: 20px; color: red;">
-                    ❌ ไม่สามารถโหลดสินค้าได้: ${error.message}
+                <div style="grid-column: 1 / -1; padding: 20px; text-align: center; color: red; background: #f8f9fa; border: 2px solid #dc3545; border-radius: 8px;">
+                    <h3>❌ ไม่สามารถโหลดสินค้าได้</h3>
+                    <p style="margin: 10px 0; line-height: 1.5;">${errorMessage}</p>
+                    ${actionButton}
                 </div>
             `
         }
     }
 }
+
+
 
 
 
@@ -538,7 +615,8 @@ function displayProductPopup(product) {
     }
     
     const imageUrl = product.image_base64 || '/images/no-image.png'
-    const canEdit = canEditDeleteProducts()
+    const canEdit = canEditDeleteProducts() // เฉพาะ user
+    const canStock = canManageStock() // ทั้ง user และ employee
     
     popupInfo.innerHTML = `
         <img src="${imageUrl}" alt="${product.name}" style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 15px;">
@@ -553,9 +631,11 @@ function displayProductPopup(product) {
         ${product.description ? `<p><strong>รายละเอียด:</strong> ${product.description}</p>` : ''}
         
         <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
-            <button onclick="addStock('${product._id}')" style="background: #007bff; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">
-                📦 เติมสต็อก
-            </button>
+            ${canStock ? `
+                <button onclick="addStock('${product._id}')" style="background: #007bff; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">
+                    📦 เติมสต็อก
+                </button>
+            ` : ''}
             ${canEdit ? `
                 <button onclick="editProduct('${product._id}')" style="background: #28a745; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">
                     ✏️ แก้ไข
@@ -568,6 +648,63 @@ function displayProductPopup(product) {
     `
     
     popup.classList.remove('hidden')
+}
+
+// อัพเดท addStock ให้ทำงานจริง
+async function addStock(productId) {
+    if (!canManageStock()) {
+        showNoPermissionMessage('เติมสต็อกสินค้า')
+        return
+    }
+    
+    const product = allProducts.find(p => p._id === productId)
+    if (!product) {
+        alert('❌ ไม่พบข้อมูลสินค้า')
+        return
+    }
+    
+    const quantity = prompt(`📦 เติมสต็อกสินค้า: ${product.name}\nสต็อกปัจจุบัน: ${product.stock} ชิ้น\n\nกรอกจำนวนที่ต้องการเติม:`)
+    
+    if (quantity && !isNaN(quantity) && parseInt(quantity) > 0) {
+        try {
+            const token = localStorage.getItem('token')
+            const newStock = product.stock + parseInt(quantity)
+            
+            const response = await fetch(`/api/products/${productId}/stock`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ stock: newStock })
+            })
+            
+            const result = await response.json()
+            
+            if (result.success) {
+                alert(`✅ เติมสต็อกสำเร็จ!\n\nสินค้า: ${product.name}\nเพิ่ม: ${quantity} ชิ้น\nสต็อกใหม่: ${newStock} ชิ้น`)
+                
+                // ปิด popup
+                closePopup()
+                
+                // โหลดข้อมูลใหม่
+                loadProducts()
+            } else {
+                alert('❌ เกิดข้อผิดพลาด: ' + result.message)
+            }
+            
+        } catch (error) {
+            console.error('❌ Error updating stock:', error)
+            alert('❌ เกิดข้อผิดพลาดในการเติมสต็อก')
+        }
+    } else if (quantity !== null) {
+        alert('❌ กรุณากรอกจำนวนที่ถูกต้อง')
+    }
+}
+
+// เพิ่มฟังก์ชันแสดงข้อความไม่มีสิทธิ์
+function showNoPermissionMessage(action) {
+    alert(`❌ คุณไม่มีสิทธิ์${action}\n\nสิทธิ์นี้สำหรับเจ้าของร้านเท่านั้น`)
 }
 
 // ปิด popup รายละเอียดสินค้า
@@ -587,18 +724,31 @@ async function loadCategories() {
     try {
         console.log('🔄 Loading categories from API...')
         
-        // ดึง user ID
-        const user = JSON.parse(localStorage.getItem('user') || '{}')
-        const userId = user._id || user.id
+        const userId = getStoreUserId()
+        if (!userId) {
+            console.warn('⚠️ No user ID for categories, skipping...')
+            displayCategories([])
+            return
+        }
         
         const token = localStorage.getItem('token')
-        const response = await fetch(`/api/products/categories?userId=${userId}`, {  // ← เพิ่ม userId
+        if (!token) {
+            console.warn('⚠️ No token for categories, skipping...')
+            displayCategories([])
+            return
+        }
+        
+        console.log('📤 Calling categories API with userId:', userId)
+        
+        const response = await fetch(`/api/products/categories?userId=${userId}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             }
         })
+        
+        console.log('📥 Categories API Response status:', response.status)
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`)
@@ -609,7 +759,9 @@ async function loadCategories() {
         
         if (result.success && result.data) {
             displayCategories(result.data)
+            console.log(`✅ Successfully loaded ${result.data.length} categories`)
         } else {
+            console.warn('⚠️ No categories found')
             displayCategories([])
         }
         
@@ -618,6 +770,8 @@ async function loadCategories() {
         displayCategories([])
     }
 }
+
+
 
 // แสดงหมวดหมู่ใน sidebar
 function displayCategories(categories) {
@@ -670,7 +824,107 @@ function filterByCategory(category) {
         displayProducts(filteredProducts)
     }
 }
-
+// เพิ่มฟังก์ชัน debug สำหรับตรวจสอบข้อมูลใน localStorage
+function debugUserData() {
+    console.log('🔍 ===========================================')
+    console.log('🔍 DEBUG USER DATA IN LOCALSTORAGE')
+    console.log('🔍 ===========================================')
+    
+    const token = localStorage.getItem('token')
+    const userStr = localStorage.getItem('user')
+    
+    console.log('🔍 Token exists:', !!token)
+    console.log('🔍 Token preview:', token ? token.substring(0, 50) + '...' : 'null')
+    
+    console.log('🔍 User string from localStorage:', userStr)
+    
+    if (userStr) {
+        try {
+            const user = JSON.parse(userStr)
+            console.log('🔍 Parsed user object:', user)
+            console.log('🔍 User keys:', Object.keys(user))
+            
+            // แสดง properties ที่สำคัญ
+            console.log('🔍 user._id:', user._id)
+            console.log('🔍 user.id:', user.id)
+            console.log('🔍 user.username:', user.username)
+            console.log('🔍 user.role:', user.role)
+            console.log('🔍 user.parent_user_id:', user.parent_user_id)
+            
+        } catch (e) {
+            console.error('🔍 Error parsing user JSON:', e)
+        }
+    }
+    
+    console.log('🔍 ===========================================')
+}
+async function debugAndFixEmployeeData() {
+    const user = JSON.parse(localStorage.getItem('user') || '{}')
+    const token = localStorage.getItem('token')
+    
+    console.log('🔍 ===========================================')
+    console.log('🔍 DEBUGGING EMPLOYEE DATA')
+    console.log('🔍 ===========================================')
+    console.log('🔍 User from localStorage:', user)
+    
+    if (user.role !== 'employee') {
+        console.log('👤 User is not employee, skipping fix')
+        return user
+    }
+    
+    if (user.parent_user_id) {
+        console.log('✅ Employee already has parent_user_id:', user.parent_user_id)
+        return user
+    }
+    
+    console.log('⚠️ Employee missing parent_user_id, attempting to fix...')
+    
+    try {
+        // ลองดึงข้อมูลจาก API profile
+        const response = await fetch('/api/auth/profile', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        
+        if (response.ok) {
+            const result = await response.json()
+            console.log('📥 Profile API response:', result)
+            
+            if (result.success && result.data) {
+                const profileData = result.data
+                
+                // ถ้าใน profile มี parent_user_id
+                if (profileData.parent_user_id) {
+                    console.log('✅ Found parent_user_id in profile:', profileData.parent_user_id)
+                    
+                    // อัพเดท localStorage
+                    user.parent_user_id = profileData.parent_user_id
+                    localStorage.setItem('user', JSON.stringify(user))
+                    
+                    console.log('✅ Updated localStorage with parent_user_id')
+                    return user
+                }
+                
+                // ถ้าไม่มี parent_user_id ใน profile ด้วย
+                console.error('❌ Profile API also missing parent_user_id')
+                console.log('🔍 Full profile data:', profileData)
+            }
+        } else {
+            console.error('❌ Profile API failed:', response.status)
+        }
+        
+        // ถ้าทุกวิธีล้มเหลว ให้ใช้ ID ของตัวเองชั่วคราว
+        console.warn('⚠️ Using employee own ID as fallback')
+        return user
+        
+    } catch (error) {
+        console.error('❌ Error in debugAndFixEmployeeData:', error)
+        return user
+    }
+}
 
 // =========================================
 // Event Listeners
@@ -678,22 +932,32 @@ function filterByCategory(category) {
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Products page loaded')
-    
-   
-    
+
     // ตรวจสอบการ login
     checkAuth()
-    
+
+    // ====== เพิ่ม logic นี้เพื่อซ่อนปุ่มสำหรับ employee =====
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (user.role === 'employee') {
+        const hideBtn = id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        };
+        hideBtn('dashboard-btn');
+        hideBtn('customers-btn');
+        // ปุ่มอื่น ๆ ที่ไม่อยากให้ employee เห็น เช่น เพิ่มพนักงาน ฯลฯ (แต่ใน products อาจไม่มี)
+    }
+    // ====== จบส่วนที่เพิ่ม =====
+
     // ตรวจสอบสิทธิ์และปรับ UI
     initPermissions()
-    
+
     // อัพเดทปุ่ม profile
     updateProfileButton()
-    
+
     // โหลดสินค้า
     loadProducts()
-    
-    loadCategories()  // ← เพิ่มบรรทัดนี้
+    loadCategories()
 
     // Navigation buttons
     document.getElementById('home-btn')?.addEventListener('click', goHome)
@@ -701,13 +965,13 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('customers-btn')?.addEventListener('click', goToCustomers)
     document.getElementById('products-btn')?.addEventListener('click', goToProducts)
     document.getElementById('profile-btn')?.addEventListener('click', goToAdmin)
-    
+
     // Add product button
     document.getElementById('add-product-btn')?.addEventListener('click', function() {
         console.log('🖱️ Add product button clicked')
         openAddProductPopup()
     })
-    
+
     // Close popup when clicking outside
     window.addEventListener('click', function(event) {
         const popup = document.getElementById('add-product-popup')
@@ -715,7 +979,8 @@ document.addEventListener('DOMContentLoaded', function() {
             closeAddProductPopup()
         }
     })
-    
+
     console.log('✅ Products page initialized with API integration')
 })
+
 

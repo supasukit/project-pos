@@ -6,13 +6,13 @@ let mainWindow
 let serverProcess
 
 // เริ่ม Express Server
-function startServer() {
+function startServer () {
   return new Promise((resolve, reject) => {
     const serverPath = path.join(__dirname, 'server', 'server.js')
     const port = process.env.PORT || 3000
-    
+
     console.log('🚀 Starting Express server...')
-    
+
     serverProcess = spawn('node', [serverPath], {
       cwd: __dirname,
       env: { ...process.env, PORT: port }
@@ -21,7 +21,7 @@ function startServer() {
     serverProcess.stdout.on('data', (data) => {
       console.log(`Server: ${data}`)
       // ตรวจสอบว่า server เริ่มแล้ว
-      if (data.toString().includes('Server running') || 
+      if (data.toString().includes('Server running') ||
           data.toString().includes('listening') ||
           data.toString().includes(port)) {
         resolve(port)
@@ -45,7 +45,7 @@ function startServer() {
 }
 
 // หยุด Express Server
-function stopServer() {
+function stopServer () {
   if (serverProcess) {
     serverProcess.kill()
     serverProcess = null
@@ -54,11 +54,11 @@ function stopServer() {
 }
 
 // สร้างหน้าต่างหลัก
-async function createWindow() {
+async function createWindow () {
   try {
     // เริ่ม server ก่อน
     const port = await startServer()
-    
+
     mainWindow = new BrowserWindow({
       width: 1200,
       height: 800,
@@ -73,19 +73,18 @@ async function createWindow() {
     // โหลดจาก server
     const serverUrl = `http://localhost:${port}`
     console.log(`📱 Loading app from: ${serverUrl}`)
-    
+
     await mainWindow.loadURL(serverUrl)
-    
+
     // แสดงหน้าต่างเมื่อโหลดเสร็จ
     mainWindow.show()
 
     mainWindow.on('closed', () => {
       mainWindow = null
     })
-
   } catch (error) {
     console.error('Error starting app:', error)
-    
+
     // ถ้า server ไม่ได้ ให้โหลดไฟล์โดยตรง
     mainWindow = new BrowserWindow({
       width: 1200,
@@ -96,7 +95,7 @@ async function createWindow() {
         preload: path.join(__dirname, 'preload.js')
       }
     })
-    
+
     // Fallback: โหลดไฟล์ local
     mainWindow.loadFile(path.join(__dirname, 'client', 'login.html'))
     mainWindow.show()

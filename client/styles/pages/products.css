@@ -1,9 +1,9 @@
-/* ✅ โทนสีเมฆฟ้าอ่อนนุ่ม - Products Page */
+/* Modern Orange Products Management - Clean White Background */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #f5f3f1 0%, #f2e7e3 25%, #7891a8 50%, #9bb0c4 75%, #bcc8d6 100%);
+  background: #ffffff;
   min-height: 100vh;
   font-smooth: always;
   -webkit-font-smoothing: antialiased;
@@ -11,7 +11,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* ✅ Dreamy Cloud Effect */
+/* Simple subtle pattern */
 body::before {
   content: '';
   position: fixed;
@@ -20,58 +20,58 @@ body::before {
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(242, 231, 227, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(188, 200, 214, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(245, 243, 241, 0.2) 0%, transparent 50%);
+    radial-gradient(circle at 20% 80%, rgba(255, 138, 80, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 138, 80, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(255, 138, 80, 0.02) 0%, transparent 50%);
   pointer-events: none;
   z-index: -1;
 }
 
 header {
-  background: linear-gradient(135deg, #ffffff, #f9f7f5);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
   padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #e8e0dc;
-  box-shadow: 0 2px 12px rgba(120, 145, 168, 0.08);
+  border-bottom: 2px solid #ff8a50;
+  box-shadow: 0 2px 12px rgba(255, 138, 80, 0.15);
 }
 
 header h1 {
-  color: #6b7c8e;
+  color: white;
   margin: 0;
   font-size: 28px;
   font-weight: 600;
-  text-shadow: 1px 1px 3px rgba(107, 124, 142, 0.1);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 
 nav button {
-  background: linear-gradient(135deg, #e8e0dc, #ddd3ce);
-  border: 1px solid #c7b8b0;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 12px 24px;
   border-radius: 25px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  color: #7891a8;
+  color: white;
   margin-left: 10px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(120, 145, 168, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 nav button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(120, 145, 168, 0.18);
-  background: linear-gradient(135deg, #ddd3ce, #d1c4be);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 nav button.active {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.9);
+  color: #ff8a50;
   font-weight: 600;
-  border: 1px solid #6b85a1;
-  box-shadow: 0 3px 10px rgba(120, 145, 168, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 main {
@@ -82,14 +82,14 @@ main {
 
 .sidebar {
   width: 220px;
-  background: linear-gradient(180deg, #f9f7f5, #f4f0ec);
+  background: white;
   padding: 20px;
-  border-right: 2px solid #e8e0dc;
+  border-right: 2px solid #f0f0f0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  box-shadow: 2px 0 8px rgba(120, 145, 168, 0.06);
+  box-shadow: 2px 0 8px rgba(255, 138, 80, 0.06);
 }
 
 .sidebar .user {
@@ -97,27 +97,27 @@ main {
   padding: 12px 16px;
   box-sizing: border-box;
   text-align: center;
-  border: 1px solid #e8e0dc;
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  border: 1px solid #f0f0f0;
+  background: white;
   cursor: pointer;
   border-radius: 12px;
   font-weight: 500;
-  color: #7891a8;
+  color: #666;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(120, 145, 168, 0.08);
+  box-shadow: 0 2px 6px rgba(255, 138, 80, 0.08);
 }
 
 .sidebar .user:hover {
-  background: linear-gradient(135deg, #f2e7e3, #ede2dd);
+  background: #fff8f5;
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(120, 145, 168, 0.15);
-  border-color: #d1c4be;
+  box-shadow: 0 4px 10px rgba(255, 138, 80, 0.15);
+  border-color: #ff8a50;
 }
 
 #search-bar {
-  background: #f9f7f5;
-  border: 1px solid #e8e0dc;
-  color: #7891a8;
+  background: #fafafa;
+  border: 1px solid #f0f0f0;
+  color: #666;
   font-size: 14px;
   padding: 12px 16px;
   border-radius: 12px;
@@ -127,13 +127,13 @@ main {
 }
 
 #search-bar::placeholder {
-  color: #bcc8d6;
+  color: #ccc;
 }
 
 #search-bar:focus {
   outline: none;
-  border-color: #d4b8c7;
-  box-shadow: 0 0 0 3px rgba(212, 184, 199, 0.2);
+  border-color: #ff8a50;
+  box-shadow: 0 0 0 3px rgba(255, 138, 80, 0.2);
   background: #ffffff;
 }
 
@@ -160,11 +160,11 @@ main {
   min-width: 180px;
   max-width: 220px;
   padding: 16px;
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
-  border: 1px solid #e8e0dc;
+  background: white;
+  border: 1px solid #f0f0f0;
   border-radius: 16px;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(120, 145, 168, 0.1);
+  box-shadow: 0 4px 15px rgba(255, 138, 80, 0.1);
   font-size: 14px;
   cursor: pointer;
   transition: all 0.4s ease;
@@ -172,51 +172,51 @@ main {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  color: #7891a8;
+  color: #666;
 }
 
 .product-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 8px 25px rgba(120, 145, 168, 0.15);
-  border-color: #d4b8c7;
-  background: linear-gradient(135deg, #faf8f6, #f5f3f1);
+  box-shadow: 0 8px 25px rgba(255, 138, 80, 0.15);
+  border-color: #ff8a50;
+  background: #fff8f5;
 }
 
 .product-card img {
   width: 100%;
   height: 130px;
   object-fit: cover;
-  background-color: #f9f7f5;
-  border: 1px solid #e8e0dc;
+  background-color: #fafafa;
+  border: 1px solid #f0f0f0;
   margin-bottom: 12px;
   border-radius: 12px;
   transition: all 0.3s ease;
 }
 
 .product-card:hover img {
-  border-color: #d1c4be;
-  box-shadow: 0 3px 10px rgba(120, 145, 168, 0.1);
+  border-color: #ff8a50;
+  box-shadow: 0 3px 10px rgba(255, 138, 80, 0.1);
 }
 
 .customer-card {
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  background: white;
   padding: 20px;
   border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(120, 145, 168, 0.1);
-  border: 1px solid #e8e0dc;
+  box-shadow: 0 4px 15px rgba(255, 138, 80, 0.1);
+  border: 1px solid #f0f0f0;
   min-height: 240px;
   display: flex;
   flex-direction: column;
   justify-content: start;
-  color: #7891a8;
+  color: #666;
   transition: all 0.4s ease;
   cursor: pointer;
 }
 
 .customer-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(120, 145, 168, 0.15);
-  border-color: #d4b8c7;
+  box-shadow: 0 8px 20px rgba(255, 138, 80, 0.15);
+  border-color: #ff8a50;
 }
 
 .category-list {
@@ -229,31 +229,31 @@ main {
 .category-btn {
   padding: 10px 12px;
   width: 100%;
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
-  border: 1px solid #e8e0dc;
+  background: white;
+  border: 1px solid #f0f0f0;
   border-radius: 12px;
   cursor: pointer;
   text-align: left;
   transition: all 0.3s ease;
-  color: #7891a8;
+  color: #666;
   font-weight: 500;
   font-size: 14px;
-  box-shadow: 0 2px 6px rgba(120, 145, 168, 0.06);
+  box-shadow: 0 2px 6px rgba(255, 138, 80, 0.06);
 }
 
 .category-btn:hover {
-  background: linear-gradient(135deg, #f2e7e3, #ede2dd);
-  border-color: #d1c4be;
+  background: #fff8f5;
+  border-color: #ff8a50;
   transform: translateX(3px);
-  box-shadow: 0 3px 8px rgba(120, 145, 168, 0.1);
+  box-shadow: 0 3px 8px rgba(255, 138, 80, 0.1);
 }
 
 .category-btn.active {
-  background: linear-gradient(135deg, #bcc8d6, #9bb0c4);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
   color: #ffffff;
   font-weight: 600;
-  border-color: #7891a8;
-  box-shadow: 0 3px 8px rgba(120, 145, 168, 0.2);
+  border-color: #ff7043;
+  box-shadow: 0 3px 8px rgba(255, 138, 80, 0.2);
 }
 
 .popup {
@@ -262,22 +262,22 @@ main {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(120, 145, 168, 0.25);
+  background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
   z-index: 1000;
 }
 
 .popup-content {
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  background: white;
   margin: 80px auto;
   padding: 30px;
   width: 90%;
   max-width: 400px;
   border-radius: 20px;
   position: relative;
-  border: 1px solid #e8e0dc;
-  box-shadow: 0 15px 40px rgba(120, 145, 168, 0.12);
-  color: #7891a8;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 15px 40px rgba(255, 138, 80, 0.12);
+  color: #666;
 }
 
 .popup-content img {
@@ -288,13 +288,13 @@ main {
   display: block;
   margin: 0 auto 15px auto;
   border-radius: 12px;
-  border: 1px solid #e8e0dc;
+  border: 1px solid #f0f0f0;
 }
 
 .popup-content button {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
   color: #ffffff;
-  border: 1px solid #6b85a1;
+  border: 1px solid #ff7043;
   padding: 12px 24px;
   border-radius: 12px;
   cursor: pointer;
@@ -306,9 +306,9 @@ main {
 }
 
 .popup-content button:hover {
-  background: linear-gradient(135deg, #7891a8, #6b85a1);
+  background: linear-gradient(135deg, #ff7043, #ff5722);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(120, 145, 168, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 138, 80, 0.2);
 }
 
 .hidden {
@@ -321,24 +321,24 @@ main {
   right: 20px;
   font-size: 28px;
   cursor: pointer;
-  color: #bcc8d6;
+  color: #ccc;
   font-weight: normal;
   transition: all 0.3s ease;
 }
 
 .close:hover {
-  color: #e6a3b5;
+  color: #ff8a50;
   transform: scale(1.1);
 }
 
-/* ✅ Loading Animation */
+/* Loading Animation */
 .loading {
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 3px solid #e8e0dc;
+  border: 3px solid #f0f0f0;
   border-radius: 50%;
-  border-top-color: #9bb0c4;
+  border-top-color: #ff8a50;
   animation: spin 1s ease-in-out infinite;
 }
 
@@ -346,7 +346,7 @@ main {
   to { transform: rotate(360deg); }
 }
 
-/* ✅ Glass Effect สำหรับ Product Card */
+/* Glass Effect สำหรับ Product Card */
 .product-card::before {
   content: '';
   position: absolute;
@@ -365,59 +365,59 @@ main {
   opacity: 1;
 }
 
-/* ✅ Subtle Shadow Effects */
+/* Subtle Shadow Effects */
 .sidebar,
 .product-card,
 .customer-card,
 .popup-content {
   box-shadow: 
-    0 1px 3px rgba(120, 145, 168, 0.12),
-    0 1px 2px rgba(120, 145, 168, 0.24);
+    0 1px 3px rgba(255, 138, 80, 0.12),
+    0 1px 2px rgba(255, 138, 80, 0.24);
 }
 
 .sidebar:hover,
 .product-card:hover,
 .customer-card:hover {
   box-shadow: 
-    0 14px 28px rgba(120, 145, 168, 0.25),
-    0 10px 10px rgba(120, 145, 168, 0.22);
+    0 14px 28px rgba(255, 138, 80, 0.25),
+    0 10px 10px rgba(255, 138, 80, 0.22);
 }
 
-/* ✅ Smooth Scrollbar */
+/* Smooth Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f5f3f1;
+  background: #f5f5f5;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #bcc8d6, #9bb0c4);
+  background: #ff8a50;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  background: #ff7043;
 }
 
-/* ✅ Focus States */
+/* Focus States */
 #search-bar:focus {
   transform: translateY(-1px);
   box-shadow: 
-    0 0 0 3px rgba(212, 184, 199, 0.2),
-    0 4px 12px rgba(120, 145, 168, 0.15);
+    0 0 0 3px rgba(255, 138, 80, 0.2),
+    0 4px 12px rgba(255, 138, 80, 0.15);
 }
 
-/* ✅ Button Active States */
+/* Button Active States */
 nav button:active,
 .category-btn:active,
 .popup-content button:active {
   transform: translateY(1px);
 }
 
-/* ✅ Hover Effects */
+/* Hover Effects */
 .product-card,
 .customer-card,
 .category-btn,
@@ -426,49 +426,49 @@ nav button,
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ✅ Product Card Text Styling */
+/* Product Card Text Styling */
 .product-card h3 {
-  color: #6b7c8e;
+  color: #333;
   margin: 8px 0 4px 0;
   font-size: 16px;
   font-weight: 600;
 }
 
 .product-card p {
-  color: #7891a8;
+  color: #666;
   margin: 4px 0;
   font-size: 14px;
   font-weight: 400;
 }
 
 .product-card .price {
-  color: #b8658a;
+  color: #ff8a50;
   font-weight: 600;
   font-size: 16px;
   margin-top: 8px;
 }
 
-/* ✅ Customer Card Styling */
+/* Customer Card Styling */
 .customer-card h3 {
-  color: #6b7c8e;
+  color: #333;
   margin: 0 0 12px 0;
   font-size: 18px;
   font-weight: 600;
 }
 
 .customer-card p {
-  color: #7891a8;
+  color: #666;
   margin: 6px 0;
   font-size: 14px;
   line-height: 1.4;
 }
 
 .customer-card strong {
-  color: #6b7c8e;
+  color: #333;
   font-weight: 600;
 }
 
-/* ✅ Add Product Popup */
+/* Add Product Popup */
 #add-product-popup {
   position: fixed;
   top: 0;
@@ -476,7 +476,7 @@ nav button,
   right: 0;
   bottom: 0;
   z-index: 1000;
-  background-color: rgba(0,0,0,0.3) !important;
+  background-color: rgba(0,0,0,0.5) !important;
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -485,7 +485,7 @@ nav button,
 }
 
 #add-product-popup .popup-content {
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
+  background: white;
   max-width: 500px;
   width: 100%;
   min-height: auto;
@@ -493,15 +493,15 @@ nav button,
   overflow-y: auto;
   padding: 30px;
   border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(120, 145, 168, 0.15);
-  border: 1px solid #e8e0dc;
-  color: #7891a8;
+  box-shadow: 0 20px 60px rgba(255, 138, 80, 0.15);
+  border: 1px solid #f0f0f0;
+  color: #666;
   position: relative;
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
-/* ✅ Form styling inside popup */
+/* Form styling inside popup */
 #add-product-popup form {
   display: flex;
   flex-direction: column;
@@ -519,7 +519,7 @@ nav button,
 
 #add-product-popup label {
   font-weight: 600;
-  color: #6b7c8e;
+  color: #333;
   font-size: 14px;
   margin-bottom: 4px;
   display: flex;
@@ -531,11 +531,11 @@ nav button,
 #add-product-popup input[type="number"],
 #add-product-popup input[type="file"] {
   padding: 12px 16px;
-  border: 2px solid #e8e0dc;
+  border: 2px solid #f0f0f0;
   border-radius: 12px;
   font-size: 16px;
-  background: #faf8f6;
-  color: #7891a8;
+  background: #fafafa;
+  color: #666;
   transition: all 0.3s ease;
   width: 100%;
   box-sizing: border-box;
@@ -543,14 +543,14 @@ nav button,
 
 #add-product-popup input:focus {
   outline: none;
-  border-color: #9bb0c4;
-  box-shadow: 0 0 0 3px rgba(155, 176, 196, 0.2);
+  border-color: #ff8a50;
+  box-shadow: 0 0 0 3px rgba(255, 138, 80, 0.2);
   background: #ffffff;
 }
 
-/* ✅ Submit button styling */
+/* Submit button styling */
 #add-product-popup button[type="submit"] {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
   color: #ffffff;
   border: none;
   padding: 14px 24px;
@@ -563,16 +563,16 @@ nav button,
 }
 
 #add-product-popup button[type="submit"]:hover {
-  background: linear-gradient(135deg, #7891a8, #6b85a1);
+  background: linear-gradient(135deg, #ff7043, #ff5722);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(120, 145, 168, 0.25);
+  box-shadow: 0 6px 20px rgba(255, 138, 80, 0.25);
 }
 
 #add-product-popup button[type="submit"]:active {
   transform: translateY(0);
 }
 
-/* ✅ Close button for popup */
+/* Close button for popup */
 #add-product-popup .close {
   position: absolute;
   top: 15px;
@@ -586,22 +586,20 @@ nav button,
 }
 
 #add-product-popup .close:hover {
-  color: #666;
+  color: #ff8a50;
   transform: scale(1.1);
 }
 
-/* ========================================
-   ✅ CSS สำหรับ Category Input Field
-   ======================================== */
+/* CSS สำหรับ Category Input Field */
 
 /* Input สำหรับหมวดหมู่ */
 #category {
   padding: 12px 16px;
-  border: 2px solid #e8e0dc;
+  border: 2px solid #f0f0f0;
   border-radius: 12px;
   font-size: 16px;
-  background: #faf8f6;
-  color: #7891a8;
+  background: #fafafa;
+  color: #666;
   transition: all 0.3s ease;
   width: 100%;
   box-sizing: border-box;
@@ -611,20 +609,20 @@ nav button,
 
 #category:focus {
   outline: none;
-  border-color: #9bb0c4;
-  box-shadow: 0 0 0 3px rgba(155, 176, 196, 0.2);
+  border-color: #ff8a50;
+  box-shadow: 0 0 0 3px rgba(255, 138, 80, 0.2);
   background: #ffffff;
   z-index: 101;
   transform: translateY(-1px);
 }
 
 #category::placeholder {
-  color: #bcc8d6;
+  color: #ccc;
   font-style: italic;
 }
 
 #category:hover {
-  border-color: #d1c4be;
+  border-color: #ff8a50;
   background: #ffffff;
 }
 
@@ -643,26 +641,26 @@ nav button,
 
 #category.category-selected {
   border-color: #28a745;
-  background: linear-gradient(135deg, #f8fff9, #ffffff);
+  background: linear-gradient(135deg, #f0f8f0, #ffffff);
   box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
 }
 
 /* Styling สำหรับ datalist autocomplete */
 #category-suggestions {
   background: #ffffff;
-  border: 1px solid #e8e0dc;
+  border: 1px solid #f0f0f0;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(120, 145, 168, 0.15);
+  box-shadow: 0 4px 12px rgba(255, 138, 80, 0.15);
   max-height: 200px;
   overflow-y: auto;
 }
 
-/* ✅ CSS สำหรับ .existing-categories */
+/* CSS สำหรับ .existing-categories */
 .existing-categories {
   margin-top: 16px;
   padding: 16px;
-  background: linear-gradient(135deg, #f9f7f5, #f4f0ec);
-  border: 1px solid #e8e0dc;
+  background: #fafafa;
+  border: 1px solid #f0f0f0;
   border-radius: 12px;
   max-height: 250px;
   overflow-y: auto;
@@ -674,7 +672,7 @@ nav button,
   align-items: center;
   margin-bottom: 12px;
   font-weight: 600;
-  color: #6b7c8e;
+  color: #333;
   font-size: 14px;
 }
 
@@ -688,20 +686,20 @@ nav button,
   content: '';
   width: 3px;
   height: 16px;
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
   border-radius: 2px;
   margin-right: 8px;
 }
 
 .refresh-btn {
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
-  border: 1px solid #e8e0dc;
+  background: white;
+  border: 1px solid #f0f0f0;
   cursor: pointer;
   font-size: 14px;
   padding: 6px 10px;
   border-radius: 8px;
   transition: all 0.3s ease;
-  color: #7891a8;
+  color: #666;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -710,11 +708,11 @@ nav button,
 }
 
 .refresh-btn:hover {
-  background: linear-gradient(135deg, #e6f3ff, #f0f8ff);
-  border-color: #9bb0c4;
-  color: #1a73e8;
+  background: #fff8f5;
+  border-color: #ff8a50;
+  color: #ff8a50;
   transform: scale(1.05);
-  box-shadow: 0 2px 6px rgba(120, 145, 168, 0.12);
+  box-shadow: 0 2px 6px rgba(255, 138, 80, 0.12);
 }
 
 .refresh-btn:active {
@@ -722,11 +720,11 @@ nav button,
 }
 
 .refresh-btn:focus {
-  outline: 2px solid #1a73e8;
+  outline: 2px solid #ff8a50;
   outline-offset: 2px;
 }
 
-/* ✅ CSS สำหรับ #categories-display */
+/* CSS สำหรับ #categories-display */
 #categories-display {
   min-height: 60px;
 }
@@ -742,26 +740,26 @@ nav button,
   display: inline-flex;
   align-items: center;
   padding: 8px 14px;
-  background: linear-gradient(135deg, #ffffff, #faf8f6);
-  border: 1px solid #d1c4be;
+  background: white;
+  border: 1px solid #f0f0f0;
   border-radius: 20px;
   font-size: 13px;
-  color: #7891a8;
+  color: #666;
   cursor: pointer;
   transition: all 0.3s ease;
   user-select: none;
-  box-shadow: 0 2px 4px rgba(120, 145, 168, 0.08);
+  box-shadow: 0 2px 4px rgba(255, 138, 80, 0.08);
   white-space: nowrap;
   font-weight: 500;
   animation: fadeInScale 0.3s ease;
 }
 
 .category-tag:hover {
-  background: linear-gradient(135deg, #e6f3ff, #f0f8ff);
-  border-color: #9bb0c4;
-  color: #1a73e8;
+  background: #fff8f5;
+  border-color: #ff8a50;
+  color: #ff8a50;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(120, 145, 168, 0.15);
+  box-shadow: 0 4px 8px rgba(255, 138, 80, 0.15);
 }
 
 .category-tag:active {
@@ -769,21 +767,21 @@ nav button,
 }
 
 .category-tag:focus {
-  outline: 2px solid #1a73e8;
+  outline: 2px solid #ff8a50;
   outline-offset: 2px;
 }
 
 .category-tag.selected {
-  background: linear-gradient(135deg, #1a73e8, #0d47a1);
+  background: linear-gradient(135deg, #ff8a50, #ff7043);
   color: #ffffff;
-  border-color: #0d47a1;
+  border-color: #ff7043;
   font-weight: 600;
-  box-shadow: 0 3px 10px rgba(26, 115, 232, 0.3);
+  box-shadow: 0 3px 10px rgba(255, 138, 80, 0.3);
 }
 
 /* Loading และ empty states */
 .loading-categories {
-  color: #bcc8d6;
+  color: #ccc;
   font-style: italic;
   text-align: center;
   padding: 24px;
@@ -798,9 +796,9 @@ nav button,
   display: inline-block;
   width: 16px;
   height: 16px;
-  border: 2px solid #e8e0dc;
+  border: 2px solid #f0f0f0;
   border-radius: 50%;
-  border-top-color: #9bb0c4;
+  border-top-color: #ff8a50;
   animation: spin 1s ease-in-out infinite;
 }
 
@@ -811,7 +809,7 @@ nav button,
   padding: 24px;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 8px;
-  border: 1px dashed #e8e0dc;
+  border: 1px dashed #f0f0f0;
 }
 
 .no-categories::before {
@@ -826,7 +824,7 @@ nav button,
   font-size: 12px;
   color: #999;
   margin-left: 8px;
-  background: rgba(120, 145, 168, 0.1);
+  background: rgba(255, 138, 80, 0.1);
   padding: 2px 6px;
   border-radius: 10px;
   font-weight: normal;
@@ -838,20 +836,20 @@ nav button,
 }
 
 .existing-categories::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #f5f5f5;
   border-radius: 10px;
 }
 
 .existing-categories::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #bcc8d6, #9bb0c4);
+  background: #ff8a50;
   border-radius: 10px;
 }
 
 .existing-categories::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #9bb0c4, #7891a8);
+  background: #ff7043;
 }
 
-/* ✅ สำหรับ info-group container */
+/* สำหรับ info-group container */
 .info-group {
   display: flex;
   flex-direction: column;
@@ -869,7 +867,7 @@ nav button,
   }
 }
 
-/* ✅ Subtle Animation for Page Load */
+/* Subtle Animation for Page Load */
 .product-card,
 .customer-card {
   animation: fadeInUp 0.6s ease forwards;
@@ -886,14 +884,14 @@ nav button,
   }
 }
 
-/* ✅ Enhanced Visual Effects */
+/* Enhanced Visual Effects */
 .product-card:hover img,
 .category-btn:hover,
 .sidebar .user:hover {
   filter: brightness(1.05);
 }
 
-/* ✅ Responsive Design */
+/* Responsive Design */
 @media (max-width: 768px) {
   .sidebar {
     width: 180px;
@@ -1054,12 +1052,12 @@ nav button,
   }
 }
 
-/* ✅ Fix potential conflicts */
+/* Fix potential conflicts */
 * {
   box-sizing: border-box;
 }
 
-/* เพิ่มใน CSS file */
+/* Product card stock styling */
 .product-card .stock.low-stock {
     color: #dc3545;
     font-weight: bold;
