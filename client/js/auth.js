@@ -546,4 +546,22 @@ function adjustMenuByRole () {
     if (manageEmployeesBtn) manageEmployeesBtn.style.display = 'none'
   }
 }
+// =========================================
+// Auto Redirect ถ้าเคย Login ไว้แล้ว (Remember Me)
+// =========================================
+document.addEventListener('DOMContentLoaded', function () {
+  const isLoginPage = window.location.pathname.endsWith('/login.html') || window.location.pathname === '/login.html'
+
+  if (isLoginPage) {
+    const token = localStorage.getItem('token') || getCookie('token')
+    const user = localStorage.getItem('user') || getCookie('user')
+
+    if (token && user) {
+      console.log('✅ พบ token และ user ใน localStorage/cookie → redirect ไปหน้า POS')
+      window.location.href = '/pages/pos/index.html'
+    } else {
+      console.log('🔒 ไม่พบ token → รอให้ login ตามปกติ')
+    }
+  }
+})
 
