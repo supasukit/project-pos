@@ -170,7 +170,8 @@ async function handleLogin(event) {
     
     if (result.success) {
   // เก็บ access token และ refresh token
-  localStorage.setItem('token', result.data.accessToken || result.data.token)
+  const token = result.data.accessToken || result.data.token
+  localStorage.setItem('token', token)
   if (result.data.refreshToken) {
     localStorage.setItem('refreshToken', result.data.refreshToken)
   }
@@ -180,8 +181,7 @@ async function handleLogin(event) {
   localStorage.setItem('user', JSON.stringify(userData))
   
   // เพิ่มการ backup ใน cookie
-  const tokenValue = result.data.accessToken || result.data.token
-  document.cookie = `token=${tokenValue}; path=/; max-age=${15*60}`
+  document.cookie = `token=${token}; path=/; max-age=${15*60}`
   if (result.data.refreshToken) {
     document.cookie = `refreshToken=${result.data.refreshToken}; path=/; max-age=${7*24*60*60}`
   }
