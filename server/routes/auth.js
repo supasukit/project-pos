@@ -303,6 +303,24 @@ router.post('/login', validateLogin, async (req, res) => {
       }
     }
 
+    
+// Set cookies for better session management
+    res.cookie('token', tokens.accessToken, {
+      httpOnly: false, // ให้ JS อ่านได้
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      domain: process.env.NODE_ENV === 'production' ? '.posshop.org' : 'localhost',
+      maxAge: 15 * 60 * 1000 // 15 minutes
+    })
+
+    res.cookie('refreshToken', tokens.refreshToken, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax', 
+      domain: process.env.NODE_ENV === 'production' ? '.posshop.org' : 'localhost',
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    })
+
     res.json({
       success: true,
       message: 'เข้าสู่ระบบสำเร็จ',

@@ -175,9 +175,13 @@ async function handleLogin(event) {
         localStorage.setItem('refreshToken', result.data.refreshToken)
       }
       
-      // เก็บข้อมูล user
-      const userData = result.data.user
-      localStorage.setItem('user', JSON.stringify(userData))
+      
+       // เพิ่มการ backup ใน cookie
+      document.cookie = `token=${result.data.accessToken || result.data.token}; path=/; max-age=${15*60}`
+      if (result.data.refreshToken) {
+        document.cookie = `refreshToken=${result.data.refreshToken}; path=/; max-age=${7*24*60*60}`
+      }
+      document.cookie = `user=${encodeURIComponent(JSON.stringify(userData))}; path=/; max-age=${7*24*60*60}`
       
       alert('เข้าสู่ระบบสำเร็จ!')
       
@@ -235,6 +239,24 @@ async function refreshAccessToken() {
     return null
   }
 }
+
+// =========================================
+// Logout Function
+// =========================================
+
+function logout() {
+  // ล้าง localStorage
+  localStorage.clear()
+  
+  // ล้าง cookies
+  document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT'
+  document.cookie = 'refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT'
+  document.cookie = 'user=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT'
+  
+  // ไปหน้า login
+  window.location.href = '/login.html'
+}
+
 
 // =========================================
 // Forgot Password Functions
@@ -462,6 +484,46 @@ function checkPageAccess (requiredRole = null) {
 
   return true
 }
+
+// =========================================
+// Cookie and Session Management
+// =========================================
+
+// เพิ่มฟังก์ชันอ่าน cookie
+function getCookie(name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+  return null
+}
+
+// ปรับปรุงฟังก์ชัน checkAuth
+function checkAuth() {
+  // ลองหา token จาก localStorage ก่อน
+  let token = localStorage.getItem('token')
+  
+  // ถ้าไม่มี ลองหาจาก cookie
+  if (!token) {
+    token = getCookie('token')
+    if (token) {
+      // เก็บกลับใน localStorage
+      localStorage.setItem('token', token)
+      
+      // ลองหา user data จาก cookie ด้วย
+      const refreshToken = getCookie('refreshToken')
+      if (refreshToken) {
+        localStorage.setItem('refreshToken', refreshToken)
+      }
+    }
+  }
+  
+  if (!token) {
+    return false
+  }
+  
+  return true
+}
+
 
 // ซ่อน/แสดงเมนูตาม role
 function adjustMenuByRole () {
