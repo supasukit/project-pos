@@ -142,28 +142,21 @@ function validateRegisterForm (data) {
 // =========================================
 
 // หลัก login function
-async function handleLogin (event) {
+// แก้ไขฟังก์ชัน handleLogin ในไฟล์ auth.js
+async function handleLogin(event) {
   event.preventDefault()
-
-  console.log('Login form submitted!') // ทดสอบ
-
-  // ดึงข้อมูลจาก form
+  
   const username = document.getElementById('username').value.trim()
   const password = document.getElementById('password').value
-
-  console.log('Login data:', { username }) // ทดสอบ (ไม่แสดง password)
-
-  // Validation
+  
   if (!username || !password) {
     alert('กรุณากรอก Username และ Password')
     return
   }
-
+  
   try {
     showLoading('login-submit-btn')
-
-    console.log('Sending login request...') // ทดสอบ
-
+    
     const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
@@ -171,19 +164,28 @@ async function handleLogin (event) {
       },
       body: JSON.stringify({ username, password })
     })
-
+    
     const result = await response.json()
-    console.log('Login API Response:', result) // ทดสอบ
-
+    console.log('Login response:', result) // เพิ่มบรรทัดนี้เพื่อ debug
+    
     if (result.success) {
-      // เก็บ token และข้อมูล user
-      localStorage.setItem('token', result.data.token)
-      localStorage.setItem('user', JSON.stringify(result.data.user))
-
-      // ไปหน้า POS หลัก
+      // เก็บ access token และ refresh token
+      localStorage.setItem('token', result.data.accessToken || result.data.token)
+      if (result.data.refreshToken) {
+        localStorage.setItem('refreshToken', result.data.refreshToken)
+      }
+      
+      // เก็บข้อมูล user
+      const userData = result.data.user
+      localStorage.setItem('user', JSON.stringify(userData))
+      
+      alert('เข้าสู่ระบบสำเร็จ!')
+      
+      // Redirect ตาม role
       setTimeout(() => {
         window.location.href = '/pages/pos/index.html'
       }, 1000)
+      
     } else {
       alert('เข้าสู่ระบบไม่สำเร็จ: ' + result.message)
     }
@@ -194,6 +196,46 @@ async function handleLogin (event) {
     hideLoading('login-submit-btn', 'เข้าสู่ระบบ')
   }
 }
+
+// เพิ่มฟังก์ชัน refresh token
+async function refreshAccessToken() {
+  const refreshToken = localStorage.getItem('refreshToken')
+  
+  if (!refreshToken) {
+    window.location.href = '/login.html'
+    return null
+  }
+  
+  try {
+    const response = await fetch('/api/auth/refresh', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ refreshToken })
+    })
+    
+    const result = await response.json()
+    
+    if (result.success) {
+      localStorage.setItem('token', result.data.accessToken)
+      if (result.data.refreshToken) {
+        localStorage.setItem('refreshToken', result.data.refreshToken)
+      }
+      return result.data.accessToken
+    } else {
+      localStorage.clear()
+      window.location.href = '/login.html'
+      return null
+    }
+  } catch (error) {
+    console.error('Refresh token error:', error)
+    localStorage.clear()
+    window.location.href = '/login.html'
+    return null
+  }
+}
+
 // =========================================
 // Forgot Password Functions
 // =========================================
@@ -239,43 +281,98 @@ async function handleForgotPassword (event) {
 }
 
 // รีเซ็ตรหัสผ่าน
-// รีเซ็ตรหัสผ่าน
-async function handleResetPassword (event) {
+
+// แทนที่ฟังก์ชัน handleResetPassword ใน auth.js (เวอร์ชัน Debug)
+async function handleResetPassword(event) {
   event.preventDefault()
-
-  const urlParams = new URLSearchParams(window.location.search)
-  const token = urlParams.get('token')
-  const newPassword = document.getElementById('new-password').value
-
-  // ลบบรรทัดนี้ออก เพราะไม่มี confirm-password field
-  // const confirmPassword = document.getElementById('confirm-password').value
-
-  if (!newPassword) {
-    document.getElementById('reset-result').textContent = 'กรุณากรอกรหัสผ่านใหม่'
-    document.getElementById('reset-result').className = 'error'
-    return
-  }
-
-  if (newPassword.length < 6) {
-    document.getElementById('reset-result').textContent = 'รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร'
-    document.getElementById('reset-result').className = 'error'
-    return
-  }
-
+  
   try {
+    // ดึง token จาก URL
+    const urlParams = new URLSearchParams(window.location.search)
+    const token = urlParams.get('token')
+    
+    console.log('🔍 Debug info:')
+    console.log('- Token from URL:', token ? token.substring(0, 20) + '...' : 'NOT FOUND')
+    
+    if (!token) {
+      document.getElementById('reset-result').textContent = 'ไม่พบ token รีเซ็ตรหัสผ่าน'
+      document.getElementById('reset-result').className = 'error'
+      return
+    }
+    
+    // ลองหา input field ทั้ง 2 แบบ
+    let newPasswordField = document.getElementById('newPassword') || 
+                          document.getElementById('new-password') ||
+                          document.querySelector('input[type="password"]')
+    
+    if (!newPasswordField) {
+      console.error('❌ ไม่พบ password input field')
+      alert('❌ เกิดข้อผิดพลาดในระบบ')
+      return
+    }
+    
+    const newPassword = newPasswordField.value.trim()
+    console.log('- Password length:', newPassword.length)
+    console.log('- Password (first 3 chars):', newPassword.substring(0, 3) + '***')
+    
+    if (!newPassword) {
+      document.getElementById('reset-result').textContent = 'กรุณากรอกรหัสผ่านใหม่'
+      document.getElementById('reset-result').className = 'error'
+      return
+    }
+    
+    // ตรวจสอบรหัสผ่านตาม backend validation
+    if (newPassword.length < 8) {
+      document.getElementById('reset-result').textContent = 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร'
+      document.getElementById('reset-result').className = 'error'
+      return
+    }
+    
+    // ตรวจสอบความแข็งแกร่งของรหัสผ่าน (ตาม backend validation)
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/
+    if (!passwordRegex.test(newPassword)) {
+      document.getElementById('reset-result').textContent = 'รหัสผ่านต้องประกอบด้วย: ตัวพิมพ์เล็ก, ตัวพิมพ์ใหญ่, ตัวเลข, และอักขระพิเศษ (@$!%*?&)'
+      document.getElementById('reset-result').className = 'error'
+      return
+    }
+    
+    // แสดง loading
     const button = document.getElementById('reset-submit-btn')
-    button.classList.add('loading')
-
+    if (button) {
+      button.disabled = true
+      button.textContent = 'กำลังรีเซ็ต...'
+    }
+    
+    // เตรียมข้อมูลส่ง
+    const requestData = {
+      token: token,
+      newPassword: newPassword
+    }
+    
+    console.log('📤 Sending request data:', {
+      token: token.substring(0, 10) + '...',
+      newPassword: '***'
+    })
+    
     const response = await fetch('/api/auth/reset-password', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ token, newPassword })
+      body: JSON.stringify(requestData)
     })
-
+    
     const result = await response.json()
-
+    console.log('📥 Full response:', result)
+    
+    // แสดง error details ถ้ามี
+    if (result.errors && result.errors.length > 0) {
+      console.log('❌ Validation errors:', result.errors)
+      result.errors.forEach((error, index) => {
+        console.log(`  ${index + 1}. ${error.msg || error.message || error}`)
+      })
+    }
+    
     if (result.success) {
       document.getElementById('reset-result').textContent = 'เปลี่ยนรหัสผ่านสำเร็จ! กำลังนำไปหน้าเข้าสู่ระบบ...'
       document.getElementById('reset-result').className = 'success'
@@ -284,16 +381,29 @@ async function handleResetPassword (event) {
         window.location.href = '/login.html'
       }, 2000)
     } else {
-      document.getElementById('reset-result').textContent = 'เกิดข้อผิดพลาด: ' + result.message
+      // แสดง error message ที่ละเอียด
+      let errorMessage = result.message || 'เกิดข้อผิดพลาดไม่ทราบสาเหตุ'
+      
+      if (result.errors && result.errors.length > 0) {
+        const firstError = result.errors[0]
+        errorMessage = firstError.msg || firstError.message || firstError
+      }
+      
+      document.getElementById('reset-result').textContent = 'เกิดข้อผิดพลาด: ' + errorMessage
       document.getElementById('reset-result').className = 'error'
     }
+    
   } catch (error) {
-    console.error('Reset password error:', error)
+    console.error('❌ Reset password error:', error)
     document.getElementById('reset-result').textContent = 'เกิดข้อผิดพลาดในการรีเซ็ตรหัสผ่าน'
     document.getElementById('reset-result').className = 'error'
   } finally {
+    // คืนสถานะปุ่ม
     const button = document.getElementById('reset-submit-btn')
-    button.classList.remove('loading')
+    if (button) {
+      button.disabled = false
+      button.textContent = 'รีเซ็ตรหัสผ่าน'
+    }
   }
 }
 

@@ -74,6 +74,7 @@ async function showOrderHistory(customerId) {
         console.log('📥 Order history loaded:', result)
         
         if (result.success && result.data) {
+            
             displayOrderHistory(result.data, customerId)
         } else {
             alert('❌ ไม่พบประวัติการซื้อ')
@@ -492,48 +493,84 @@ function updateProfileButton() {
 // =========================================
 
 async function loadCustomers() {
-    try {
-        console.log('🔄 Loading customers from API...')
-        
-        const token = localStorage.getItem('token')
-        const response = await fetch('/api/customers', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`)
-        }
-        
-        const result = await response.json()
-        console.log('📥 Customers loaded:', result)
-        
-        if (result.success && result.data) {
-            allCustomers = result.data
-            
-            // แสดงสถิติ
-            displayCustomerStats()
-            
-            // แสดงลูกค้าตามการกรองปัจจุบัน
-            if (currentFilter === 'cash') {
-                showCashCustomers()
-            } else if (currentFilter === 'pending') {
-                showPendingCustomers()
-            } else {
-                displayCustomers(result.data)
-            }
-        } else {
-            displayNoCustomers()
-        }
-        
-    } catch (error) {
-        console.error('❌ Error loading customers:', error)
-        displayNoCustomers()
+  try {
+    console.log('🔄 Loading ALL customers from API...')
+    
+    const user = JSON.parse(localStorage.getItem('user') || '{}')
+    const userId = user.role === 'employee' ? user.parent_user_id : (user._id || user.id)
+    const token = localStorage.getItem('token')
+    
+    if (!token) {
+      throw new Error('ไม่พบ token - กรุณาเข้าสู่ระบบใหม่')
+    }
+
+    console.log('📤 Calling customers API with userId:', userId)
+    
+    // เพิ่ม limit=9999 เพื่อดึงข้อมูลทั้งหมด
+    const response = await fetch(`/api/customers?userId=${userId}&limit=9999&page=1&status=active`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    
+    console.log('📥 Customers API Response status:', response.status)
+    
+    if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        alert('Session หมดอายุ กรุณาเข้าสู่ระบบใหม่')
+        window.location.href = '/login.html'
+        return
+      }
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    
+    const result = await response.json()
+    console.log('📥 Customers loaded:', result)
+    console.log('📊 Total customers count:', result.data ? result.data.length : 0)
+    
+    if (result.success && result.data) {
+        allCustomers = result.data
+      displayCustomers(result.data)
+      console.log(`✅ Successfully loaded ${result.data.length} customers`)
+      
+      // แสดงจำนวนลูกค้าในหน้า
+      updateCustomersCount(result.data.length)
+    } else {
+      console.warn('⚠️ No customers found or API returned error')
+      displayCustomers([])
+      updateCustomersCount(0)
+    }
+    
+  } catch (error) {
+    console.error('❌ Error loading customers:', error)
+    const customersContainer = document.getElementById('customers-container')
+    if (customersContainer) {
+      customersContainer.innerHTML = `
+        <div style="padding: 20px; text-align: center; color: red; background: #f8f9fa; border: 2px solid #dc3545; border-radius: 8px;">
+          <h3>❌ ไม่สามารถโหลดลูกค้าได้</h3>
+          <p style="margin: 10px 0;">${error.message}</p>
+          <button onclick="loadCustomers()" style="margin-top: 10px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            🔄 ลองใหม่
+          </button>
+        </div>
+      `
+    }
+  }
+}
+
+function updateCustomersCount(count) {
+    const countEl = document.getElementById('customers-count')
+    if (countEl) {
+        countEl.textContent = `จำนวนลูกค้า: ${count} รายการ`
     }
 }
+
+
+
 // =========================================
 // Filter Functions
 // =========================================
@@ -793,6 +830,7 @@ async function showPaymentHistory(customerId) {
         console.log('Payment history loaded:', result)
         
         if (result.success && result.data) {
+            
             displayPaymentHistory(result.data.payment_history || [], customerId, customer.name)
         } else {
             alert('ไม่พบประวัติการชำระเงิน')

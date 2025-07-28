@@ -4,10 +4,19 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const { authenticateToken } = require('../middleware/auth')
 
+
+const SALT_ROUNDS = 12 
+const PEPPER = process.env.PASSWORD_PEPPER || 'your-secret-pepper-change-this'
+
+const hashPassword = async (password) => {
+  const pepperedPassword = password + PEPPER
+  return await bcrypt.hash(pepperedPassword, SALT_ROUNDS)
+}
+
 // ========== CREATE (Add Employee) ==========
 router.post('/', authenticateToken, async (req, res) => {
   try {
-    // ตรวจสอบสิทธิ์ - เฉพาะ user (เจ้าของร้าน)
+    // เช็คสิทธิ์
     if (req.user.role !== 'user') {
       return res.status(403).json({
         success: false,
@@ -15,12 +24,17 @@ router.post('/', authenticateToken, async (req, res) => {
       })
     }
 
-    console.log('🔍 req.user from auth middleware:', req.user)
-    console.log('🔍 req.user.userId:', req.user.userId)
+    const { username, password, owner_name, store_phone, store_address, email } = req.body
 
-    const { username, password, owner_name, store_phone, store_address } = req.body
+    // เช็คว่าข้อมูลครบไหม
+    if (!username || !password || !owner_name || !email) {
+      return res.status(400).json({
+        success: false,
+        message: 'กรุณากรอกข้อมูลพนักงานและอีเมลให้ครบถ้วน'
+      })
+    }
 
-    // ตรวจสอบ username ซ้ำ
+    // เช็ค username ซ้ำ
     const existingUser = await User.findOne({ username })
     if (existingUser) {
       return res.status(400).json({
@@ -29,32 +43,42 @@ router.post('/', authenticateToken, async (req, res) => {
       })
     }
 
-    // Hash password ให้ถูกต้อง
-    const hashedPassword = await bcrypt.hash(password, 10)
+    // เช็ค email ซ้ำ
+    const existingEmail = await User.findOne({ email })
+    if (existingEmail) {
+      return res.status(400).json({
+        success: false,
+        message: 'อีเมลนี้ถูกใช้งานแล้ว'
+      })
+    }
 
+    // เช็ค parent_user_id
+    const parentUserId = req.user.userId || req.user._id || req.user.id
+    if (!parentUserId) {
+      return res.status(400).json({
+        success: false,
+        message: 'ไม่พบ parent_user_id ของเจ้าของร้าน กรุณา login ใหม่'
+      })
+    }
+
+    // Hash password
+    const hashedPassword = await hashPassword(password)
+
+    
     // สร้างพนักงานใหม่
     const employee = new User({
       username,
       password: hashedPassword,
       role: 'employee',
-      owner_name, // ชื่อพนักงาน
+      owner_name,
       store_phone,
       store_address,
-      parent_user_id: req.user.userId, // ⭐ ตรวจสอบให้แน่ใจว่ามีค่า
-      isActive: true
-    })
-
-    console.log('📝 Creating employee with data:', {
-      username: employee.username,
-      role: employee.role,
-      parent_user_id: employee.parent_user_id,
-      owner_name: employee.owner_name
+      parent_user_id: parentUserId,
+      isActive: true,
+      email
     })
 
     await employee.save()
-
-    console.log('✅ Employee created successfully with ID:', employee._id)
-    console.log('✅ Employee parent_user_id:', employee.parent_user_id)
 
     res.json({
       success: true,
@@ -63,8 +87,9 @@ router.post('/', authenticateToken, async (req, res) => {
         _id: employee._id,
         username: employee.username,
         owner_name: employee.owner_name,
+        email: employee.email,
         role: employee.role,
-        parent_user_id: employee.parent_user_id, // ⭐ ส่งกลับด้วย
+        parent_user_id: employee.parent_user_id,
         isActive: employee.isActive
       }
     })
@@ -72,10 +97,12 @@ router.post('/', authenticateToken, async (req, res) => {
     console.error('Error creating employee:', error)
     res.status(500).json({
       success: false,
-      message: 'เกิดข้อผิดพลาดในการเพิ่มพนักงาน'
+      message: error.message || 'เกิดข้อผิดพลาดในการเพิ่มพนักงาน'
     })
   }
 })
+
+
 
 // เพิ่มฟังก์ชันตรวจสอบ parent_user_id ของ employee ที่มีอยู่
 router.get('/debug/:employeeId', authenticateToken, async (req, res) => {

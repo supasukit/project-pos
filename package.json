@@ -1,7 +1,7 @@
 {
   "name": "project-pos",
   "version": "1.0.0",
-  "description": "POS System for shop using Electron.js, MongoDB and Vanilla JavaScript",
+  "description": "POS System for shop using Electron.js, MongoDB and Vanilla JavaScript with Enhanced Security",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -24,7 +24,9 @@
     "test:watch": "jest --watch",
     "lint": "eslint main.js preload.js server/**/*.js client/**/*.js",
     "lint:fix": "eslint main.js preload.js server/**/*.js client/**/*.js --fix",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "security-audit": "npm audit",
+    "security-fix": "npm audit fix"
   },
   "keywords": [
     "pos",
@@ -35,7 +37,8 @@
     "shop",
     "desktop-app",
     "nodejs",
-    "express"
+    "express",
+    "security"
   ],
   "author": "supasukit",
   "license": "MIT",
@@ -51,7 +54,9 @@
     "csv-writer": "^1.6.0",
     "dotenv": "^16.6.1",
     "express": "^4.21.2",
+    "express-mongo-sanitize": "^2.2.0",
     "express-rate-limit": "^7.1.5",
+    "express-slow-down": "^1.6.0",
     "express-validator": "^7.2.1",
     "helmet": "^7.2.0",
     "html2canvas": "^1.4.1",
@@ -66,7 +71,8 @@
     "nodemailer": "^7.0.5",
     "qrcode": "^1.5.3",
     "uuid": "^9.0.1",
-    "winston": "^3.11.0"
+    "winston": "^3.11.0",
+    "xss": "^1.0.15"
   },
   "devDependencies": {
     "@types/jest": "^29.5.8",

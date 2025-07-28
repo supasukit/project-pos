@@ -38,13 +38,15 @@ async function handleEmployeeSubmit (event) {
 
   // ดึงข้อมูลจากฟอร์ม
   const formData = {
-    username: document.getElementById('username').value.trim(),
-    password: document.getElementById('password').value,
-    confirm_password: document.getElementById('confirm_password').value,
-    employee_name: document.getElementById('employee_name').value.trim(),
-    phone: document.getElementById('phone').value.trim(),
-    address: document.getElementById('address').value.trim()
-  }
+  username: document.getElementById('username').value.trim(),
+  password: document.getElementById('password').value,
+  confirm_password: document.getElementById('confirm_password').value,
+  employee_name: document.getElementById('employee_name').value.trim(),
+  phone: document.getElementById('phone').value.trim(),
+  address: document.getElementById('address').value.trim(),
+  email: document.getElementById('email').value.trim() 
+}
+
 
   // Validation
   if (!validateForm(formData)) {
@@ -57,15 +59,15 @@ async function handleEmployeeSubmit (event) {
 
     // เตรียมข้อมูลสำหรับส่ง API
     const employeeData = {
-      username: formData.username,
-      password: formData.password,
-      role: 'employee', // กำหนด role เป็น employee
-      owner_name: formData.employee_name, // ใช้ field owner_name เก็บชื่อพนักงาน
-      store_phone: formData.phone,
-      store_address: formData.address,
-      // เพิ่ม parent_user_id เพื่อเชื่อมโยงกับเจ้าของร้าน
-      parent_user_id: JSON.parse(localStorage.getItem('user') || '{}')._id
-    }
+  username: formData.username,
+  password: formData.password,
+  role: 'employee',
+  owner_name: formData.employee_name,
+  store_phone: formData.phone,
+  store_address: formData.address,
+  parent_user_id: JSON.parse(localStorage.getItem('user') || '{}')._id,
+  email: formData.email 
+}
 
     console.log('📤 Sending employee data:', employeeData)
 
@@ -106,17 +108,25 @@ async function handleEmployeeSubmit (event) {
 // Validation ฟอร์ม
 function validateForm (data) {
   // ตรวจสอบข้อมูลที่จำเป็น
-  if (!data.username || !data.password || !data.employee_name || !data.phone) {
-    alert('❌ กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน')
-    return false
+   if (!data.username || !data.password || !data.employee_name || !data.phone || !data.email) {
+    alert('❌ กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน');
+    return false;
   }
+
+   // ตรวจสอบ email format (optional)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(data.email)) {
+    alert('❌ อีเมลไม่ถูกต้อง');
+    return false;
+  }
+
 
   // ตรวจสอบความยาวรหัสผ่าน
   if (data.password.length < 6) {
     alert('❌ รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร')
     return false
   }
-
+  
   // ตรวจสอบรหัสผ่านตรงกัน
   if (data.password !== data.confirm_password) {
     alert('❌ รหัสผ่านไม่ตรงกัน')

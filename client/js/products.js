@@ -455,92 +455,72 @@ function getStoreUserId() {
 
 // ปรับปรุงฟังก์ชัน loadProducts
 async function loadProducts() {
-    try {
-        console.log('🔄 Loading products from API...')
-        
-        // ⭐ เรียก debug และ fix ก่อน
-        await debugAndFixEmployeeData()
-        
-        // ตรวจสอบ user ID
-        const userId = getStoreUserId()
-        
-        const token = localStorage.getItem('token')
-        if (!token) {
-            throw new Error('ไม่พบ token - กรุณาเข้าสู่ระบบใหม่')
-        }
-
-        console.log('📤 Calling API with userId:', userId)
-        
-        const response = await fetch(`/api/products?userId=${userId}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        
-        console.log('📥 API Response status:', response.status)
-        
-        if (!response.ok) {
-            if (response.status === 401) {
-                localStorage.removeItem('token')
-                localStorage.removeItem('user')
-                alert('Session หมดอายุ กรุณาเข้าสู่ระบบใหม่')
-                window.location.href = '/login.html'
-                return
-            }
-            throw new Error(`HTTP error! status: ${response.status}`)
-        }
-        
-        const result = await response.json()
-        console.log('📥 Products loaded:', result)
-        
-        if (result.success && result.data) {
-            allProducts = result.data
-            displayProducts(result.data)
-            console.log(`✅ Successfully loaded ${result.data.length} products`)
-        } else {
-            console.warn('⚠️ No products found or API returned error')
-            displayProducts([])
-        }
-        
-    } catch (error) {
-        console.error('❌ Error loading products:', error)
-        
-        const productsContainer = document.getElementById('products-container')
-        if (productsContainer) {
-            let errorMessage = error.message
-            let actionButton = ''
-            
-            // ถ้าเป็นปัญหา employee data corruption
-            if (error.message.includes('parent_user_id')) {
-                actionButton = `
-                    <div style="margin-top: 15px;">
-                        <button onclick="showEmployeeFixInstructions()" style="margin: 5px; padding: 10px 20px; background: #ffc107; color: #212529; border: none; border-radius: 4px; cursor: pointer;">
-                            🔧 คำแนะนำการแก้ไข
-                        </button>
-                        <button onclick="window.location.href='/login.html'" style="margin: 5px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                            🔑 เข้าสู่ระบบใหม่
-                        </button>
-                    </div>
-                `
-            } else if (error.message.includes('user ID') || error.message.includes('token')) {
-                actionButton = `
-                    <button onclick="window.location.href='/login.html'" style="margin-top: 10px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                        🔑 เข้าสู่ระบบใหม่
-                    </button>
-                `
-            }
-            
-            productsContainer.innerHTML = `
-                <div style="grid-column: 1 / -1; padding: 20px; text-align: center; color: red; background: #f8f9fa; border: 2px solid #dc3545; border-radius: 8px;">
-                    <h3>❌ ไม่สามารถโหลดสินค้าได้</h3>
-                    <p style="margin: 10px 0; line-height: 1.5;">${errorMessage}</p>
-                    ${actionButton}
-                </div>
-            `
-        }
+  try {
+    console.log('🔄 Loading ALL products from API...')
+    
+    const userId = getStoreUserId()
+    const token = localStorage.getItem('token')
+    
+    if (!token) {
+      throw new Error('ไม่พบ token - กรุณาเข้าสู่ระบบใหม่')
     }
+
+    console.log('📤 Calling API with userId:', userId)
+    
+    // เพิ่ม limit=9999 เพื่อดึงข้อมูลทั้งหมด
+    const response = await fetch(`/api/products?userId=${userId}&limit=9999&page=1`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    
+    console.log('📥 API Response status:', response.status)
+    
+    if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        alert('Session หมดอายุ กรุณาเข้าสู่ระบบใหม่')
+        window.location.href = '/login.html'
+        return
+      }
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    
+    const result = await response.json()
+    console.log('📥 Products loaded:', result)
+    console.log('📊 Total products count:', result.data ? result.data.length : 0)
+    
+    if (result.success && result.data) {
+      allProducts = result.data
+      displayProducts(result.data)
+      console.log(`✅ Successfully loaded ${result.data.length} products`)
+      
+      // แสดงจำนวนสินค้าในหน้า
+      updateProductsCount(result.data.length)
+    } else {
+      console.warn('⚠️ No products found or API returned error')
+      displayProducts([])
+      updateProductsCount(0)
+    }
+    
+  } catch (error) {
+    console.error('❌ Error loading products:', error)
+    const productsContainer = document.getElementById('products-container')
+    if (productsContainer) {
+      productsContainer.innerHTML = `
+        <div style="grid-column: 1 / -1; padding: 20px; text-align: center; color: red; background: #f8f9fa; border: 2px solid #dc3545; border-radius: 8px;">
+          <h3>❌ ไม่สามารถโหลดสินค้าได้</h3>
+          <p style="margin: 10px 0;">${error.message}</p>
+          <button onclick="loadProducts()" style="margin-top: 10px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            🔄 ลองใหม่
+          </button>
+        </div>
+      `
+    }
+  }
 }
 
 
@@ -699,6 +679,13 @@ async function addStock(productId) {
         }
     } else if (quantity !== null) {
         alert('❌ กรุณากรอกจำนวนที่ถูกต้อง')
+    }
+}
+
+function updateProductsCount(count) {
+    const countEl = document.getElementById('products-count')
+    if (countEl) {
+        countEl.textContent = `จำนวนสินค้า: ${count} รายการ`
     }
 }
 
@@ -923,6 +910,48 @@ async function debugAndFixEmployeeData() {
     } catch (error) {
         console.error('❌ Error in debugAndFixEmployeeData:', error)
         return user
+    }
+}
+// ลบสินค้า (เฉพาะ user)
+async function deleteProduct(productId, productName = '') {
+    if (!canEditDeleteProducts()) {
+        showNoPermissionMessage('ลบสินค้า')
+        return
+    }
+
+    const confirmMessage = productName 
+        ? `ต้องการลบสินค้า "${productName}" หรือไม่?`
+        : `ต้องการลบสินค้ารหัส ${productId} หรือไม่?`
+
+    if (!confirm(`🗑️ ${confirmMessage}\n\n⚠️ การลบจะไม่สามารถกู้คืนได้`)) {
+        return
+    }
+
+    try {
+        const token = localStorage.getItem('token')
+        if (!token) throw new Error('Session หมดอายุ กรุณาเข้าสู่ระบบใหม่')
+
+        // เรียก API ลบ
+        const response = await fetch(`/api/products/${productId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+
+        const result = await response.json()
+        if (response.ok && result.success) {
+            alert(`✅ ลบสินค้า "${productName || productId}" สำเร็จ!`)
+            closePopup()
+            // โหลดรายการสินค้าใหม่
+            loadProducts()
+        } else {
+            throw new Error(result.message || 'ลบสินค้าไม่สำเร็จ')
+        }
+    } catch (error) {
+        alert(`❌ เกิดข้อผิดพลาด: ${error.message}`)
+        console.error('❌ Error deleting product:', error)
     }
 }
 

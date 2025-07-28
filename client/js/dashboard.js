@@ -421,19 +421,112 @@ function displayOrderHistory (orders) {
     `).join('')
 }
 
-function displayPaymentHistory () {
-  const tbody = document.getElementById('debt-payment-history-body')
 
-  // สำหรับตอนนี้แสดงข้อความว่างก่อน
-  tbody.innerHTML = `
-        <tr>
-            <td colspan="4" style="text-align: center; color: #666;">
-                ยังไม่มีประวัติการจ่ายหนี้
-            </td>
-        </tr>
+function displayPaymentHistory(payments = []) {
+  console.log('🔍 displayPaymentHistory called with:', payments.length, 'payments')
+  console.log('🔍 payments data:', payments)
+  
+  const tbody = document.getElementById('debt-payment-history-body')
+  console.log('🔍 tbody element found:', !!tbody)
+  console.log('🔍 tbody element:', tbody)
+  
+  if (!tbody) {
+    console.error('❌ Element debt-payment-history-body not found!')
+    return
+  }
+
+  if (!payments || payments.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" style="text-align: center; color: #666;">
+          ยังไม่มีประวัติการจ่ายหนี้
+        </td>
+      </tr>
     `
+    return
+  }
+
+  console.log('📝 Creating table rows for', payments.length, 'payments')
+  
+  tbody.innerHTML = payments.map(payment => `
+    <tr>
+      <td>${new Date(payment.payment_date).toLocaleDateString('th-TH')}</td>
+      <td>${payment.customer_name || 'ไม่ระบุ'}</td>
+      <td>฿${(payment.amount || 0).toLocaleString()}</td>
+      <td>
+        <span style="
+          color: #28a745; 
+          background: #d4edda; 
+          padding: 2px 8px; 
+          border-radius: 4px; 
+          font-size: 12px;
+        ">
+          ✅ ชำระแล้ว
+        </span>
+      </td>
+    </tr>
+  `).join('')
+  
+  console.log('✅ Table rows created successfully')
 }
 
+// ดึงข้อมูลประวัติการจ่ายหนี้จาก customers API
+async function loadPaymentHistory() {
+  try {
+    const user = JSON.parse(localStorage.getItem('user') || '{}')
+    const userId = user._id || user.id
+    const token = localStorage.getItem('token')
+
+    console.log('🔍 Loading payment history for dashboard, userId:', userId)
+
+    // ใช้ API customers เหมือน customer.js
+    const response = await fetch(`/api/customers?userId=${userId}&limit=100`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (response.ok) {
+      const result = await response.json()
+      console.log('📥 Customers loaded for payment history:', result)
+      
+      if (result.success && result.data) {
+        // รวบรวม payment history จากลูกค้าทั้งหมด
+        const allPayments = []
+        
+        result.data.forEach(customer => {
+          if (customer.payment_history && customer.payment_history.length > 0) {
+            customer.payment_history.forEach(payment => {
+              allPayments.push({
+                customer_name: customer.name,
+                amount: payment.amount,
+                payment_date: payment.payment_date,
+                payment_method: payment.payment_method,
+                notes: payment.notes
+              })
+            })
+          }
+        })
+        
+        // เรียงตามวันที่ล่าสุด
+        allPayments.sort((a, b) => new Date(b.payment_date) - new Date(a.payment_date))
+        
+        console.log('💳 Payment history found:', allPayments.length)
+        displayPaymentHistory(allPayments)
+      } else {
+        console.warn('⚠️ No customer data received')
+        displayPaymentHistory([])
+      }
+    } else {
+      console.error('❌ Failed to load customers:', response.status)
+      displayPaymentHistory([])
+    }
+  } catch (error) {
+    console.error('❌ Error loading payment history:', error)
+    displayPaymentHistory([])
+  }
+}
 function displayErrorMessage (message) {
   const summaryCards = document.querySelector('.summary-cards')
   if (summaryCards) {
@@ -453,11 +546,531 @@ function displayErrorMessage (message) {
 // Event Handlers
 // =========================================
 
-function showOrderDetails (orderId) {
-  // TODO: แสดงรายละเอียดออเดอร์
-  alert(`🚧 ฟีเจอร์ดูรายละเอียดออเดอร์ (กำลังพัฒนา)\nOrder ID: ${orderId}`)
+// =========================================
+// Order Details Functions - เพิ่มใน dashboard.js
+// =========================================
+
+// แสดงรายละเอียดออเดอร์
+async function showOrderDetails(orderId) {
+  try {
+    console.log(`🔍 Loading order details for ID: ${orderId}`)
+    
+    // แสดง loading modal ก่อน
+    showLoadingModal()
+    
+    const token = localStorage.getItem('token')
+    if (!token) {
+      throw new Error('ไม่พบ token การเข้าสู่ระบบ')
+    }
+
+    // เรียก API ดึงรายละเอียดออเดอร์
+    const response = await fetch(`/api/orders/${orderId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('ไม่พบข้อมูลออเดอร์')
+      } else if (response.status === 401) {
+        throw new Error('ไม่มีสิทธิ์เข้าถึงข้อมูล')
+      } else {
+        throw new Error(`เกิดข้อผิดพลาด: ${response.status}`)
+      }
+    }
+
+    const result = await response.json()
+    console.log('📥 Order details loaded:', result)
+
+    if (result.success && result.data) {
+      displayOrderDetailsModal(result.data.order, result.data.items)
+    } else {
+      throw new Error(result.message || 'ไม่สามารถดึงข้อมูลได้')
+    }
+
+  } catch (error) {
+    console.error('❌ Error loading order details:', error)
+    hideLoadingModal()
+    alert(`❌ เกิดข้อผิดพลาด: ${error.message}`)
+  }
 }
 
+// แสดง loading modal
+function showLoadingModal() {
+  // ลบ modal เก่าถ้ามี
+  const existingModal = document.getElementById('order-details-modal')
+  if (existingModal) {
+    existingModal.remove()
+  }
+
+  // สร้าง loading modal
+  const modal = document.createElement('div')
+  modal.id = 'order-details-modal'
+  modal.innerHTML = `
+    <div class="modal-overlay" onclick="closeOrderDetailsModal()">
+      <div class="modal-content order-details-content" onclick="event.stopPropagation()">
+        <div style="text-align: center; padding: 50px;">
+          <div style="font-size: 48px; margin-bottom: 20px; animation: spin 1s linear infinite;">🔄</div>
+          <h3>กำลังโหลดข้อมูลออเดอร์...</h3>
+        </div>
+      </div>
+    </div>
+  `
+  
+  // เพิ่ม CSS
+  const style = document.createElement('style')
+  style.textContent = `
+    #order-details-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    
+    .order-details-content {
+      background: white;
+      border-radius: 8px;
+      max-width: 800px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .order-header {
+      background: #f8f9fa;
+      padding: 20px;
+      border-bottom: 1px solid #e9ecef;
+      border-radius: 8px 8px 0 0;
+      position: relative;
+    }
+    
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .close-btn:hover {
+      background: #c82333;
+    }
+    
+    .order-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+    
+    .info-card {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 6px;
+      border-left: 4px solid #007bff;
+    }
+    
+    .info-label {
+      font-weight: bold;
+      color: #495057;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    
+    .info-value {
+      font-size: 16px;
+      color: #212529;
+    }
+    
+    .items-section {
+      padding: 20px;
+      border-top: 1px solid #e9ecef;
+    }
+    
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    
+    .items-table th,
+    .items-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    .items-table th {
+      background: #f8f9fa;
+      font-weight: bold;
+      color: #495057;
+    }
+    
+    .items-table tbody tr:hover {
+      background: #f8f9fa;
+    }
+    
+    .price {
+      font-weight: bold;
+      color: #28a745;
+    }
+    
+    .total-section {
+      background: #f8f9fa;
+      padding: 20px;
+      border-top: 2px solid #007bff;
+      text-align: right;
+    }
+    
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    
+    .total-final {
+      font-size: 20px;
+      font-weight: bold;
+      color: #007bff;
+      border-top: 1px solid #dee2e6;
+      padding-top: 10px;
+    }
+    
+    .payment-status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    .status-cash {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .status-credit {
+      background: #fff3cd;
+      color: #856404;
+    }
+    
+    .status-paid {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .status-unpaid {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @media (max-width: 768px) {
+      .order-details-content {
+        width: 95%;
+        margin: 10px;
+      }
+      
+      .order-info {
+        grid-template-columns: 1fr;
+      }
+      
+      .items-table {
+        font-size: 14px;
+      }
+      
+      .items-table th,
+      .items-table td {
+        padding: 8px 4px;
+      }
+    }
+  `
+  
+  document.head.appendChild(style)
+  document.body.appendChild(modal)
+}
+
+// ซ่อน loading modal
+function hideLoadingModal() {
+  const modal = document.getElementById('order-details-modal')
+  if (modal) {
+    modal.remove()
+  }
+}
+
+// แสดง modal รายละเอียดออเดอร์
+function displayOrderDetailsModal(order, items) {
+  console.log('📊 Displaying order details:', { order, items })
+  
+  // สร้างข้อมูลวันที่
+  const orderDate = new Date(order.order_date || order.created_at || order.createdAt)
+  const formattedDate = orderDate.toLocaleDateString('th-TH', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+
+  // สร้าง HTML สำหรับรายการสินค้า
+  const itemsHTML = items && items.length > 0 ? items.map(item => `
+    <tr>
+      <td>${item.product_name || item.name || 'ไม่ระบุ'}</td>
+      <td style="text-align: center;">${item.quantity || 0}</td>
+      <td style="text-align: right;" class="price">฿${(item.price || 0).toLocaleString()}</td>
+      <td style="text-align: right;" class="price">฿${(item.total || (item.quantity * item.price) || 0).toLocaleString()}</td>
+    </tr>
+  `).join('') : `
+    <tr>
+      <td colspan="4" style="text-align: center; color: #6c757d; font-style: italic;">
+        ไม่มีรายการสินค้า
+      </td>
+    </tr>
+  `
+
+  // สร้าง HTML สำหรับสถานะการชำระเงิน
+  const paymentTypeClass = order.payment_type === 'cash' ? 'status-cash' : 'status-credit'
+  const paymentTypeText = order.payment_type === 'cash' ? '💰 เงินสด' : '📋 เครดิต'
+  
+  const paymentStatusClass = order.payment_status === 'paid' ? 'status-paid' : 'status-unpaid'
+  const paymentStatusText = order.payment_status === 'paid' ? '✅ ชำระแล้ว' : '⏳ ยังไม่ชำระ'
+
+  // คำนวณยอดรวม
+  const totalAmount = order.total_amount || 0
+  const paidAmount = order.paid_amount || 0
+  const remainingAmount = order.remaining_amount || (totalAmount - paidAmount)
+
+  // อัพเดท modal content
+  const modal = document.getElementById('order-details-modal')
+  modal.innerHTML = `
+    <div class="modal-overlay" onclick="closeOrderDetailsModal()">
+      <div class="modal-content order-details-content" onclick="event.stopPropagation()">
+        <!-- Header -->
+        <div class="order-header">
+          <h2 style="margin: 0; color: #212529;">
+            🧾 รายละเอียดออเดอร์ #${order._id ? order._id.slice(-8) : 'N/A'}
+          </h2>
+          <button class="close-btn" onclick="closeOrderDetailsModal()" title="ปิด">×</button>
+        </div>
+
+        <!-- ข้อมูลออเดอร์ -->
+        <div class="order-info">
+          <div class="info-card">
+            <div class="info-label">📅 วันที่สั่ง</div>
+            <div class="info-value">${formattedDate}</div>
+          </div>
+          
+          <div class="info-card">
+            <div class="info-label">👤 ลูกค้า</div>
+            <div class="info-value">${order.customer_name || 'ไม่ระบุ'}</div>
+          </div>
+          
+          <div class="info-card">
+            <div class="info-label">💳 ประเภทการชำระ</div>
+            <div class="info-value">
+              <span class="payment-status ${paymentTypeClass}">${paymentTypeText}</span>
+            </div>
+          </div>
+          
+          <div class="info-card">
+            <div class="info-label">📊 สถานะการชำระ</div>
+            <div class="info-value">
+              <span class="payment-status ${paymentStatusClass}">${paymentStatusText}</span>
+            </div>
+          </div>
+          
+          ${order.customer_phone ? `
+          <div class="info-card">
+            <div class="info-label">📞 เบอร์โทร</div>
+            <div class="info-value">${order.customer_phone}</div>
+          </div>
+          ` : ''}
+          
+          ${order.notes ? `
+          <div class="info-card">
+            <div class="info-label">📝 หมายเหตุ</div>
+            <div class="info-value">${order.notes}</div>
+          </div>
+          ` : ''}
+        </div>
+
+        <!-- รายการสินค้า -->
+        <div class="items-section">
+          <h3 style="margin-top: 0; color: #495057;">🛒 รายการสินค้า</h3>
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>สินค้า</th>
+                <th style="text-align: center;">จำนวน</th>
+                <th style="text-align: right;">ราคา/ชิ้น</th>
+                <th style="text-align: right;">รวม</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itemsHTML}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- สรุปยอดรวม -->
+        <div class="total-section">
+          <div class="total-row">
+            <span>จำนวนรายการ:</span>
+            <span>${order.total_items || items?.length || 0} รายการ</span>
+          </div>
+          
+          <div class="total-row">
+            <span>จำนวนสินค้ารวม:</span>
+            <span>${order.total_quantity || items?.reduce((sum, item) => sum + (item.quantity || 0), 0) || 0} ชิ้น</span>
+          </div>
+          
+          ${order.discount_amount && order.discount_amount > 0 ? `
+          <div class="total-row">
+            <span>ส่วนลด:</span>
+            <span class="price">-฿${order.discount_amount.toLocaleString()}</span>
+          </div>
+          ` : ''}
+          
+          <div class="total-row total-final">
+            <span>ยอดรวมทั้งสิ้น:</span>
+            <span>฿${totalAmount.toLocaleString()}</span>
+          </div>
+          
+          ${order.payment_type === 'credit' ? `
+          <div class="total-row" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+            <span>ยอดที่ชำระแล้ว:</span>
+            <span class="price">฿${paidAmount.toLocaleString()}</span>
+          </div>
+          
+          <div class="total-row">
+            <span>ยอดคงเหลือ:</span>
+            <span style="color: ${remainingAmount > 0 ? '#dc3545' : '#28a745'}; font-weight: bold;">
+              ฿${remainingAmount.toLocaleString()}
+            </span>
+          </div>
+          ` : ''}
+        </div>
+
+        <!-- ปุ่มปิด -->
+        <div style="padding: 20px; text-align: center; border-top: 1px solid #e9ecef;">
+          <button onclick="closeOrderDetailsModal()" style="
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+          ">
+            ปิด
+          </button>
+        </div>
+      </div>
+    </div>
+  `
+}
+
+// ปิด modal รายละเอียดออเดอร์
+function closeOrderDetailsModal() {
+  const modal = document.getElementById('order-details-modal')
+  if (modal) {
+    modal.remove()
+  }
+  
+  // ลบ style element ด้วย
+  const styleElements = document.querySelectorAll('style')
+  styleElements.forEach(style => {
+    if (style.textContent.includes('#order-details-modal')) {
+      style.remove()
+    }
+  })
+  
+  console.log('🚫 Order details modal closed')
+}
+
+// เพิ่ม event listener สำหรับ ESC key
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    const modal = document.getElementById('order-details-modal')
+    if (modal) {
+      closeOrderDetailsModal()
+    }
+  }
+})
+
+// =========================================
+// ฟังก์ชันเสริมสำหรับจัดการ Modal (ถ้าต้องการ)
+// =========================================
+
+// แสดง modal แบบทั่วไป
+function showModal(title, content, buttons = []) {
+  const modal = document.createElement('div')
+  modal.id = 'general-modal'
+  modal.innerHTML = `
+    <div class="modal-overlay" onclick="closeModal('general-modal')">
+      <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
+        <div class="order-header">
+          <h3 style="margin: 0;">${title}</h3>
+          <button class="close-btn" onclick="closeModal('general-modal')">×</button>
+        </div>
+        <div style="padding: 20px;">
+          ${content}
+        </div>
+        ${buttons.length > 0 ? `
+        <div style="padding: 20px; text-align: center; border-top: 1px solid #e9ecef;">
+          ${buttons.map(btn => `
+            <button onclick="${btn.action}" style="
+              background: ${btn.color || '#007bff'};
+              color: white;
+              border: none;
+              padding: 10px 20px;
+              margin: 0 5px;
+              border-radius: 5px;
+              cursor: pointer;
+            ">${btn.text}</button>
+          `).join('')}
+        </div>
+        ` : ''}
+      </div>
+    </div>
+  `
+  
+  document.body.appendChild(modal)
+}
+
+// ปิด modal ทั่วไป
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId)
+  if (modal) {
+    modal.remove()
+  }
+}
 function handleSalesFilterChange () {
   const filter = document.getElementById('sales-filter').value
   let days = 7
@@ -507,14 +1120,13 @@ document.addEventListener('DOMContentLoaded', async function () {
   // โหลดข้อมูล
   await loadDashboardSummary()
   await loadRecentSales()
-
+  await loadPaymentHistory()
   // สร้างกราฟ
   initializeSalesChart()
   initializePaymentComparisonChart()
   initializePaymentTypeChart()
 
-  // แสดงประวัติการจ่ายหนี้
-  displayPaymentHistory()
+  
 
   console.log('✅ Dashboard initialized successfully')
 })
