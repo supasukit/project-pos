@@ -169,26 +169,30 @@ async function handleLogin(event) {
     console.log('Login response:', result) // เพิ่มบรรทัดนี้เพื่อ debug
     
     if (result.success) {
-      // เก็บ access token และ refresh token
-      localStorage.setItem('token', result.data.accessToken || result.data.token)
-      if (result.data.refreshToken) {
-        localStorage.setItem('refreshToken', result.data.refreshToken)
-      }
-      
-      
-       // เพิ่มการ backup ใน cookie
-      document.cookie = `token=${result.data.accessToken || result.data.token}; path=/; max-age=${15*60}`
-      if (result.data.refreshToken) {
-        document.cookie = `refreshToken=${result.data.refreshToken}; path=/; max-age=${7*24*60*60}`
-      }
-      document.cookie = `user=${encodeURIComponent(JSON.stringify(userData))}; path=/; max-age=${7*24*60*60}`
-      
-      alert('เข้าสู่ระบบสำเร็จ!')
-      
-      // Redirect ตาม role
-      setTimeout(() => {
-        window.location.href = '/pages/pos/index.html'
-      }, 1000)
+  // เก็บ access token และ refresh token
+  localStorage.setItem('token', result.data.accessToken || result.data.token)
+  if (result.data.refreshToken) {
+    localStorage.setItem('refreshToken', result.data.refreshToken)
+  }
+  
+  // เก็บข้อมูล user
+  const userData = result.data.user
+  localStorage.setItem('user', JSON.stringify(userData))
+  
+  // เพิ่มการ backup ใน cookie
+  const tokenValue = result.data.accessToken || result.data.token
+  document.cookie = `token=${tokenValue}; path=/; max-age=${15*60}`
+  if (result.data.refreshToken) {
+    document.cookie = `refreshToken=${result.data.refreshToken}; path=/; max-age=${7*24*60*60}`
+  }
+  document.cookie = `user=${encodeURIComponent(JSON.stringify(userData))}; path=/; max-age=${7*24*60*60}`
+  
+  alert('เข้าสู่ระบบสำเร็จ!')
+  
+  // Redirect ตาม role
+  setTimeout(() => {
+    window.location.href = '/pages/pos/index.html'
+  }, 1000)
       
     } else {
       alert('เข้าสู่ระบบไม่สำเร็จ: ' + result.message)
