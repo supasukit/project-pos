@@ -547,12 +547,3 @@ function adjustMenuByRole () {
   }
 }
 
-// เพิ่มใน handleLogin function หลัง login สำเร็จ
-// (หลังจาก localStorage.setItem('user', ...))
-if (result.data.user.role === 'employee') {
-  // พนักงานไปหน้า POS เท่านั้น
-  window.location.href = '/pages/pos/index.html'
-} else {
-  // user ปกติไปหน้า POS
-  window.location.href = '/pages/pos/index.html'
-}
