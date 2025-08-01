@@ -386,11 +386,51 @@ router.post('/refresh', async (req, res) => {
 })
 
 // POST /api/auth/logout
-router.post('/logout', (req, res) => {
-  res.json({
-    success: true,
-    message: 'ออกจากระบบสำเร็จ'
-  })
+const { blacklistToken } = require('../middleware/auth') // เพิ่มบรรทัดนี้ด้านบน
+
+router.post('/logout', authenticateToken, (req, res) => {
+  try {
+    // เพิ่ม token เข้า blacklist
+    if (req.token) {
+      blacklistToken(req.token)
+      console.log('🚫 Token blacklisted:', req.token.substring(0, 20) + '...')
+    }
+    
+    // ล้าง cookies จาก server side
+    res.clearCookie('token', {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      domain: process.env.NODE_ENV === 'production' ? '.posshop.org' : 'localhost'
+    })
+    
+    res.clearCookie('refreshToken', {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      domain: process.env.NODE_ENV === 'production' ? '.posshop.org' : 'localhost'
+    })
+    
+    res.clearCookie('user', {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      domain: process.env.NODE_ENV === 'production' ? '.posshop.org' : 'localhost'
+    })
+    
+    res.json({
+      success: true,
+      message: 'ออกจากระบบสำเร็จ'
+    })
+    
+    console.log(`✅ User logged out: ${req.user.username}`)
+  } catch (error) {
+    console.error('Logout error:', error)
+    res.status(500).json({
+      success: false,
+      message: 'เกิดข้อผิดพลาดในการออกจากระบบ'
+    })
+  }
 })
 
 // POST /api/auth/forgot-password

@@ -248,17 +248,46 @@ async function refreshAccessToken() {
 // Logout Function
 // =========================================
 
-function logout() {
-  // ล้าง localStorage
-  localStorage.clear()
-  
-  // ล้าง cookies
-  document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT'
-  document.cookie = 'refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT'
-  document.cookie = 'user=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT'
-  
-  // ไปหน้า login
-  window.location.href = '/login.html'
+async function logout() {
+  try {
+    // 1. เรียก API logout ก่อน (ถ้ามี token)
+    const token = localStorage.getItem('token')
+    if (token) {
+      try {
+        await fetch('/api/auth/logout', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        })
+      } catch (error) {
+        console.error('API logout error:', error)
+        // ไม่ต้อง throw error เพราะเราจะล้างข้อมูลอยู่ดี
+      }
+    }
+  } catch (error) {
+    console.error('Logout process error:', error)
+  } finally {
+    // 2. ล้างข้อมูลทั้งหมดแน่ๆ
+    localStorage.clear()
+    sessionStorage.clear()
+    
+    // 3. ล้าง cookies ทั้งหมดอย่างละเอียด
+    // วิธีที่ 1: ล้างตัวที่รู้จัก
+    document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=' + window.location.hostname
+    document.cookie = 'refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=' + window.location.hostname
+    document.cookie = 'user=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=' + window.location.hostname
+    
+    // วิธีที่ 2: ล้างทุก cookie (สำรอง)
+    document.cookie.split(";").forEach(function(c) { 
+      document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/;domain=" + window.location.hostname); 
+    })
+    
+    // 4. ใช้ window.location.replace แทน window.location.href
+    // เพื่อไม่ให้กลับมาหน้าเดิมได้
+    window.location.replace('/login.html')
+  }
 }
 
 
